@@ -1,0 +1,119 @@
+Masterplan for BMS College of Engineering Placement Statistics App
+Reference Website: BMS College of Engineering
+
+Objective: Create a placement statistics app tailored specifically for BMS College of Engineering, providing students with detailed data on placements, departments, and career services such as resume building, mock interviews, and more.
+
+1. User Authentication:
+Create Account & Login:
+Page 1: Login / Sign-up screen.
+Sign Up: For new users (students who haven’t registered yet).
+Login: For existing users (students who have registered already).
+Backend: Use Firebase Authentication or a custom authentication system to handle user accounts.
+Use Case: Students should be able to register, log in, and access placement-related services.
+2. Main Page (Dashboard):
+Once logged in, users are redirected to the Main Page which showcases:
+College Achievements & Success: Display notable milestones and success stories from BMSCE's history (include placement success rates, top recruiters, etc.).
+Trustees and Founders: Highlight key figures behind the college with brief bios, images, and historical context.
+3. Sidebar Navigation:
+A Hamburger Menu (3 lines) opens the sidebar containing the following options:
+Departments: Links to department-related pages.
+Resume Builder: To assist students in building resumes.
+Mock Interview: For booking mock interviews with the placement cell.
+About Us: Information about the app and its mission.
+Contact Us: Contact information for placement-related queries.
+4. Department Page:
+Clicking on Departments opens a page listing all BMSCE departments, including:
+Computer Science and Engineering
+Information Science
+Electronics and Electrical Engineering
+Civil Engineering
+Mechanical Engineering
+(Any other relevant departments)
+After selecting a department, display:
+Highest Packages: Show the highest placement package for each department.
+Most Visited Companies: List the companies that most frequently visit the campus for recruitment.
+Graphical Data:
+Bar Graphs, Pie Charts, and Line Graphs to visualize year-on-year growth in placement packages and recruitment activity.
+5. Resume Builder Page:
+Templates: Provide resume templates for students to choose from.
+
+User Input: Collect details like:
+
+Personal Information
+Skills
+Education
+Internships/Experience
+Projects
+Certifications
+Export Options: Allow students to download or export resumes in PDF format.
+
+Skill Suggestions: Provide skills based on the student’s department and field of interest.
+
+6. Mock Interview Page:
+Appointment Booking: Allow users to book an appointment for mock interviews with placement faculty.
+Provide available time slots for scheduling interviews.
+Integrate a placeholder for video calls (Zoom/Google Meet).
+Interview Questions:
+Past Interview Questions: Show previously asked questions by companies.
+Most Likely Questions for This Year: Provide a list of expected questions for the current year based on trends.
+7. Data Storage & Analytics:
+Use Firebase, MongoDB, or MySQL to store data such as:
+User Information
+Department Data (placement statistics, highest packages, etc.)
+Resume Data
+Mock Interview Appointments
+Charts/Graphs: Use Chart.js or D3.js to display data visualizations like bar graphs, pie charts, and line graphs for placement statistics.
+8. Tech Stack:
+Frontend:
+
+HTML, CSS, JavaScript (React.js, Vue.js, or Angular for interactivity).
+Backend:
+
+Node.js with Express or Django (Python) to handle app logic and user management.
+Database:
+
+Firebase, MongoDB, or MySQL for data storage.
+Authentication:
+
+Use Firebase Authentication or JWT for user authentication and session management.
+Charts/Graphs:
+
+Use Chart.js or D3.js to render graphs and visual data.
+9. Mobile Responsiveness:
+The app should be mobile-responsive since students will likely access it on smartphones. Use Bootstrap or CSS Media Queries to ensure the app is optimized for mobile use.
+10. Replit AI Integration:
+Use Replit AI to:
+Optimize code: Refactor and improve app performance.
+Debug: Identify and fix bugs during development.
+Generate Features: Create additional features like automatic resume suggestions, mock interview questions, etc.
+App Flow in Summary:
+Login/Sign Up Page → New users register, existing users log in.
+Main Dashboard → Show achievements, trustees, and founders of BMSCE.
+Sidebar Menu → Options for Departments, Resume Builder, Mock Interview, About Us, and Contact Us.
+Departments Page → List departments, show placement statistics (highest packages, most visited companies), and display visual data (graphs).
+Resume Builder → Students can build, edit, and download resumes.
+Mock Interview → Students book appointments, view interview questions, and access video interviews.
+About Us → Display app information and mission.
+Contact Us → Placement-related contact information for inquiries.
+Implementation Steps:
+Frontend Development:
+
+Set up React or Vue.js for the frontend.
+Build pages for the login, dashboard, departments, resume builder, mock interview, etc.
+Implement mobile responsiveness using Bootstrap or CSS media queries.
+Backend Setup:
+
+Set up a Node.js/Express server or Django backend.
+Configure Firebase for authentication and data storage.
+Set up an API to handle mock interview bookings, resume generation, and department statistics.
+Database Configuration:
+
+Use Firebase or MongoDB to store user data, department statistics, and resume information.
+Ensure data is regularly updated (e.g., placement statistics, recruiter data).
+Integrate Charting Libraries:
+
+Use Chart.js or D3.js to visualize placement data (e.g., bar charts for highest packages, line graphs for year-on-year trends).
+Testing:
+
+Test the app for usability, mobile responsiveness, and bug fixes.
+Test authentication, resume builder functionality, mock interview bookings, and data accuracy.
