@@ -56,7 +56,12 @@ export default function MockInterview() {
 
   const bookMutation = useMutation({
     mutationFn: async (data: { date: Date; type: string; meetLink: string }) => {
-      const res = await apiRequest("POST", "/api/interviews", data);
+      // Convert date to ISO string to ensure it's properly serialized
+      const submissionData = {
+        ...data,
+        date: data.date.toISOString()
+      };
+      const res = await apiRequest("POST", "/api/interviews", submissionData);
       return res.json();
     },
     onSuccess: () => {

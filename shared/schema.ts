@@ -45,8 +45,14 @@ export const insertUserSchema = createInsertSchema(users).pick({
 });
 
 export const insertDepartmentSchema = createInsertSchema(departments);
-export const insertInterviewSchema = createInsertSchema(interviews).omit({
+
+// Create the interview schema with date handling
+const baseInterviewSchema = createInsertSchema(interviews).omit({
   id: true
+});
+
+export const insertInterviewSchema = baseInterviewSchema.extend({
+  date: z.coerce.date(),
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
