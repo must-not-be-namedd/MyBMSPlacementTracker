@@ -24,10 +24,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     if (!req.user) return res.sendStatus(401);
     
     try {
-      const data = insertInterviewSchema.parse({
+      // Convert the date string to a Date object before validation
+      const requestData = {
         ...req.body,
         userId: req.user.id
-      });
+      };
+      
+      // Convert date string to Date object if it's a string
+      if (typeof requestData.date === 'string') {
+        requestData.date = new Date(requestData.date);
+      }
+      
+      // Validate the data
+      const data = insertInterviewSchema.parse(requestData);
+      
+      // Create a Google Meet link if not provided
+      if (!data.meetLink) {
+        const meetId = Math.random().toString(36).substring(2, 10);
+        data.meetLink = `https://meet.google.com/${meetId}`;
+      }
+      
       const interview = await storage.createInterview(data);
       res.status(201).json(interview);
     } catch (error) {
