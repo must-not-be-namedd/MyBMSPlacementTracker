@@ -25,7 +25,8 @@ export const interviews = pgTable("interviews", {
   userId: integer("user_id").notNull(),
   date: timestamp("date").notNull(),
   status: text("status").default("pending"),
-  type: text("type").notNull()
+  type: text("type").notNull(),
+  meetLink: text("meet_link")
 });
 
 // Define relations
@@ -44,7 +45,9 @@ export const insertUserSchema = createInsertSchema(users).pick({
 });
 
 export const insertDepartmentSchema = createInsertSchema(departments);
-export const insertInterviewSchema = createInsertSchema(interviews);
+export const insertInterviewSchema = createInsertSchema(interviews).omit({
+  id: true
+});
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;

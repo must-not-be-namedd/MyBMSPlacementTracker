@@ -31,6 +31,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const interview = await storage.createInterview(data);
       res.status(201).json(interview);
     } catch (error) {
+      console.error("Interview booking error:", error);
       res.status(400).json({ error: "Invalid interview data" });
     }
   });

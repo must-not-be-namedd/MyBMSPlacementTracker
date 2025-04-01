@@ -8,6 +8,11 @@ import {
   LogOut,
   MessageSquare,
   Menu,
+  Users,
+  Bot,
+  Calendar,
+  TrendingUp,
+  Badge,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/use-auth";
@@ -18,6 +23,10 @@ const navigation = [
   { name: "Departments", href: "/departments", icon: BarChart },
   { name: "Resume Builder", href: "/resume", icon: FileText },
   { name: "Mock Interview", href: "/interviews", icon: MessageSquare },
+  { name: "Alumni Network", href: "/alumni", icon: Users },
+  { name: "AI Assistant", href: "/ai-assistant", icon: Bot, badge: "New" },
+  { name: "Placement Calendar", href: "/calendar", icon: Calendar },
+  { name: "Salary Predictions", href: "/predictions", icon: TrendingUp },
 ];
 
 export function Sidebar() {
@@ -46,7 +55,12 @@ export function Sidebar() {
                   )}
                 >
                   <item.icon className="h-4 w-4" />
-                  {item.name}
+                  <span className="flex-1">{item.name}</span>
+                  {item.badge && (
+                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded">
+                      {item.badge}
+                    </span>
+                  )}
                 </Button>
               </Link>
             );
