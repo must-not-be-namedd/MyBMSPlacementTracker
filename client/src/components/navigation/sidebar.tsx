@@ -18,15 +18,19 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const navigation = [
+type NavItem = {
+  name: string;
+  href: string;
+  icon: React.ElementType;
+  badge?: string;
+};
+
+const navigation: NavItem[] = [
   { name: "Home", href: "/", icon: Home },
   { name: "Departments", href: "/departments", icon: BarChart },
   { name: "Resume Builder", href: "/resume", icon: FileText },
   { name: "Mock Interview", href: "/interviews", icon: MessageSquare },
   { name: "Alumni Network", href: "/alumni", icon: Users },
-  { name: "AI Assistant", href: "/ai-assistant", icon: Bot, badge: "New" },
-  { name: "Placement Calendar", href: "/calendar", icon: Calendar },
-  { name: "Salary Predictions", href: "/predictions", icon: TrendingUp },
 ];
 
 export function Sidebar() {

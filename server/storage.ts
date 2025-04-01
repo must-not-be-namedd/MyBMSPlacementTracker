@@ -4,6 +4,7 @@ import createMemoryStore from "memorystore";
 import connectPgSimple from "connect-pg-simple";
 import { db } from "./db";
 import { eq, and } from "drizzle-orm";
+import { z } from "zod";
 
 const MemoryStore = createMemoryStore(session);
 const PostgresSessionStore = connectPgSimple(session);
@@ -17,7 +18,7 @@ export interface IStorage {
   createDepartmentStat(stat: Department): Promise<Department>;
   
   getInterviews(userId: number): Promise<Interview[]>;
-  createInterview(interview: Interview): Promise<Interview>;
+  createInterview(interview: any): Promise<Interview>;
   
   sessionStore: session.Store;
 }
@@ -97,8 +98,15 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(interviews).where(eq(interviews.userId, userId));
   }
 
-  async createInterview(interview: Interview): Promise<Interview> {
-    const [newInterview] = await db.insert(interviews).values(interview).returning();
+  async createInterview(interview: any): Promise<Interview> {
+    // Ensure meetLink and status have proper values if they're undefined
+    const interviewData = {
+      ...interview,
+      status: interview.status || "pending",
+      meetLink: interview.meetLink || null
+    };
+    
+    const [newInterview] = await db.insert(interviews).values(interviewData).returning();
     return newInterview;
   }
 }
@@ -180,9 +188,14 @@ export class MemStorage implements IStorage {
     );
   }
 
-  async createInterview(interview: Interview): Promise<Interview> {
+  async createInterview(interview: any): Promise<Interview> {
     const id = this.currentId++;
-    const newInterview = { ...interview, id };
+    const newInterview = { 
+      ...interview, 
+      id,
+      status: interview.status || "pending",
+      meetLink: interview.meetLink || null
+    };
     this.interviews.set(id, newInterview);
     return newInterview;
   }
