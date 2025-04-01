@@ -1,6 +1,7 @@
 import { pgTable, text, serial, integer, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+import { relations } from "drizzle-orm";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -26,6 +27,15 @@ export const interviews = pgTable("interviews", {
   status: text("status").default("pending"),
   type: text("type").notNull()
 });
+
+// Define relations
+export const usersRelations = relations(users, ({ many }) => ({
+  interviews: many(interviews)
+}));
+
+export const interviewsRelations = relations(interviews, ({ one }) => ({
+  user: one(users)
+}));
 
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,

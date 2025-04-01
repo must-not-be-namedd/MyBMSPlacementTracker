@@ -1,8 +1,12 @@
-import { User, InsertUser, Department, Interview, departments, interviews } from "@shared/schema";
+import { User, InsertUser, Department, Interview, departments, interviews, users } from "@shared/schema";
 import session from "express-session";
 import createMemoryStore from "memorystore";
+import connectPgSimple from "connect-pg-simple";
+import { db } from "./db";
+import { eq, and } from "drizzle-orm";
 
 const MemoryStore = createMemoryStore(session);
+const PostgresSessionStore = connectPgSimple(session);
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -18,6 +22,88 @@ export interface IStorage {
   sessionStore: session.Store;
 }
 
+// Database Storage Implementation
+export class DatabaseStorage implements IStorage {
+  public sessionStore: session.Store;
+
+  constructor() {
+    this.sessionStore = new PostgresSessionStore({
+      conObject: {
+        connectionString: process.env.DATABASE_URL,
+      },
+      createTableIfMissing: true
+    });
+    
+    // Seed department stats if they don't already exist
+    this.seedDepartmentStats();
+  }
+
+  private async seedDepartmentStats() {
+    // Check if data already exists
+    const existingStats = await db.select().from(departments).limit(1);
+    
+    if (existingStats.length === 0) {
+      const departmentNames = ["Computer Science", "Information Science", "Electronics and Electrical", "Mechanical", "Civil"];
+      const years = [2021, 2022, 2023];
+      
+      const statsToInsert = [];
+      
+      for (const year of years) {
+        for (const dept of departmentNames) {
+          statsToInsert.push({
+            name: dept,
+            highestPackage: Math.floor(Math.random() * 30 + 20),
+            avgPackage: Math.floor(Math.random() * 15 + 8),
+            placementRate: Math.floor(Math.random() * 30 + 70),
+            year
+          });
+        }
+      }
+      
+      if (statsToInsert.length > 0) {
+        await db.insert(departments).values(statsToInsert);
+      }
+    }
+  }
+
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db.insert(users).values(insertUser).returning();
+    return user;
+  }
+
+  async getDepartmentStats(department?: string): Promise<Department[]> {
+    if (department) {
+      return await db.select().from(departments).where(eq(departments.name, department));
+    }
+    return await db.select().from(departments);
+  }
+
+  async createDepartmentStat(stat: Department): Promise<Department> {
+    const [newStat] = await db.insert(departments).values(stat).returning();
+    return newStat;
+  }
+
+  async getInterviews(userId: number): Promise<Interview[]> {
+    return await db.select().from(interviews).where(eq(interviews.userId, userId));
+  }
+
+  async createInterview(interview: Interview): Promise<Interview> {
+    const [newInterview] = await db.insert(interviews).values(interview).returning();
+    return newInterview;
+  }
+}
+
+// Memory Storage Implementation (kept for reference)
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private departmentStats: Map<number, Department>;
@@ -102,4 +188,5 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+// Switch to the database storage implementation
+export const storage = new DatabaseStorage();
