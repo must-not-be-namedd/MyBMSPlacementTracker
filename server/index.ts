@@ -1,8 +1,18 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import cors from "cors";
 
 const app = express();
+// Configure CORS to allow necessary origins for Replit
+app.use(cors({
+  origin: process.env.NODE_ENV === "production" 
+    ? [/\.replit\.app$/, /\.repl\.co$/] 
+    : true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -61,11 +71,16 @@ app.use((req, res, next) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   const port = 5000;
+  // Make sure we explicitly listen on 0.0.0.0 to allow external access in Replit
   server.listen({
     port,
     host: "0.0.0.0",
     reusePort: true,
   }, () => {
-    log(`serving on port ${port}`);
+    log(`serving on port ${port} at http://0.0.0.0:${port}`);
+    // Also log that the app is available at the Replit domain
+    if (process.env.REPL_ID && process.env.REPL_SLUG) {
+      log(`App should be available at: https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`);
+    }
   });
 })();
