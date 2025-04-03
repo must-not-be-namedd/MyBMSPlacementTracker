@@ -6,12 +6,34 @@ import cors from "cors";
 const app = express();
 // Configure CORS to allow necessary origins for Replit
 app.use(cors({
-  origin: process.env.NODE_ENV === "production" 
-    ? [/\.replit\.app$/, /\.repl\.co$/] 
-    : true,
+  // In development, allow all origins with credentials
+  // In production, allow only Replit domains
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, or Postman)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      /\.replit\.app$/,
+      /\.repl\.co$/,
+      /127\.0\.0\.1/,
+      /localhost/
+    ];
+    
+    // Check if origin matches any allowed pattern
+    const isAllowed = process.env.NODE_ENV !== "production" || 
+      allowedOrigins.some(pattern => pattern.test(origin));
+    
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      console.log(`CORS blocked request from origin: ${origin}`);
+      callback(new Error('CORS policy: Origin not allowed'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  maxAge: 86400 // Cache preflight requests for 24 hours
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

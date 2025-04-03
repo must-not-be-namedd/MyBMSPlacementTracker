@@ -9,17 +9,26 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Redirect } from "wouter";
+import { z } from "zod";
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
   
   const loginForm = useForm({
-    defaultValues: { username: "", password: "" }
+    defaultValues: { username: "", password: "" },
+    mode: "onChange" // Validate fields as user changes them
   });
 
   const registerForm = useForm({
-    resolver: zodResolver(insertUserSchema),
-    defaultValues: { username: "", password: "", department: "" }
+    resolver: zodResolver(
+      insertUserSchema.extend({
+        password: z.string()
+          .min(6, "Password must be at least 6 characters")
+          .max(100, "Password is too long")
+      })
+    ),
+    defaultValues: { username: "", password: "", department: "" },
+    mode: "onChange" // Validate fields as user changes them
   });
 
   if (user) {
@@ -43,6 +52,11 @@ export default function AuthPage() {
               <TabsContent value="login">
                 <Form {...loginForm}>
                   <form onSubmit={loginForm.handleSubmit(data => loginMutation.mutate(data))} className="space-y-4">
+                    {loginMutation.error && (
+                      <div className="p-3 rounded-md bg-red-50 border border-red-200 text-red-600 text-sm mb-4">
+                        {loginMutation.error.message || "Login failed. Please check your credentials."}
+                      </div>
+                    )}
                     <FormField
                       control={loginForm.control}
                       name="username"
@@ -50,7 +64,12 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Username</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input 
+                              {...field} 
+                              autoComplete="username"
+                              placeholder="Enter your username"
+                              required
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -63,7 +82,13 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Password</FormLabel>
                           <FormControl>
-                            <Input type="password" {...field} />
+                            <Input 
+                              type="password" 
+                              {...field} 
+                              autoComplete="current-password"
+                              placeholder="Enter your password"
+                              required
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -79,6 +104,11 @@ export default function AuthPage() {
               <TabsContent value="register">
                 <Form {...registerForm}>
                   <form onSubmit={registerForm.handleSubmit(data => registerMutation.mutate(data))} className="space-y-4">
+                    {registerMutation.error && (
+                      <div className="p-3 rounded-md bg-red-50 border border-red-200 text-red-600 text-sm mb-4">
+                        {registerMutation.error.message || "Registration failed. Please try again."}
+                      </div>
+                    )}
                     <FormField
                       control={registerForm.control}
                       name="username"
@@ -86,7 +116,12 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Username</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input 
+                              {...field} 
+                              autoComplete="username"
+                              placeholder="Choose a username"
+                              required
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -99,7 +134,13 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Password</FormLabel>
                           <FormControl>
-                            <Input type="password" {...field} />
+                            <Input 
+                              type="password" 
+                              {...field} 
+                              autoComplete="new-password"
+                              placeholder="Create a password (min 6 characters)"
+                              required
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -111,10 +152,10 @@ export default function AuthPage() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Department</FormLabel>
-                          <Select onValueChange={field.onChange} value={field.value}>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select department" />
+                                <SelectValue placeholder="Select your department" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
