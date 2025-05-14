@@ -10,7 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Redirect } from "wouter";
 import { z } from "zod";
-import { BookOpen, BarChart2, FileText, Users, Award, Briefcase } from "lucide-react";
+import { BookOpen, BarChart2, FileText, Users, Award, Briefcase, Sun, Moon } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
@@ -38,15 +39,18 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen flex">
-      <div className="flex-1 flex flex-col items-center justify-center bg-gray-50 p-8">
+      <div className="flex-1 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 p-8">
+        <div className="absolute top-4 right-4">
+          <ThemeToggle />
+        </div>
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-teal-700">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-purple-400 dark:to-blue-400">
                 BMSCE Placement Portal
               </span>
             </h1>
-            <p className="text-gray-500 mt-2">Access your placement journey with a single login</p>
+            <p className="text-gray-500 dark:text-gray-400 mt-2">Access your placement journey with a single login</p>
           </div>
         
           <Card className="border-0 shadow-lg">
@@ -55,10 +59,6 @@ export default function AuthPage() {
               <CardDescription>Sign in to your account to continue</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center mb-4">
-                <p className="text-lg font-medium text-teal-600">BMSCE College of Engineering</p>
-                <p className="text-sm text-teal-500 mt-1">Excellence in Engineering Education Since 1946</p>
-              </div>
               <Tabs defaultValue="login">
                 <TabsList className="grid w-full grid-cols-2 mb-6">
                   <TabsTrigger value="login">Login</TabsTrigger>
@@ -214,13 +214,13 @@ export default function AuthPage() {
         </div>
       </div>
       
-      <div className="hidden lg:block flex-1 bg-gradient-to-br from-teal-700 via-teal-800 to-teal-900 text-white">
+      <div className="hidden lg:block flex-1 bg-gradient-to-br from-blue-700 via-blue-800 to-purple-900 text-white">
         <div className="h-full flex flex-col justify-center px-12 xl:px-24">
           <div className="mb-12">
             <h1 className="text-4xl font-bold leading-tight">
-              Your Gateway to <span className="text-teal-200">Career Excellence</span>
+              Your Gateway to <span className="text-blue-200">Career Excellence</span>
             </h1>
-            <p className="text-lg text-teal-100 mt-4 max-w-lg">
+            <p className="text-lg text-blue-100 mt-4 max-w-lg">
               Track statistics, build resumes, schedule interviews, and access resources 
               all in one place.
             </p>
