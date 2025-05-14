@@ -42,7 +42,7 @@ export default function AuthPage() {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-teal-700">
                 BMSCE Placement Portal
               </span>
             </h1>
@@ -110,7 +110,7 @@ export default function AuthPage() {
                       />
                       <Button 
                         type="submit" 
-                        className="w-full h-11 text-base mt-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700" 
+                        className="w-full h-11 text-base mt-2 bg-gradient-to-r from-teal-500 to-teal-700 hover:from-teal-600 hover:to-teal-800" 
                         disabled={loginMutation.isPending}
                       >
                         {loginMutation.isPending ? "Logging in..." : "Sign In"}
@@ -192,7 +192,7 @@ export default function AuthPage() {
                       />
                       <Button 
                         type="submit" 
-                        className="w-full h-11 text-base mt-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700" 
+                        className="w-full h-11 text-base mt-2 bg-gradient-to-r from-teal-500 to-teal-700 hover:from-teal-600 hover:to-teal-800" 
                         disabled={registerMutation.isPending}
                       >
                         {registerMutation.isPending ? "Creating account..." : "Create Account"}
@@ -210,16 +210,13 @@ export default function AuthPage() {
         </div>
       </div>
       
-      <div className="hidden lg:block flex-1 bg-gradient-to-br from-blue-900 via-indigo-900 to-blue-800 text-white">
+      <div className="hidden lg:block flex-1 bg-gradient-to-br from-teal-700 via-teal-800 to-teal-900 text-white">
         <div className="h-full flex flex-col justify-center px-12 xl:px-24">
           <div className="mb-12">
-            <div className="inline-block p-3 rounded-xl bg-white/10 backdrop-blur-sm">
-              <Award className="h-10 w-10 text-blue-100" />
-            </div>
-            <h1 className="text-4xl font-bold mt-6 leading-tight">
-              Your Gateway to <span className="text-blue-200">Career Excellence</span>
+            <h1 className="text-4xl font-bold leading-tight">
+              Your Gateway to <span className="text-teal-200">Career Excellence</span>
             </h1>
-            <p className="text-lg text-blue-100 mt-4 max-w-lg">
+            <p className="text-lg text-teal-100 mt-4 max-w-lg">
               Track statistics, build resumes, schedule interviews, and access resources 
               all in one place.
             </p>
@@ -227,38 +224,38 @@ export default function AuthPage() {
           
           <div className="grid grid-cols-2 gap-6">
             <div className="bg-white/10 rounded-xl p-5 backdrop-blur-sm">
-              <BarChart2 className="h-6 w-6 text-blue-200 mb-3" />
+              <BarChart2 className="h-6 w-6 text-teal-200 mb-3" />
               <h3 className="font-medium text-lg">Department Analytics</h3>
-              <p className="text-blue-100 text-sm mt-1">Track real-time placement statistics across departments</p>
+              <p className="text-teal-100 text-sm mt-1">Track real-time placement statistics across departments</p>
             </div>
             
             <div className="bg-white/10 rounded-xl p-5 backdrop-blur-sm">
-              <FileText className="h-6 w-6 text-blue-200 mb-3" />
+              <FileText className="h-6 w-6 text-teal-200 mb-3" />
               <h3 className="font-medium text-lg">Resume Builder</h3>
-              <p className="text-blue-100 text-sm mt-1">Create and export professional resumes with our templates</p>
+              <p className="text-teal-100 text-sm mt-1">Create and export professional resumes with our templates</p>
             </div>
             
             <div className="bg-white/10 rounded-xl p-5 backdrop-blur-sm">
-              <Users className="h-6 w-6 text-blue-200 mb-3" />
+              <Users className="h-6 w-6 text-teal-200 mb-3" />
               <h3 className="font-medium text-lg">Mock Interviews</h3>
-              <p className="text-blue-100 text-sm mt-1">Schedule practice interviews to sharpen your skills</p>
+              <p className="text-teal-100 text-sm mt-1">Schedule practice interviews to sharpen your skills</p>
             </div>
             
             <div className="bg-white/10 rounded-xl p-5 backdrop-blur-sm">
-              <BookOpen className="h-6 w-6 text-blue-200 mb-3" />
+              <BookOpen className="h-6 w-6 text-teal-200 mb-3" />
               <h3 className="font-medium text-lg">Learning Resources</h3>
-              <p className="text-blue-100 text-sm mt-1">Access expert guides and alumni insights</p>
+              <p className="text-teal-100 text-sm mt-1">Access expert guides and alumni insights</p>
             </div>
           </div>
           
           <div className="mt-14 border-t border-white/10 pt-10">
             <div className="flex items-center space-x-4">
               <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
-                <Briefcase className="h-5 w-5 text-blue-100" />
+                <Briefcase className="h-5 w-5 text-teal-100" />
               </div>
               <div>
-                <p className="text-xl font-medium text-blue-100">95% Placement Record</p>
-                <p className="text-sm text-blue-200 mt-1">From the last academic year</p>
+                <p className="text-xl font-medium text-teal-100">₹52.3 LPA</p>
+                <p className="text-sm text-teal-200 mt-1">Highest package in 2024</p>
               </div>
             </div>
           </div>

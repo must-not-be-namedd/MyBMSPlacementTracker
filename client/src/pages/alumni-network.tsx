@@ -1216,176 +1216,546 @@ function hasCycle(head) {
                                   
                                   {company === 'microsoft' && i === 2 && (
                                     <div>
-                                      <p className="font-medium mb-2">Explain different types of joins in SQL:</p>
+                                      <p className="font-medium mb-2">Implement a function to check if a string is a palindrome:</p>
                                       
-                                      <p className="mb-2">SQL joins are used to combine rows from two or more tables based on a related column. Here are the main types of joins:</p>
+                                      <p className="mb-2">A palindrome is a word, phrase, number, or other sequence of characters that reads the same forward and backward (ignoring spaces, punctuation, and capitalization).</p>
                                       
-                                      <ol className="list-decimal pl-5 space-y-3 mt-3">
+                                      <p className="font-medium mt-3 mb-1">Solution 1: Two Pointers Approach</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`function isPalindrome(s) {
+  // Remove non-alphanumeric characters and convert to lowercase
+  s = s.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+  
+  // Use two pointers: one from start, one from end
+  let left = 0;
+  let right = s.length - 1;
+  
+  while (left < right) {
+    if (s[left] !== s[right]) {
+      return false;
+    }
+    left++;
+    right--;
+  }
+  
+  return true;
+}
+
+// Example usage:
+console.log(isPalindrome("A man, a plan, a canal: Panama")); // true
+console.log(isPalindrome("race a car")); // false`}
+                                      </pre>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Solution 2: Reverse and Compare</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`function isPalindrome(s) {
+  // Remove non-alphanumeric characters and convert to lowercase
+  s = s.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+  
+  // Reverse the string
+  const reversed = s.split('').reverse().join('');
+  
+  // Compare with original
+  return s === reversed;
+}
+
+// Example usage:
+console.log(isPalindrome("A man, a plan, a canal: Panama")); // true
+console.log(isPalindrome("race a car")); // false`}
+                                      </pre>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Solution 3: Recursive Approach</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`function isPalindrome(s) {
+  // Base case: empty string or single character
+  if (s.length <= 1) return true;
+  
+  // Remove non-alphanumeric characters and convert to lowercase
+  s = s.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+  
+  // Check if first and last characters match
+  if (s[0] !== s[s.length - 1]) return false;
+  
+  // Recur with the substring excluding first and last characters
+  return isPalindrome(s.substring(1, s.length - 1));
+}
+
+// Example usage:
+console.log(isPalindrome("A man, a plan, a canal: Panama")); // true
+console.log(isPalindrome("race a car")); // false`}
+                                      </pre>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Time & Space Complexity:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li><strong>Two Pointers:</strong> O(n) time, O(1) space (ignoring string preprocessing)</li>
+                                        <li><strong>Reverse and Compare:</strong> O(n) time, O(n) space</li>
+                                        <li><strong>Recursive:</strong> O(n) time, O(n) space (due to recursion stack)</li>
+                                      </ul>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Follow-up Questions:</p>
+                                      <ol className="list-decimal pl-5 space-y-1">
+                                        <li>How would you handle Unicode characters?</li>
+                                        <li>Can you optimize the space complexity further?</li>
+                                        <li>What if the input is a linked list instead of a string?</li>
+                                      </ol>
+                                      
+                                      <p className="mt-3">This question tests not only string manipulation but also your ability to optimize for both time and space complexity.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'microsoft' && i === 3 && (
+                                    <div>
+                                      <p className="font-medium mb-2">How would you design Xbox Live's matchmaking service?</p>
+                                      
+                                      <p className="mb-2">Designing a matchmaking service for Xbox Live involves creating a system that matches players for multiplayer games based on various factors.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Key Components:</p>
+                                      <ol className="list-decimal pl-5 space-y-2">
                                         <li>
-                                          <strong>INNER JOIN:</strong>
-                                          <p className="mt-1">Returns records that have matching values in both tables.</p>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`SELECT Orders.OrderID, Customers.CustomerName
-FROM Orders
-INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID;`}
-                                          </pre>
+                                          <strong>Player Profile Service:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Stores player statistics, skill ratings, preferences</li>
+                                            <li>Tracks historical performance across games</li>
+                                            <li>Handles authentication and session management</li>
+                                          </ul>
                                         </li>
                                         
                                         <li>
-                                          <strong>LEFT JOIN (or LEFT OUTER JOIN):</strong>
-                                          <p className="mt-1">Returns all records from the left table and the matched records from the right table. The result is NULL on the right side when there is no match.</p>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`SELECT Customers.CustomerName, Orders.OrderID
-FROM Customers
-LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID;`}
-                                          </pre>
+                                          <strong>Matchmaking Algorithm:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Skill-based matching (e.g., ELO, TrueSkill)</li>
+                                            <li>Latency/region considerations for good connection quality</li>
+                                            <li>Player preferences (game modes, maps)</li>
+                                            <li>Social factors (friends, player reputation)</li>
+                                            <li>Wait time balancing (relaxing criteria as time increases)</li>
+                                          </ul>
                                         </li>
                                         
                                         <li>
-                                          <strong>RIGHT JOIN (or RIGHT OUTER JOIN):</strong>
-                                          <p className="mt-1">Returns all records from the right table and the matched records from the left table. The result is NULL on the left side when there is no match.</p>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`SELECT Orders.OrderID, Employees.LastName
-FROM Orders
-RIGHT JOIN Employees ON Orders.EmployeeID = Employees.EmployeeID;`}
-                                          </pre>
+                                          <strong>Lobby System:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Temporary grouping of matched players</li>
+                                            <li>Pre-game chat and player customization</li>
+                                            <li>Party system for friends who want to play together</li>
+                                          </ul>
                                         </li>
                                         
                                         <li>
-                                          <strong>FULL JOIN (or FULL OUTER JOIN):</strong>
-                                          <p className="mt-1">Returns all records when there is a match in either left or right table. The result can have NULL values on both sides.</p>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`SELECT Customers.CustomerName, Orders.OrderID
-FROM Customers
-FULL OUTER JOIN Orders ON Customers.CustomerID = Orders.CustomerID;`}
-                                          </pre>
+                                          <strong>Game Server Allocation:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Selecting optimal server location for all players</li>
+                                            <li>Load balancing across available servers</li>
+                                            <li>Handling server provisioning and scaling</li>
+                                          </ul>
                                         </li>
                                         
                                         <li>
-                                          <strong>CROSS JOIN:</strong>
-                                          <p className="mt-1">Returns the Cartesian product of the two tables (every row from the first table combined with every row from the second table).</p>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`SELECT Customers.CustomerName, Products.ProductName
-FROM Customers
-CROSS JOIN Products;`}
-                                          </pre>
-                                        </li>
-                                        
-                                        <li>
-                                          <strong>SELF JOIN:</strong>
-                                          <p className="mt-1">A regular join, but the table is joined with itself. Useful for comparing rows within the same table.</p>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`SELECT A.EmployeeName AS Employee, B.EmployeeName AS Manager
-FROM Employees A
-JOIN Employees B ON A.ManagerID = B.EmployeeID;`}
-                                          </pre>
+                                          <strong>Analytics and Feedback:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Collecting match quality data</li>
+                                            <li>Player feedback mechanisms</li>
+                                            <li>Continuous improvement of matchmaking algorithms</li>
+                                          </ul>
                                         </li>
                                       </ol>
                                       
-                                      <p className="mt-3">Microsoft's SQL Server is one of their core products, so understanding SQL joins thoroughly is important for many roles within the company.</p>
+                                      <p className="font-medium mt-3 mb-1">System Architecture:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li><strong>Microservices Architecture:</strong> Separate services for player profiles, matchmaking, lobbies, server allocation</li>
+                                        <li><strong>Message Queue:</strong> For asynchronous processing of matchmaking requests</li>
+                                        <li><strong>Database Choices:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>NoSQL (like Cosmos DB) for player profiles and flexible data</li>
+                                            <li>Relational databases for structured match history</li>
+                                            <li>In-memory caching for active sessions and matchmaking pools</li>
+                                          </ul>
+                                        </li>
+                                        <li><strong>Real-time Communication:</strong> WebSockets or SignalR for lobby and status updates</li>
+                                      </ul>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Scalability Considerations:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Horizontal scaling for handling millions of concurrent users</li>
+                                        <li>Geographic distribution to minimize latency worldwide</li>
+                                        <li>Automatic scaling based on player demand (time of day, game releases)</li>
+                                        <li>Game-specific matchmaking pools to handle different requirements</li>
+                                      </ul>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Fault Tolerance:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Redundancy across regions</li>
+                                        <li>Graceful degradation during partial outages</li>
+                                        <li>Circuit breakers to prevent cascading failures</li>
+                                        <li>Monitoring and alerting systems</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">For a Microsoft interview, emphasize integration with Azure services and discuss how telemetry data can improve the matchmaking experience over time. Also consider accessibility features and fair play mechanisms.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'microsoft' && i === 4 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Explain virtual memory concepts:</p>
+                                      
+                                      <p className="mb-2">Virtual memory is a memory management technique that provides an abstraction of the available physical memory, allowing programs to operate as if they have access to a large, contiguous memory space regardless of the actual physical memory available.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Key Concepts:</p>
+                                      <ol className="list-decimal pl-5 space-y-2">
+                                        <li>
+                                          <strong>Virtual Address Space:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Each process has its own virtual address space</li>
+                                            <li>Programs access memory using virtual addresses</li>
+                                            <li>Isolates processes from each other and the OS</li>
+                                            <li>Typically much larger than physical memory (e.g., 264 bytes on 64-bit systems)</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Address Translation:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Virtual addresses must be translated to physical addresses</li>
+                                            <li>Memory Management Unit (MMU) performs this translation in hardware</li>
+                                            <li>Translation uses page tables maintained by the OS</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Paging:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Memory is divided into fixed-size units called pages (typically 4KB)</li>
+                                            <li>Physical memory is divided into page frames of the same size</li>
+                                            <li>Pages can be stored in RAM or swapped to disk</li>
+                                            <li>Page tables map virtual pages to physical page frames</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Page Faults:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Occurs when a program accesses a page not currently in physical memory</li>
+                                            <li>Triggers an interrupt handled by the OS</li>
+                                            <li>OS loads the required page from disk into memory</li>
+                                            <li>Updates page tables and resumes program execution</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Swapping/Paging:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Process of moving pages between physical memory and disk</li>
+                                            <li>Uses a dedicated area on disk called swap space or page file</li>
+                                            <li>Allows more memory to be used than physically available</li>
+                                          </ul>
+                                        </li>
+                                      </ol>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Performance Optimization Techniques:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li><strong>Translation Lookaside Buffer (TLB):</strong> Cache for recent address translations</li>
+                                        <li><strong>Multi-level Page Tables:</strong> Reduces memory overhead for sparse address spaces</li>
+                                        <li><strong>Huge Pages:</strong> Larger page sizes for certain applications (e.g., databases)</li>
+                                        <li><strong>Page Replacement Algorithms:</strong> LRU, Clock, FIFO to decide which pages to swap out</li>
+                                      </ul>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Benefits of Virtual Memory:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Process isolation and memory protection</li>
+                                        <li>Efficient memory utilization</li>
+                                        <li>Simplified programming model (contiguous address space)</li>
+                                        <li>Ability to run programs larger than physical memory</li>
+                                        <li>Memory sharing through mapped files</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">Microsoft, as an OS developer, often asks about virtual memory concepts to gauge candidates' understanding of core system concepts that affect application performance and security. Windows has sophisticated virtual memory management that has evolved over decades.</p>
                                     </div>
                                   )}
                                   
                                   {company === 'google' && i === 2 && (
                                     <div>
-                                      <p className="font-medium mb-2">Design a rate limiter:</p>
+                                      <p className="font-medium mb-2">Find the kth largest element in an array:</p>
                                       
-                                      <p className="mb-2">A rate limiter is a tool that monitors the number of requests a client can send to an API within a time window. It helps protect services from abuse, DoS attacks, and ensures fair resource usage.</p>
+                                      <p className="mb-2">This is a common interview question that can be solved using several approaches.</p>
                                       
-                                      <p className="font-medium mt-3 mb-1">Approaches to Rate Limiting:</p>
+                                      <p className="font-medium mt-3 mb-1">Solution 1: Using Sorting (Simple but not optimal)</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`function findKthLargest(nums, k) {
+  // Sort the array in descending order
+  nums.sort((a, b) => b - a);
+  
+  // Return the kth element (0-indexed)
+  return nums[k - 1];
+}
+
+// Time Complexity: O(n log n) due to sorting
+// Space Complexity: O(1) if we ignore the space used by sort`}
+                                      </pre>
                                       
-                                      <ol className="list-decimal pl-5 space-y-2">
+                                      <p className="font-medium mt-3 mb-1">Solution 2: Using Min Heap (More efficient)</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`function findKthLargest(nums, k) {
+  // Create min heap (priority queue)
+  const minHeap = [];
+  
+  for (const num of nums) {
+    // If the heap size is less than k, add the element
+    if (minHeap.length < k) {
+      minHeap.push(num);
+      heapifyUp(minHeap);
+    } 
+    // If current number is larger than the smallest in heap
+    else if (num > minHeap[0]) {
+      minHeap[0] = num;  // Replace the root
+      heapifyDown(minHeap, 0);
+    }
+  }
+  
+  return minHeap[0];  // Root is the kth largest
+}
+
+// Helper functions for min heap operations
+function heapifyUp(heap) {
+  let index = heap.length - 1;
+  while (index > 0) {
+    const parentIndex = Math.floor((index - 1) / 2);
+    if (heap[parentIndex] <= heap[index]) break;
+    [heap[parentIndex], heap[index]] = [heap[index], heap[parentIndex]];
+    index = parentIndex;
+  }
+}
+
+function heapifyDown(heap, index) {
+  const length = heap.length;
+  while (true) {
+    const left = 2 * index + 1;
+    const right = 2 * index + 2;
+    let smallest = index;
+    
+    if (left < length && heap[left] < heap[smallest]) {
+      smallest = left;
+    }
+    
+    if (right < length && heap[right] < heap[smallest]) {
+      smallest = right;
+    }
+    
+    if (smallest === index) break;
+    
+    [heap[index], heap[smallest]] = [heap[smallest], heap[index]];
+    index = smallest;
+  }
+}
+
+// Time Complexity: O(n log k)
+// Space Complexity: O(k)`}
+                                      </pre>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Solution 3: Using QuickSelect (Most efficient on average)</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`function findKthLargest(nums, k) {
+  // Convert to 0-indexed position (from largest to smallest)
+  const targetIndex = nums.length - k;
+  
+  return quickSelect(nums, 0, nums.length - 1, targetIndex);
+}
+
+function quickSelect(nums, left, right, targetIndex) {
+  if (left === right) return nums[left];
+  
+  // Choose a random pivot
+  const pivotIndex = left + Math.floor(Math.random() * (right - left + 1));
+  const pivotPos = partition(nums, left, right, pivotIndex);
+  
+  if (pivotPos === targetIndex) {
+    return nums[pivotPos];
+  } else if (pivotPos < targetIndex) {
+    return quickSelect(nums, pivotPos + 1, right, targetIndex);
+  } else {
+    return quickSelect(nums, left, pivotPos - 1, targetIndex);
+  }
+}
+
+function partition(nums, left, right, pivotIndex) {
+  const pivotValue = nums[pivotIndex];
+  
+  // Move pivot to the end
+  [nums[pivotIndex], nums[right]] = [nums[right], nums[pivotIndex]];
+  
+  let storeIndex = left;
+  
+  // Move all smaller elements to the left
+  for (let i = left; i < right; i++) {
+    if (nums[i] < pivotValue) {
+      [nums[i], nums[storeIndex]] = [nums[storeIndex], nums[i]];
+      storeIndex++;
+    }
+  }
+  
+  // Move pivot to its final place
+  [nums[storeIndex], nums[right]] = [nums[right], nums[storeIndex]];
+  
+  return storeIndex;
+}
+
+// Time Complexity: O(n) average case, O(n²) worst case
+// Space Complexity: O(log n) average case, O(n) worst case (recursion stack)`}
+                                      </pre>
+                                      
+                                      <p className="mt-3">Google often asks this question to test understanding of data structures, algorithm efficiency, and coding precision. The QuickSelect approach is particularly impressive as it demonstrates knowledge of a lesser-known but highly efficient algorithm.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'google' && i === 3 && (
+                                    <div>
+                                      <p className="font-medium mb-2">How would you design Google Search?</p>
+                                      
+                                      <p className="mb-2">Designing a system like Google Search is a complex task that involves multiple components working together. Here's a high-level design:</p>
+                                      
+                                      <ol className="list-decimal pl-5 space-y-3 mt-3">
                                         <li>
-                                          <strong>Token Bucket Algorithm:</strong>
+                                          <strong>Web Crawling:</strong>
                                           <ul className="list-disc pl-5 mt-1">
-                                            <li>Uses a bucket that constantly refills with tokens at a fixed rate</li>
-                                            <li>Each request consumes one token</li>
-                                            <li>When bucket is empty, additional requests are throttled</li>
-                                            <li>Good for handling burst traffic while maintaining a long-term rate limit</li>
+                                            <li>Distributed crawler system that follows links to discover web pages</li>
+                                            <li>URL frontier to manage URLs to be crawled</li>
+                                            <li>Politeness policies to avoid overwhelming websites</li>
+                                            <li>Freshness considerations for re-crawling updated content</li>
                                           </ul>
                                         </li>
                                         
                                         <li>
-                                          <strong>Leaky Bucket Algorithm:</strong>
+                                          <strong>Indexing:</strong>
                                           <ul className="list-disc pl-5 mt-1">
-                                            <li>Requests enter a queue (bucket) and are processed at a constant rate</li>
-                                            <li>If the queue is full, new requests are dropped ("leak")</li>
-                                            <li>Good for scenarios requiring a consistent processing rate</li>
+                                            <li>Parse and extract text, metadata, and links from HTML</li>
+                                            <li>Build an inverted index (mapping words to documents)</li>
+                                            <li>Process and store document metadata (title, description, etc.)</li>
+                                            <li>Implement techniques like stemming and spell correction</li>
                                           </ul>
                                         </li>
                                         
                                         <li>
-                                          <strong>Fixed Window Counter:</strong>
+                                          <strong>Ranking Algorithm:</strong>
                                           <ul className="list-disc pl-5 mt-1">
-                                            <li>Divides timeline into fixed windows (e.g., 1-minute windows)</li>
-                                            <li>Counts requests in each window</li>
-                                            <li>Simple to implement but has edge case issues at window boundaries</li>
+                                            <li>PageRank to analyze link structure</li>
+                                            <li>Content relevance scoring</li>
+                                            <li>User engagement signals (click-through rates, dwell time)</li>
+                                            <li>Personalization based on user history and preferences</li>
+                                            <li>Freshness, locality, and other context signals</li>
                                           </ul>
                                         </li>
                                         
                                         <li>
-                                          <strong>Sliding Window Log:</strong>
+                                          <strong>Query Processing:</strong>
                                           <ul className="list-disc pl-5 mt-1">
-                                            <li>Keeps track of timestamps of all requests in a time window</li>
-                                            <li>When a new request comes in, remove timestamps outside the window</li>
-                                            <li>More precise but higher memory usage</li>
+                                            <li>Query understanding (intent detection, entity recognition)</li>
+                                            <li>Query expansion and correction</li>
+                                            <li>Retrieval of candidate documents</li>
+                                            <li>Filtering and re-ranking of results</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>User Interface:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Fast autocomplete suggestions</li>
+                                            <li>Clean presentation of search results</li>
+                                            <li>Rich results like featured snippets, knowledge panels</li>
+                                            <li>Specialized results for different content types (images, videos, news)</li>
                                           </ul>
                                         </li>
                                       </ol>
                                       
-                                      <p className="font-medium mt-3 mb-1">Implementation Example (Token Bucket in JavaScript):</p>
-                                      
-                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto mt-2">
-{`class TokenBucket {
-  constructor(capacity, refillRate) {
-    this.capacity = capacity;      // Maximum tokens
-    this.tokens = capacity;        // Current token count
-    this.refillRate = refillRate;  // Tokens added per second
-    this.lastRefillTimestamp = Date.now();
-  }
-  
-  refill() {
-    const now = Date.now();
-    const deltaSeconds = (now - this.lastRefillTimestamp) / 1000;
-    this.tokens = Math.min(
-      this.capacity, 
-      this.tokens + deltaSeconds * this.refillRate
-    );
-    this.lastRefillTimestamp = now;
-  }
-  
-  tryConsume(tokens = 1) {
-    this.refill();
-    if (this.tokens < tokens) {
-      return false; // Rate limit exceeded
-    }
-    this.tokens -= tokens;
-    return true;    // Request allowed
-  }
-}
-
-// Usage example
-const rateLimiter = new TokenBucket(10, 2); // 10 tokens max, refills 2 tokens/sec
-
-function handleRequest(req, res) {
-  if (rateLimiter.tryConsume()) {
-    // Process the request
-    res.status(200).send('Request processed');
-  } else {
-    // Rate limit exceeded
-    res.status(429).send('Too many requests');
-  }
-}`}
-                                      </pre>
-                                      
-                                      <p className="font-medium mt-3 mb-1">Distributed Rate Limiting Considerations:</p>
-                                      <ul className="list-disc pl-5 mt-1">
-                                        <li>Use Redis or a similar distributed cache to share rate limit state across servers</li>
-                                        <li>Consider using the Lua scripting feature in Redis for atomic operations</li>
-                                        <li>Implement backup mechanisms in case the rate limiter fails (fail-open vs. fail-closed)</li>
+                                      <p className="font-medium mt-3 mb-1">System Architecture:</p>
+                                      <ul className="list-disc pl-5">
+                                        <li><strong>Storage:</strong> Distributed file systems for raw web content</li>
+                                        <li><strong>Databases:</strong> For structured data and indices</li>
+                                        <li><strong>Caching:</strong> Multiple layers to reduce latency</li>
+                                        <li><strong>Load Balancing:</strong> To distribute traffic across servers</li>
+                                        <li><strong>CDN:</strong> To serve results quickly worldwide</li>
                                       </ul>
                                       
-                                      <p className="mt-3">Rate limiting is critical for Google's services to protect their infrastructure while providing fair access to all users. It's an excellent system design topic that demonstrates your understanding of both algorithms and practical implementation concerns.</p>
+                                      <p className="font-medium mt-3 mb-1">Scalability Considerations:</p>
+                                      <ul className="list-disc pl-5">
+                                        <li>Horizontal scaling of all components</li>
+                                        <li>Sharding the index across multiple servers</li>
+                                        <li>Replication for availability and performance</li>
+                                        <li>Precomputing common queries</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">For a system design interview at Google, focus on demonstrating clear architectural thinking and understanding of tradeoffs, rather than trying to cover every detail of their actual implementation.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'google' && i === 4 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Explain the working of PageRank algorithm:</p>
+                                      
+                                      <p className="mb-2">PageRank is the algorithm originally used by Google to rank web pages in their search engine results. It's named after Larry Page, one of Google's founders.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Core Concept:</p>
+                                      <p>PageRank measures the importance of a webpage based on the quantity and quality of links pointing to it. The fundamental assumption is that more important websites are likely to receive more links from other websites.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">How PageRank Works:</p>
+                                      
+                                      <ol className="list-decimal pl-5 space-y-2">
+                                        <li>
+                                          <strong>Web as a Graph:</strong>
+                                          <p className="mt-1">The web is modeled as a directed graph where:</p>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Each webpage is a node</li>
+                                            <li>Links between pages are edges</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Random Surfer Model:</strong>
+                                          <p className="mt-1">PageRank simulates a "random surfer" who:</p>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Starts on a random webpage</li>
+                                            <li>Randomly clicks on links to navigate to other pages</li>
+                                            <li>Occasionally jumps to a random page (not following any link)</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Mathematical Formulation:</strong>
+                                          <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto mt-1">
+{`PR(A) = (1-d) + d * (PR(T1)/C(T1) + PR(T2)/C(T2) + ... + PR(Tn)/C(Tn))`}
+                                          </pre>
+                                          <p className="mt-1">Where:</p>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>PR(A) is the PageRank of page A</li>
+                                            <li>PR(Ti) is the PageRank of pages Ti which link to page A</li>
+                                            <li>C(Ti) is the number of outbound links from page Ti</li>
+                                            <li>d is a damping factor (typically 0.85)</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Iterative Computation:</strong>
+                                          <p className="mt-1">PageRank is calculated iteratively:</p>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Start with equal ranks for all pages</li>
+                                            <li>Apply the formula to calculate new ranks</li>
+                                            <li>Repeat until ranks converge (stop changing significantly)</li>
+                                          </ul>
+                                        </li>
+                                      </ol>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Key Properties:</p>
+                                      <ul className="list-disc pl-5">
+                                        <li><strong>Damping Factor (d):</strong> Represents the probability that the surfer will continue clicking links (vs. jumping to a random page)</li>
+                                        <li><strong>Convergence:</strong> The algorithm is guaranteed to converge because the web graph is "irreducible" (all pages can be reached)</li>
+                                        <li><strong>Authority Transfer:</strong> A link from an important page contributes more value than a link from an unimportant page</li>
+                                      </ul>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Implementation Challenges:</p>
+                                      <ul className="list-disc pl-5">
+                                        <li><strong>Scale:</strong> Calculating PageRank for billions of webpages requires distributed computing</li>
+                                        <li><strong>Link Spam:</strong> Websites creating artificial links to manipulate rankings</li>
+                                        <li><strong>Dangling Nodes:</strong> Pages with no outgoing links can cause issues in the calculation</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">While PageRank was revolutionary when introduced, modern Google uses hundreds of signals beyond PageRank to determine search rankings. Still, understanding PageRank demonstrates knowledge of graph algorithms and probabilistic models.</p>
                                     </div>
                                   )}
                                   
@@ -1868,146 +2238,425 @@ class UserService {
                                   
                                   {company === 'infosys' && i === 2 && (
                                     <div>
-                                      <p className="font-medium mb-2">Explain REST API best practices:</p>
+                                      <p className="font-medium mb-2">What is normalization in databases?</p>
                                       
-                                      <p className="mb-2">RESTful APIs (Representational State Transfer) provide standards for communication between computer systems on the web. Here are best practices for designing RESTful APIs:</p>
+                                      <p className="mb-2">Normalization is a database design technique that organizes tables in a manner that reduces redundancy and dependency by dividing large tables into smaller ones and defining relationships between them.</p>
                                       
-                                      <ol className="list-decimal pl-5 space-y-3 mt-3">
+                                      <p className="font-medium mt-3 mb-1">Goals of Normalization:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Eliminate redundant data (reduce storage space)</li>
+                                        <li>Ensure data dependencies make sense (data integrity)</li>
+                                        <li>Simplify queries and facilitate database maintenance</li>
+                                        <li>Prevent anomalies during data operations (insert, update, delete)</li>
+                                      </ul>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Normal Forms:</p>
+                                      <ol className="list-decimal pl-5 space-y-3">
                                         <li>
-                                          <strong>Use Proper HTTP Methods:</strong>
+                                          <strong>First Normal Form (1NF):</strong>
                                           <ul className="list-disc pl-5 mt-1">
-                                            <li><strong>GET:</strong> Retrieve resources (read-only)</li>
-                                            <li><strong>POST:</strong> Create new resources</li>
-                                            <li><strong>PUT:</strong> Update existing resources (entire resource)</li>
-                                            <li><strong>PATCH:</strong> Partial update of resources</li>
-                                            <li><strong>DELETE:</strong> Remove resources</li>
+                                            <li>Each table cell should contain a single atomic value</li>
+                                            <li>No repeating groups or arrays</li>
+                                            <li>Each record must be unique (identified by a primary key)</li>
                                           </ul>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-2">
-{`GET /users           # Get list of users
-GET /users/123        # Get specific user
-POST /users           # Create a new user
-PUT /users/123        # Update user 123 (full update)
-PATCH /users/123      # Update user 123 (partial update)
-DELETE /users/123     # Delete user 123`}
-                                          </pre>
+                                          <div className="bg-gray-100 p-3 rounded-md mt-1 text-xs">
+                                            <p><strong>Before 1NF:</strong></p>
+                                            <table className="border-collapse table-auto w-full mt-1">
+                                              <thead>
+                                                <tr>
+                                                  <th className="border border-gray-400 px-2 py-1">StudentID</th>
+                                                  <th className="border border-gray-400 px-2 py-1">Courses</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td className="border border-gray-400 px-2 py-1">1</td>
+                                                  <td className="border border-gray-400 px-2 py-1">Math, Science, History</td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                            
+                                            <p className="mt-2"><strong>After 1NF:</strong></p>
+                                            <table className="border-collapse table-auto w-full mt-1">
+                                              <thead>
+                                                <tr>
+                                                  <th className="border border-gray-400 px-2 py-1">StudentID</th>
+                                                  <th className="border border-gray-400 px-2 py-1">Course</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td className="border border-gray-400 px-2 py-1">1</td>
+                                                  <td className="border border-gray-400 px-2 py-1">Math</td>
+                                                </tr>
+                                                <tr>
+                                                  <td className="border border-gray-400 px-2 py-1">1</td>
+                                                  <td className="border border-gray-400 px-2 py-1">Science</td>
+                                                </tr>
+                                                <tr>
+                                                  <td className="border border-gray-400 px-2 py-1">1</td>
+                                                  <td className="border border-gray-400 px-2 py-1">History</td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
                                         </li>
                                         
                                         <li>
-                                          <strong>Use Nouns for Resource Names (Not Verbs):</strong>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`Good:
-GET /articles         # Get all articles
-GET /articles/123     # Get article with id 123
-
-Bad:
-GET /getArticles
-GET /getArticleById/123`}
-                                          </pre>
-                                        </li>
-                                        
-                                        <li>
-                                          <strong>Use Nested Resources for Relationships:</strong>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`GET /articles/123/comments        # Get comments for article 123
-POST /articles/123/comments       # Add a comment to article 123`}
-                                          </pre>
-                                        </li>
-                                        
-                                        <li>
-                                          <strong>Use Proper HTTP Status Codes:</strong>
+                                          <strong>Second Normal Form (2NF):</strong>
                                           <ul className="list-disc pl-5 mt-1">
-                                            <li><strong>2xx</strong> - Success (200 OK, 201 Created, 204 No Content)</li>
-                                            <li><strong>3xx</strong> - Redirection (301 Moved Permanently, 304 Not Modified)</li>
-                                            <li><strong>4xx</strong> - Client Error (400 Bad Request, 401 Unauthorized, 404 Not Found)</li>
-                                            <li><strong>5xx</strong> - Server Error (500 Internal Server Error)</li>
+                                            <li>Must be in 1NF</li>
+                                            <li>All non-key attributes must depend on the entire primary key</li>
+                                            <li>Removes partial dependencies (especially important with composite keys)</li>
+                                          </ul>
+                                          <div className="bg-gray-100 p-3 rounded-md mt-1 text-xs">
+                                            <p><strong>Before 2NF:</strong></p>
+                                            <table className="border-collapse table-auto w-full mt-1">
+                                              <thead>
+                                                <tr>
+                                                  <th className="border border-gray-400 px-2 py-1">OrderID</th>
+                                                  <th className="border border-gray-400 px-2 py-1">ProductID</th>
+                                                  <th className="border border-gray-400 px-2 py-1">Quantity</th>
+                                                  <th className="border border-gray-400 px-2 py-1">ProductName</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td className="border border-gray-400 px-2 py-1">1</td>
+                                                  <td className="border border-gray-400 px-2 py-1">101</td>
+                                                  <td className="border border-gray-400 px-2 py-1">2</td>
+                                                  <td className="border border-gray-400 px-2 py-1">Laptop</td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                            
+                                            <p className="mt-2"><strong>After 2NF (split into two tables):</strong></p>
+                                            <p>Order_Items:</p>
+                                            <table className="border-collapse table-auto w-full mt-1">
+                                              <thead>
+                                                <tr>
+                                                  <th className="border border-gray-400 px-2 py-1">OrderID</th>
+                                                  <th className="border border-gray-400 px-2 py-1">ProductID</th>
+                                                  <th className="border border-gray-400 px-2 py-1">Quantity</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td className="border border-gray-400 px-2 py-1">1</td>
+                                                  <td className="border border-gray-400 px-2 py-1">101</td>
+                                                  <td className="border border-gray-400 px-2 py-1">2</td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                            
+                                            <p className="mt-1">Products:</p>
+                                            <table className="border-collapse table-auto w-full mt-1">
+                                              <thead>
+                                                <tr>
+                                                  <th className="border border-gray-400 px-2 py-1">ProductID</th>
+                                                  <th className="border border-gray-400 px-2 py-1">ProductName</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td className="border border-gray-400 px-2 py-1">101</td>
+                                                  <td className="border border-gray-400 px-2 py-1">Laptop</td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Third Normal Form (3NF):</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Must be in 2NF</li>
+                                            <li>No transitive dependencies (non-key attributes depend only on the primary key)</li>
+                                            <li>Attributes that depend on other non-key attributes are moved to separate tables</li>
+                                          </ul>
+                                          <div className="bg-gray-100 p-3 rounded-md mt-1 text-xs">
+                                            <p><strong>Before 3NF:</strong></p>
+                                            <table className="border-collapse table-auto w-full mt-1">
+                                              <thead>
+                                                <tr>
+                                                  <th className="border border-gray-400 px-2 py-1">StudentID</th>
+                                                  <th className="border border-gray-400 px-2 py-1">DepartmentID</th>
+                                                  <th className="border border-gray-400 px-2 py-1">DepartmentName</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td className="border border-gray-400 px-2 py-1">1</td>
+                                                  <td className="border border-gray-400 px-2 py-1">10</td>
+                                                  <td className="border border-gray-400 px-2 py-1">Computer Science</td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                            
+                                            <p className="mt-2"><strong>After 3NF (split into two tables):</strong></p>
+                                            <p>Students:</p>
+                                            <table className="border-collapse table-auto w-full mt-1">
+                                              <thead>
+                                                <tr>
+                                                  <th className="border border-gray-400 px-2 py-1">StudentID</th>
+                                                  <th className="border border-gray-400 px-2 py-1">DepartmentID</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td className="border border-gray-400 px-2 py-1">1</td>
+                                                  <td className="border border-gray-400 px-2 py-1">10</td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                            
+                                            <p className="mt-1">Departments:</p>
+                                            <table className="border-collapse table-auto w-full mt-1">
+                                              <thead>
+                                                <tr>
+                                                  <th className="border border-gray-400 px-2 py-1">DepartmentID</th>
+                                                  <th className="border border-gray-400 px-2 py-1">DepartmentName</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td className="border border-gray-400 px-2 py-1">10</td>
+                                                  <td className="border border-gray-400 px-2 py-1">Computer Science</td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </li>
+                                      </ol>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Higher Normal Forms:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li><strong>Boyce-Codd Normal Form (BCNF):</strong> Stricter version of 3NF where every determinant must be a candidate key</li>
+                                        <li><strong>Fourth Normal Form (4NF):</strong> Addresses multi-valued dependencies</li>
+                                        <li><strong>Fifth Normal Form (5NF):</strong> Deals with join dependencies</li>
+                                      </ul>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Trade-offs in Normalization:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li><strong>Benefits:</strong> Data integrity, reduced redundancy, flexibility for future changes</li>
+                                        <li><strong>Drawbacks:</strong> More complex queries involving joins, potential performance impact for read-heavy applications</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">Infosys often works on large enterprise applications where proper database design is crucial. Understanding normalization principles helps ensure data integrity and maintainability across complex, long-lived systems.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'infosys' && i === 3 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Write a program to find the second highest salary from a table:</p>
+                                      
+                                      <p className="mb-2">This is a common SQL interview question that tests understanding of SQL, subqueries, and aggregate functions.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Approach 1: Using MAX function with subquery</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`SELECT MAX(salary) AS second_highest_salary
+FROM employees
+WHERE salary < (SELECT MAX(salary) FROM employees);`}
+                                      </pre>
+                                      <p className="mt-1">This query finds the maximum salary that is less than the maximum salary in the table.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Approach 2: Using ORDER BY and LIMIT</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`SELECT salary AS second_highest_salary
+FROM employees
+ORDER BY salary DESC
+LIMIT 1 OFFSET 1;`}
+                                      </pre>
+                                      <p className="mt-1">This query orders all salaries in descending order, skips the first result (highest salary), and returns the next one.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Approach 3: Using DENSE_RANK() window function</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`WITH ranked_salaries AS (
+  SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) as salary_rank
+  FROM employees
+)
+SELECT salary AS second_highest_salary
+FROM ranked_salaries
+WHERE salary_rank = 2;`}
+                                      </pre>
+                                      <p className="mt-1">This approach uses window functions to assign ranks to salaries and then filters for rank 2.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Handling Edge Cases:</p>
+                                      <p>What if there is no second highest salary (e.g., all salaries are the same, or there's only one employee)?</p>
+                                      
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`-- Returns NULL if no second highest salary exists
+SELECT (
+  SELECT DISTINCT salary
+  FROM employees
+  ORDER BY salary DESC
+  LIMIT 1 OFFSET 1
+) AS second_highest_salary;`}
+                                      </pre>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Extended Question: Nth Highest Salary</p>
+                                      <p>A common follow-up is to write a function to find the Nth highest salary:</p>
+                                      
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+  DECLARE result INT;
+  SET N = N - 1; -- Adjust for LIMIT OFFSET
+  
+  SELECT DISTINCT salary INTO result
+  FROM employees
+  ORDER BY salary DESC
+  LIMIT 1 OFFSET N;
+  
+  RETURN result;
+END`}
+                                      </pre>
+                                      
+                                      <p className="mt-3">This is a popular SQL problem that tests not only basic SQL knowledge but also understanding of subqueries, window functions, and edge case handling. Infosys often works with large enterprise databases, so SQL optimization is an important skill.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'infosys' && i === 4 && (
+                                    <div>
+                                      <p className="font-medium mb-2">How would you optimize a slow-running SQL query?</p>
+                                      
+                                      <p className="mb-2">Optimizing SQL queries is a critical skill for database developers. Here's a comprehensive approach to diagnosing and fixing performance issues:</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Step 1: Identify the Problem</p>
+                                      <ol className="list-decimal pl-5 mt-1">
+                                        <li>
+                                          <strong>Use EXPLAIN (or EXPLAIN ANALYZE):</strong>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`EXPLAIN ANALYZE
+SELECT * FROM orders
+JOIN customers ON orders.customer_id = customers.id
+WHERE orders.created_at > '2022-01-01';`}
+                                          </pre>
+                                          <p className="mt-1">This shows the query execution plan, including scan methods, join types, estimated/actual row counts, and execution time.</p>
+                                        </li>
+                                        <li><strong>Check query statistics:</strong> Look for full table scans, high row counts, or expensive operations</li>
+                                        <li><strong>Profile the query:</strong> Use database-specific profiling tools to identify bottlenecks</li>
+                                      </ol>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Step 2: Query Structure Optimization</p>
+                                      <ol className="list-decimal pl-5 mt-1">
+                                        <li>
+                                          <strong>Select only needed columns:</strong>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`-- Bad
+SELECT * FROM large_table;
+
+-- Good
+SELECT id, name, relevant_column FROM large_table;`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Avoid unnecessary JOINs:</strong> Only join tables that are required
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Use appropriate JOIN types:</strong>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`-- Consider which type is appropriate:
+-- INNER JOIN, LEFT JOIN, etc.`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Optimize WHERE clauses:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Place the most restrictive conditions first</li>
+                                            <li>Use indexed columns in WHERE clauses</li>
+                                            <li>Avoid functions on indexed columns (which prevent index usage)</li>
                                           </ul>
                                         </li>
                                         
                                         <li>
-                                          <strong>Use Query Parameters for Filtering, Sorting, and Pagination:</strong>
+                                          <strong>Limit result set size:</strong>
                                           <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`GET /articles?category=tech      # Filter by category
-GET /articles?sort=created&order=desc  # Sort by creation date
-GET /articles?page=2&limit=10    # Pagination`}
-                                          </pre>
-                                        </li>
-                                        
-                                        <li>
-                                          <strong>Version Your API:</strong>
-                                          <p className="mt-1">Include versioning to maintain backward compatibility.</p>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`/api/v1/articles
-/api/v2/articles`}
-                                          </pre>
-                                        </li>
-                                        
-                                        <li>
-                                          <strong>Use HATEOAS (Hypertext As The Engine Of Application State):</strong>
-                                          <p className="mt-1">Include links in responses to related resources.</p>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`{
-  "id": 123,
-  "title": "REST API Best Practices",
-  "_links": {
-    "self": { "href": "/articles/123" },
-    "author": { "href": "/users/456" },
-    "comments": { "href": "/articles/123/comments" }
-  }
-}`}
-                                          </pre>
-                                        </li>
-                                        
-                                        <li>
-                                          <strong>Use JSON for Request/Response Bodies:</strong>
-                                          <p className="mt-1">JSON is lightweight and easy to parse.</p>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`Content-Type: application/json
-
-{
-  "title": "REST API Best Practices",
-  "content": "This article discusses...",
-  "author_id": 456,
-  "tags": ["api", "rest", "best-practices"]
-}`}
-                                          </pre>
-                                        </li>
-                                        
-                                        <li>
-                                          <strong>Implement Rate Limiting:</strong>
-                                          <p className="mt-1">Protect your API from abuse and ensure fair usage.</p>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`// Response headers
-X-Rate-Limit-Limit: 100      // Requests allowed in window
-X-Rate-Limit-Remaining: 95   // Requests remaining in window
-X-Rate-Limit-Reset: 1623456789  // Time when limit resets`}
-                                          </pre>
-                                        </li>
-                                        
-                                        <li>
-                                          <strong>Use Proper Error Handling:</strong>
-                                          <p className="mt-1">Return informative error messages.</p>
-                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
-{`// 400 Bad Request response
-{
-  "error": "Bad Request",
-  "message": "Title is required",
-  "code": "MISSING_FIELD",
-  "status": 400
-}`}
+{`-- Use LIMIT/TOP for pagination
+SELECT * FROM large_table LIMIT 100 OFFSET 0;`}
                                           </pre>
                                         </li>
                                       </ol>
                                       
-                                      <p className="font-medium mt-3 mb-1">Security Best Practices:</p>
+                                      <p className="font-medium mt-3 mb-1">Step 3: Index Optimization</p>
+                                      <ol className="list-decimal pl-5 mt-1">
+                                        <li>
+                                          <strong>Create appropriate indexes:</strong>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`-- Add index on frequently queried columns
+CREATE INDEX idx_orders_created_at ON orders(created_at);
+
+-- Composite index for multiple conditions
+CREATE INDEX idx_orders_customer_date ON orders(customer_id, created_at);`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Consider index types:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>B-tree indexes for equality and range queries</li>
+                                            <li>Hash indexes for equality only</li>
+                                            <li>Full-text indexes for text searching</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li><strong>Avoid over-indexing:</strong> Too many indexes slow down writes and increase storage</li>
+                                      </ol>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Step 4: Query Rewriting Techniques</p>
+                                      <ol className="list-decimal pl-5 mt-1">
+                                        <li>
+                                          <strong>Use EXISTS instead of IN for subqueries:</strong>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`-- Often faster
+SELECT * FROM customers c
+WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id);`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Replace subqueries with JOINs when appropriate:</strong>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`-- Often more efficient
+SELECT c.* FROM customers c
+JOIN orders o ON c.id = o.customer_id
+WHERE o.amount > 1000;`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Use UNION ALL instead of UNION when duplicates are acceptable:</strong>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`-- UNION ALL skips the distinct operation`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Consider CTEs or temporary tables for complex queries:</strong>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`WITH filtered_orders AS (
+  SELECT * FROM orders WHERE created_at > '2022-01-01'
+)
+SELECT c.name, COUNT(o.id) 
+FROM customers c
+JOIN filtered_orders o ON c.id = o.customer_id
+GROUP BY c.name;`}
+                                          </pre>
+                                        </li>
+                                      </ol>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Step 5: Database Level Optimizations</p>
                                       <ul className="list-disc pl-5 mt-1">
-                                        <li>Use HTTPS for all API endpoints</li>
-                                        <li>Implement robust authentication (OAuth2, JWT)</li>
-                                        <li>Validate all inputs to prevent injection attacks</li>
-                                        <li>Use CORS headers to control access</li>
-                                        <li>Don't expose sensitive information in URLs</li>
+                                        <li><strong>Update statistics:</strong> Ensure the query optimizer has current data distribution information</li>
+                                        <li><strong>Increase memory allocation:</strong> Adjust database configuration (query cache, buffer pool)</li>
+                                        <li><strong>Partitioning:</strong> Split large tables into smaller, more manageable pieces</li>
+                                        <li><strong>Consider denormalization:</strong> For read-heavy workloads, calculated columns or materialized views</li>
                                       </ul>
                                       
-                                      <p className="mt-3">Following these REST API best practices helps create intuitive, scalable, and maintainable web services. This is particularly important at Infosys, which builds enterprise applications that often rely on APIs for integration between different systems.</p>
+                                      <p className="mt-3">Query optimization is essential for enterprise applications like those Infosys develops. A well-optimized database can dramatically improve application performance and user experience.</p>
                                     </div>
                                   )}
                                 </div>
