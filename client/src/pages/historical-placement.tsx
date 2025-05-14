@@ -46,7 +46,7 @@ function generateHistoricalData(): HistoricalData[] {
   let baseStudents = 120;  // 120 students placed in 2000
   
   // Growth rates per year
-  const highestPackageGrowth = 1.09; // 9% annual growth
+  const highestPackageGrowth = 1.0785; // adjusted to reach 52 LPA in 2024
   const averagePackageGrowth = 1.08; // 8% annual growth
   const placementRateGrowth = 1.02; // 2% annual growth
   const companiesGrowth = 1.08; // 8% annual growth
