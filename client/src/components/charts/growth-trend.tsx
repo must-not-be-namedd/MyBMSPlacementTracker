@@ -76,9 +76,9 @@ export function GrowthTrend({
                 dataKey={metric}
                 name={metricName}
                 stroke={
-                  metric === "highestPackage" ? "#4C51BF" : 
-                  metric === "avgPackage" ? "#38B2AC" : 
-                  "#ED8936"
+                  metric === "highestPackage" ? "#38B2AC" : // Teal/Aquamarine
+                  metric === "avgPackage" ? "#8BDFD1" : // Light Teal
+                  "#B390D4" // Purple
                 }
                 strokeWidth={2}
                 dot={{ r: 5 }}
@@ -88,7 +88,7 @@ export function GrowthTrend({
                 type="monotone"
                 dataKey="growth"
                 name="YoY Growth (%)"
-                stroke="#805AD5" /* Purple */
+                stroke="#5F4B8B" /* Dark Purple - from palette */
                 strokeDasharray="5 5"
               />
             </LineChart>

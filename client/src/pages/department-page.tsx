@@ -86,7 +86,7 @@ export default function DepartmentPage() {
                   title={`${selectedDept} Highest Package Trend`}
                   metric="highestPackage"
                   metricName="Highest Package (LPA)"
-                  lineColor="#4C51BF" /* Indigo - matching home page */
+                  lineColor="#38B2AC" /* Teal/Aquamarine */
                 />
                 
                 <GrowthTrend
@@ -94,7 +94,7 @@ export default function DepartmentPage() {
                   title={`${selectedDept} Average Package Trend`}
                   metric="avgPackage"
                   metricName="Average Package (LPA)"
-                  lineColor="#38B2AC" /* Teal - matching home page */
+                  lineColor="#8BDFD1" /* Light Teal */
                 />
                 
                 <GrowthTrend
@@ -102,7 +102,7 @@ export default function DepartmentPage() {
                   title={`${selectedDept} Placement Rate Trend`}
                   metric="placementRate"
                   metricName="Placement Rate (%)"
-                  lineColor="#ED8936" /* Orange - matching home page */
+                  lineColor="#B390D4" /* Purple */
                 />
               </TabsContent>
             </Tabs>

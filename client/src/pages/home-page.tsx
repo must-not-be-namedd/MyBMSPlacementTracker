@@ -45,38 +45,38 @@ export default function HomePage() {
                 <Card className="border-teal-100 border-t-4">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Average Package
+                      Highest Package
                     </CardTitle>
                     <Trophy className="h-4 w-4 text-teal-500" />
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-teal-700">
-                      ₹{averages.avgPackage} LPA
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="border-indigo-100 border-t-4">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Highest Package
-                    </CardTitle>
-                    <Building className="h-4 w-4 text-indigo-500" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-indigo-700">
                       ₹{averages.highestPackage} LPA
                     </div>
                   </CardContent>
                 </Card>
-                <Card className="border-orange-100 border-t-4">
+                <Card className="border-t-4" style={{ borderTopColor: "#8BDFD1" }}>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">
+                      Average Package
+                    </CardTitle>
+                    <Building className="h-4 w-4" style={{ color: "#8BDFD1" }} />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold" style={{ color: "#38B2AC" }}>
+                      ₹{averages.avgPackage} LPA
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="border-t-4" style={{ borderTopColor: "#B390D4" }}>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Placement Rate
                     </CardTitle>
-                    <Users className="h-4 w-4 text-orange-500" />
+                    <Users className="h-4 w-4" style={{ color: "#B390D4" }} />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold text-orange-700">
+                    <div className="text-2xl font-bold" style={{ color: "#8A63B1" }}>
                       {averages.placementRate}%
                     </div>
                   </CardContent>

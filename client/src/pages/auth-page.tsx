@@ -55,6 +55,10 @@ export default function AuthPage() {
               <CardDescription>Sign in to your account to continue</CardDescription>
             </CardHeader>
             <CardContent>
+              <div className="text-center mb-4">
+                <p className="text-lg font-medium text-teal-600">BMSCE College of Engineering</p>
+                <p className="text-sm text-teal-500 mt-1">Excellence in Engineering Education Since 1946</p>
+              </div>
               <Tabs defaultValue="login">
                 <TabsList className="grid w-full grid-cols-2 mb-6">
                   <TabsTrigger value="login">Login</TabsTrigger>
@@ -249,8 +253,8 @@ export default function AuthPage() {
           </div>
           
           <div className="mt-14 border-t border-white/10 pt-10 text-center">
-            <p className="text-lg font-medium text-teal-100">BMSCE College of Engineering</p>
-            <p className="text-sm text-teal-200 mt-1">Excellence in Engineering Education Since 1946</p>
+            <p className="text-lg font-medium text-teal-100">Transform Your Career Path</p>
+            <p className="text-sm text-teal-200 mt-1">Join thousands of successful BMSCE alumni in top companies</p>
           </div>
         </div>
       </div>
