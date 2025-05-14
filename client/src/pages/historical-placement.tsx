@@ -331,11 +331,13 @@ export default function HistoricalPlacementPage() {
                         <XAxis dataKey="label" />
                         <YAxis />
                         <Tooltip 
-                          formatter={(value, name) => {
-                            if (name.includes('CAGR')) {
-                              return [`${value}%`, name];
+                          formatter={(value: any, name: any) => {
+                            // Using a type cast to handle the Recharts typing issue
+                            const nameStr = String(name);
+                            if (nameStr.indexOf('CAGR') >= 0) {
+                              return [`${value}%`, nameStr];
                             }
-                            return [value, name];
+                            return [value, nameStr];
                           }}
                         />
                         <Legend />
