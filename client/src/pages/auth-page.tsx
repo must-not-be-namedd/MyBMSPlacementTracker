@@ -114,7 +114,7 @@ export default function AuthPage() {
                       />
                       <Button 
                         type="submit" 
-                        className="w-full h-11 text-base mt-2 bg-gradient-to-r from-teal-400 to-emerald-500 hover:from-teal-500 hover:to-emerald-600 dark:from-teal-600 dark:to-teal-800 dark:text-white" 
+                        className="w-full h-11 text-base mt-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 dark:from-purple-500 dark:to-indigo-600 text-white" 
                         disabled={loginMutation.isPending}
                       >
                         {loginMutation.isPending ? "Logging in..." : "Sign In"}
@@ -196,7 +196,7 @@ export default function AuthPage() {
                       />
                       <Button 
                         type="submit" 
-                        className="w-full h-11 text-base mt-2 bg-gradient-to-r from-teal-400 to-emerald-500 hover:from-teal-500 hover:to-emerald-600 dark:from-teal-600 dark:to-teal-800 dark:text-white" 
+                        className="w-full h-11 text-base mt-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 dark:from-purple-500 dark:to-indigo-600 text-white" 
                         disabled={registerMutation.isPending}
                       >
                         {registerMutation.isPending ? "Creating account..." : "Create Account"}
@@ -214,11 +214,11 @@ export default function AuthPage() {
         </div>
       </div>
       
-      <div className="hidden lg:block flex-1 bg-gradient-to-br from-teal-500 via-emerald-600 to-cyan-600 dark:from-teal-700 dark:via-teal-800 dark:to-blue-800 text-white">
+      <div className="hidden lg:block flex-1 bg-gradient-to-br from-purple-500 via-indigo-600 to-purple-800 dark:from-indigo-800 dark:via-purple-900 dark:to-indigo-900 text-white">
         <div className="h-full flex flex-col justify-center px-12 xl:px-24">
           <div className="mb-12">
             <h1 className="text-4xl font-bold leading-tight">
-              Your Gateway to <span className="text-emerald-200 dark:text-teal-200">Career Excellence</span>
+              Your Gateway to <span className="text-teal-200 dark:text-teal-300">Career Excellence</span>
             </h1>
             <p className="text-lg text-white dark:text-cyan-100 mt-4 max-w-lg">
               Track statistics, build resumes, schedule interviews, and access resources 
@@ -228,25 +228,25 @@ export default function AuthPage() {
           
           <div className="grid grid-cols-2 gap-6">
             <div className="bg-white/10 rounded-xl p-5 backdrop-blur-sm">
-              <BarChart2 className="h-6 w-6 text-emerald-200 dark:text-teal-200 mb-3" />
+              <BarChart2 className="h-6 w-6 text-teal-200 dark:text-teal-300 mb-3" />
               <h3 className="font-medium text-lg">Department Analytics</h3>
               <p className="text-white dark:text-cyan-100 text-sm mt-1">Track real-time placement statistics across departments</p>
             </div>
             
             <div className="bg-white/10 rounded-xl p-5 backdrop-blur-sm">
-              <FileText className="h-6 w-6 text-emerald-200 dark:text-teal-200 mb-3" />
+              <FileText className="h-6 w-6 text-teal-200 dark:text-teal-300 mb-3" />
               <h3 className="font-medium text-lg">Resume Builder</h3>
               <p className="text-white dark:text-cyan-100 text-sm mt-1">Create and export professional resumes with our templates</p>
             </div>
             
             <div className="bg-white/10 rounded-xl p-5 backdrop-blur-sm">
-              <Users className="h-6 w-6 text-emerald-200 dark:text-teal-200 mb-3" />
+              <Users className="h-6 w-6 text-teal-200 dark:text-teal-300 mb-3" />
               <h3 className="font-medium text-lg">Mock Interviews</h3>
               <p className="text-white dark:text-cyan-100 text-sm mt-1">Schedule practice interviews to sharpen your skills</p>
             </div>
             
             <div className="bg-white/10 rounded-xl p-5 backdrop-blur-sm">
-              <BookOpen className="h-6 w-6 text-emerald-200 dark:text-teal-200 mb-3" />
+              <BookOpen className="h-6 w-6 text-teal-200 dark:text-teal-300 mb-3" />
               <h3 className="font-medium text-lg">Learning Resources</h3>
               <p className="text-white dark:text-cyan-100 text-sm mt-1">Access expert guides and alumni insights</p>
             </div>
@@ -254,7 +254,7 @@ export default function AuthPage() {
           
           <div className="mt-14 border-t border-white/10 pt-10 text-center">
             <p className="text-lg font-medium text-white dark:text-cyan-100">Transform Your Career Path</p>
-            <p className="text-sm text-emerald-200 dark:text-teal-200 mt-1">Join thousands of successful BMSCE alumni in top companies</p>
+            <p className="text-sm text-teal-200 dark:text-teal-300 mt-1">Join thousands of successful BMSCE alumni in top companies</p>
           </div>
         </div>
       </div>
