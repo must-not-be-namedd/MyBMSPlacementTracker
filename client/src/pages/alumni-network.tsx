@@ -277,7 +277,364 @@ export default function AlumniNetwork() {
                           <AccordionTrigger className="text-left">{question}</AccordionTrigger>
                           <AccordionContent>
                             <div className="p-4 bg-blue-50 rounded-md text-blue-800 text-sm">
-                              <p>Practice answering this question thoroughly. Consider all edge cases and be prepared to discuss different approaches.</p>
+                              {i === 0 && (
+                                <div>
+                                  <p className="font-medium mb-2">Process vs Thread:</p>
+                                  <ul className="list-disc pl-5 space-y-1">
+                                    <li><strong>Definition:</strong> A process is an instance of a program in execution, while a thread is a segment of a process.</li>
+                                    <li><strong>Memory:</strong> Processes have separate memory spaces, whereas threads share the same memory space of their parent process.</li>
+                                    <li><strong>Communication:</strong> Inter-process communication is more complex and requires techniques like pipes or sockets, while threads can communicate directly through shared memory.</li>
+                                    <li><strong>Resource allocation:</strong> Processes are allocated separate resources by the OS, while threads share resources of the process.</li>
+                                    <li><strong>Context switching:</strong> Context switching between processes is more expensive than between threads.</li>
+                                    <li><strong>Isolation:</strong> Processes have better isolation - a fault in one process doesn't affect others, whereas a fault in one thread can affect other threads in the same process.</li>
+                                  </ul>
+                                </div>
+                              )}
+                              {i === 1 && (
+                                <div>
+                                  <p className="font-medium mb-2">Hash Table and Collision Resolution:</p>
+                                  <p className="mb-2">A hash table is a data structure that maps keys to values using a hash function that computes an index into an array of buckets, from which the desired value can be found.</p>
+                                  <p className="font-medium mt-3 mb-1">Collision Resolution Strategies:</p>
+                                  <ol className="list-decimal pl-5 space-y-1">
+                                    <li><strong>Chaining:</strong> Each bucket contains a linked list of all key-value pairs that hash to the same index. New items are appended to the list.</li>
+                                    <li><strong>Open Addressing:</strong> All entries are stored in the hash table itself. When a collision occurs, the entry is placed in another unfilled position based on probing sequence.</li>
+                                    <li><strong>Linear Probing:</strong> Check consecutive positions until an empty slot is found.</li>
+                                    <li><strong>Quadratic Probing:</strong> Check positions at quadratic distances.</li>
+                                    <li><strong>Double Hashing:</strong> Use a second hash function to determine the probing interval.</li>
+                                    <li><strong>Robin Hood Hashing:</strong> Minimize the variance of probe sequence lengths by moving keys from their position if a key with a larger probe sequence length is found.</li>
+                                  </ol>
+                                </div>
+                              )}
+                              {i === 2 && (
+                                <div>
+                                  <p className="font-medium mb-2">Time Complexity and Sorting Algorithms:</p>
+                                  <p className="mb-2">Time complexity is a measure of the amount of time an algorithm takes to run as a function of the input size.</p>
+                                  <p className="font-medium mt-3 mb-1">Common Sorting Algorithms:</p>
+                                  <ul className="list-disc pl-5 space-y-1">
+                                    <li><strong>Bubble Sort:</strong> O(n²) average and worst case, O(n) best case when already sorted</li>
+                                    <li><strong>Selection Sort:</strong> O(n²) in all cases</li>
+                                    <li><strong>Insertion Sort:</strong> O(n²) average and worst case, O(n) best case when already sorted</li>
+                                    <li><strong>Merge Sort:</strong> O(n log n) in all cases, stable, requires O(n) extra space</li>
+                                    <li><strong>Quick Sort:</strong> O(n log n) average, O(n²) worst case, usually implemented as in-place but not stable</li>
+                                    <li><strong>Heap Sort:</strong> O(n log n) in all cases, in-place but not stable</li>
+                                    <li><strong>Counting Sort:</strong> O(n+k) where k is the range of the non-negative key values</li>
+                                    <li><strong>Radix Sort:</strong> O(nk) where k is the number of digits in the largest number</li>
+                                  </ul>
+                                </div>
+                              )}
+                              {i === 3 && (
+                                <div>
+                                  <p className="font-medium mb-2">Object-Oriented Programming Concepts:</p>
+                                  <ul className="list-disc pl-5 space-y-2">
+                                    <li>
+                                      <strong>Encapsulation:</strong> Bundling data and methods that operate on that data within a single unit (class).
+                                      <br />
+                                      <em>Example:</em> A <code>BankAccount</code> class encapsulates balance data and withdrawal/deposit methods.
+                                    </li>
+                                    <li>
+                                      <strong>Inheritance:</strong> A class (subclass) can inherit attributes and behaviors from another class (superclass).
+                                      <br />
+                                      <em>Example:</em> <code>SavingsAccount</code> inherits from <code>BankAccount</code> and adds interest calculation.
+                                    </li>
+                                    <li>
+                                      <strong>Polymorphism:</strong> The ability of different classes to respond to the same method in different ways.
+                                      <br />
+                                      <em>Example:</em> <code>SavingsAccount</code> and <code>CheckingAccount</code> might implement <code>withdraw()</code> differently.
+                                    </li>
+                                    <li>
+                                      <strong>Abstraction:</strong> Hiding complex implementation details and showing only the necessary features of an object.
+                                      <br />
+                                      <em>Example:</em> Abstract <code>PaymentMethod</code> class with concrete implementations like <code>CreditCard</code> and <code>PayPal</code>.
+                                    </li>
+                                  </ul>
+                                </div>
+                              )}
+                              {i === 4 && (
+                                <div>
+                                  <p className="font-medium mb-2">Recursion and Factorial Example:</p>
+                                  <p>Recursion is a programming technique where a function calls itself to solve a problem.</p>
+                                  <p className="font-medium mt-3 mb-1">Factorial Recursive Function:</p>
+                                  <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`function factorial(n) {
+  // Base case
+  if (n === 0 || n === 1) {
+    return 1;
+  }
+  // Recursive case
+  return n * factorial(n - 1);
+}
+
+// Example: factorial(5) = 5 * 4 * 3 * 2 * 1 = 120`}
+                                  </pre>
+                                  <p className="mt-3">Key components of recursive functions:</p>
+                                  <ul className="list-disc pl-5 space-y-1 mt-1">
+                                    <li><strong>Base case:</strong> Conditions where recursion ends</li>
+                                    <li><strong>Recursive case:</strong> Function calling itself with modified parameters</li>
+                                    <li><strong>Progress toward base case:</strong> Each recursive call must move closer to the base case</li>
+                                  </ul>
+                                </div>
+                              )}
+                              {i === 5 && (
+                                <div>
+                                  <p className="font-medium mb-2">Reversing a Linked List:</p>
+                                  <p className="mb-2">A linked list can be reversed iteratively or recursively.</p>
+                                  <p className="font-medium mt-2 mb-1">Iterative Solution:</p>
+                                  <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`function reverseLinkedList(head) {
+  let prev = null;
+  let current = head;
+  let next = null;
+
+  while (current !== null) {
+    // Store next node
+    next = current.next;
+    
+    // Reverse the pointer
+    current.next = prev;
+    
+    // Move pointers one position ahead
+    prev = current;
+    current = next;
+  }
+  
+  // Return new head (prev)
+  return prev;
+}`}
+                                  </pre>
+                                  <p className="font-medium mt-3 mb-1">Recursive Solution:</p>
+                                  <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`function reverseLinkedList(head) {
+  // Base case
+  if (head === null || head.next === null) {
+    return head;
+  }
+  
+  // Recursive case: Reverse the rest of the list
+  const newHead = reverseLinkedList(head.next);
+  
+  // Change references for the current node
+  head.next.next = head;
+  head.next = null;
+  
+  // Return new head
+  return newHead;
+}`}
+                                  </pre>
+                                  <p className="mt-3">Time Complexity: O(n) - we visit each node once</p>
+                                  <p>Space Complexity: O(1) for iterative, O(n) for recursive due to call stack</p>
+                                </div>
+                              )}
+                              {i === 6 && (
+                                <div>
+                                  <p className="font-medium mb-2">Database Normalization:</p>
+                                  <p className="mb-2">Normalization is a process of organizing data in a database to reduce redundancy and improve data integrity.</p>
+                                  <p className="font-medium mt-2 mb-1">Normal Forms:</p>
+                                  <ul className="list-disc pl-5 space-y-2">
+                                    <li>
+                                      <strong>First Normal Form (1NF):</strong>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Each table cell should contain a single value</li>
+                                        <li>Each record needs to be unique</li>
+                                      </ul>
+                                    </li>
+                                    <li>
+                                      <strong>Second Normal Form (2NF):</strong>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Meets 1NF requirements</li>
+                                        <li>All non-key attributes are fully dependent on the primary key</li>
+                                      </ul>
+                                    </li>
+                                    <li>
+                                      <strong>Third Normal Form (3NF):</strong>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Meets 2NF requirements</li>
+                                        <li>No transitive dependencies (non-key attributes depend only on the primary key)</li>
+                                      </ul>
+                                    </li>
+                                    <li>
+                                      <strong>Boyce-Codd Normal Form (BCNF):</strong>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Stricter version of 3NF</li>
+                                        <li>For any dependency A → B, A should be a super key</li>
+                                      </ul>
+                                    </li>
+                                    <li>
+                                      <strong>Fourth Normal Form (4NF):</strong>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Meets BCNF requirements</li>
+                                        <li>No multi-valued dependencies</li>
+                                      </ul>
+                                    </li>
+                                    <li>
+                                      <strong>Fifth Normal Form (5NF):</strong>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Meets 4NF requirements</li>
+                                        <li>No join dependencies</li>
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                </div>
+                              )}
+                              {i === 7 && (
+                                <div>
+                                  <p className="font-medium mb-2">Stack vs Queue:</p>
+                                  <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                      <p className="font-medium">Stack</p>
+                                      <ul className="list-disc pl-5 space-y-1">
+                                        <li>LIFO (Last In, First Out) principle</li>
+                                        <li>Elements are added and removed from the same end (top)</li>
+                                        <li>Main operations: push (add) and pop (remove)</li>
+                                        <li>Real-world analogy: Stack of plates</li>
+                                        <li>Use cases: Function calls, undo operations, expression evaluation</li>
+                                      </ul>
+                                    </div>
+                                    <div>
+                                      <p className="font-medium">Queue</p>
+                                      <ul className="list-disc pl-5 space-y-1">
+                                        <li>FIFO (First In, First Out) principle</li>
+                                        <li>Elements are added at one end (rear) and removed from the other (front)</li>
+                                        <li>Main operations: enqueue (add) and dequeue (remove)</li>
+                                        <li>Real-world analogy: Line of people</li>
+                                        <li>Use cases: Task scheduling, breadth-first search, print job spooling</li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                  <p className="mt-3 font-medium">Implementation Examples:</p>
+                                  <div className="grid grid-cols-2 gap-4 mt-1">
+                                    <div>
+                                      <p className="text-sm font-medium">Stack Implementation</p>
+                                      <pre className="bg-gray-100 p-2 rounded-md text-xs overflow-x-auto">
+{`class Stack {
+  constructor() {
+    this.items = [];
+  }
+  
+  push(element) {
+    this.items.push(element);
+  }
+  
+  pop() {
+    if (this.isEmpty()) return "Underflow";
+    return this.items.pop();
+  }
+  
+  peek() {
+    return this.items[this.items.length - 1];
+  }
+  
+  isEmpty() {
+    return this.items.length === 0;
+  }
+}`}
+                                      </pre>
+                                    </div>
+                                    <div>
+                                      <p className="text-sm font-medium">Queue Implementation</p>
+                                      <pre className="bg-gray-100 p-2 rounded-md text-xs overflow-x-auto">
+{`class Queue {
+  constructor() {
+    this.items = [];
+  }
+  
+  enqueue(element) {
+    this.items.push(element);
+  }
+  
+  dequeue() {
+    if (this.isEmpty()) return "Underflow";
+    return this.items.shift();
+  }
+  
+  front() {
+    if (this.isEmpty()) return "No elements";
+    return this.items[0];
+  }
+  
+  isEmpty() {
+    return this.items.length === 0;
+  }
+}`}
+                                      </pre>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                              {i === 8 && (
+                                <div>
+                                  <p className="font-medium mb-2">HTTP (HyperText Transfer Protocol):</p>
+                                  <p>HTTP is an application-layer protocol for transmitting hypermedia documents on the web.</p>
+                                  
+                                  <p className="font-medium mt-3">How HTTP Works:</p>
+                                  <ol className="list-decimal pl-5 space-y-1 mb-3">
+                                    <li>Client establishes a TCP connection with the server</li>
+                                    <li>Client sends an HTTP request to the server</li>
+                                    <li>Server processes the request and returns an HTTP response</li>
+                                    <li>Connection may be closed or kept alive for future requests</li>
+                                  </ol>
+                                  
+                                  <p className="font-medium mt-2">HTTP Methods:</p>
+                                  <ul className="list-disc pl-5 space-y-1">
+                                    <li><strong>GET:</strong> Requests data from a specified resource (idempotent)</li>
+                                    <li><strong>POST:</strong> Submits data to be processed to a specified resource (non-idempotent)</li>
+                                    <li><strong>PUT:</strong> Updates a specified resource with new data (idempotent)</li>
+                                    <li><strong>DELETE:</strong> Deletes a specified resource (idempotent)</li>
+                                    <li><strong>PATCH:</strong> Applies partial modifications to a resource (non-idempotent)</li>
+                                    <li><strong>HEAD:</strong> Same as GET but returns only headers, no body (idempotent)</li>
+                                    <li><strong>OPTIONS:</strong> Returns supported HTTP methods for a URL (idempotent)</li>
+                                    <li><strong>CONNECT:</strong> Establishes a tunnel to the server</li>
+                                    <li><strong>TRACE:</strong> Performs a message loop-back test (idempotent)</li>
+                                  </ul>
+                                  
+                                  <p className="mt-3 text-sm font-italic">Note: Idempotent methods can be called multiple times without changing the result beyond the initial call.</p>
+                                </div>
+                              )}
+                              {i === 9 && (
+                                <div>
+                                  <p className="font-medium mb-2">REST API Principles:</p>
+                                  <p className="mb-3">REST (Representational State Transfer) is an architectural style for designing networked applications.</p>
+                                  
+                                  <p className="font-medium">Key Principles:</p>
+                                  <ol className="list-decimal pl-5 space-y-2">
+                                    <li>
+                                      <strong>Client-Server Architecture:</strong> Separation of concerns between client and server components.
+                                    </li>
+                                    <li>
+                                      <strong>Statelessness:</strong> Each request from client to server must contain all the information needed to understand and process the request. The server cannot store client state between requests.
+                                    </li>
+                                    <li>
+                                      <strong>Cacheability:</strong> Responses must define themselves as cacheable or non-cacheable to improve performance.
+                                    </li>
+                                    <li>
+                                      <strong>Uniform Interface:</strong> Simplified and decoupled architecture where:
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Resources are identified in requests (e.g., using URIs)</li>
+                                        <li>Resources are manipulated through representations</li>
+                                        <li>Self-descriptive messages include enough information to process them</li>
+                                        <li>Hypermedia as the engine of application state (HATEOAS)</li>
+                                      </ul>
+                                    </li>
+                                    <li>
+                                      <strong>Layered System:</strong> Architecture composed of hierarchical layers, each with specific functionality.
+                                    </li>
+                                    <li>
+                                      <strong>Code on Demand (optional):</strong> Servers can temporarily extend client functionality by transferring executable code.
+                                    </li>
+                                  </ol>
+                                  
+                                  <p className="font-medium mt-3">RESTful API Design Best Practices:</p>
+                                  <ul className="list-disc pl-5 space-y-1 mt-1">
+                                    <li>Use nouns, not verbs, in endpoint paths</li>
+                                    <li>Use HTTP methods appropriately (GET, POST, PUT, DELETE)</li>
+                                    <li>Use a consistent naming convention (e.g., kebab-case or snake_case)</li>
+                                    <li>Return appropriate HTTP status codes (200 OK, 201 Created, 400 Bad Request, etc.)</li>
+                                    <li>Version your API</li>
+                                    <li>Use pagination for large resource collections</li>
+                                    <li>Provide comprehensive error messages</li>
+                                    <li>Allow filtering, sorting, and searching of resources</li>
+                                  </ul>
+                                </div>
+                              )}
                             </div>
                           </AccordionContent>
                         </AccordionItem>
@@ -298,7 +655,184 @@ export default function AlumniNetwork() {
                           <AccordionTrigger className="text-left">{question}</AccordionTrigger>
                           <AccordionContent>
                             <div className="p-4 bg-green-50 rounded-md text-green-800 text-sm">
-                              <p>Prepare a structured response that highlights your strengths and experiences. Practice your delivery to sound confident but not rehearsed.</p>
+                              {i === 0 && (
+                                <div>
+                                  <p className="font-medium mb-2">Tell me about yourself:</p>
+                                  <p className="mb-2">This is your opportunity to give a concise overview of your background, skills, and career goals.</p>
+                                  <p className="font-medium mt-2 mb-1">Good Structure:</p>
+                                  <ol className="list-decimal pl-5 space-y-1">
+                                    <li><strong>Present:</strong> Begin with your current position/education and relevant skills</li>
+                                    <li><strong>Past:</strong> Briefly mention previous experiences that led you here</li>
+                                    <li><strong>Future:</strong> Express enthusiasm for the position and how it aligns with your goals</li>
+                                  </ol>
+                                  <p className="italic mt-3">Keep it under 2 minutes and relevant to the position you're applying for.</p>
+                                </div>
+                              )}
+                              {i === 1 && (
+                                <div>
+                                  <p className="font-medium mb-2">Why do you want to work at our company?</p>
+                                  <p>This question tests if you've done your research and if your values align with the company's mission.</p>
+                                  <p className="font-medium mt-3 mb-1">Effective Response Components:</p>
+                                  <ul className="list-disc pl-5 space-y-1">
+                                    <li>Demonstrate knowledge of the company's products, services, or recent achievements</li>
+                                    <li>Connect the company's values/mission to your own professional values</li>
+                                    <li>Mention specific aspects of their work environment or culture that appeal to you</li>
+                                    <li>Explain how the position aligns with your career path</li>
+                                    <li>Avoid focusing solely on personal benefits (salary, location, perks)</li>
+                                  </ul>
+                                </div>
+                              )}
+                              {i === 2 && (
+                                <div>
+                                  <p className="font-medium mb-2">Describe a challenging project you worked on:</p>
+                                  <p>This question evaluates your problem-solving abilities, teamwork, and perseverance.</p>
+                                  <p className="font-medium mt-3 mb-1">Use the STAR Method:</p>
+                                  <ul className="list-disc pl-5 space-y-1">
+                                    <li><strong>Situation:</strong> Briefly describe the context and the challenge</li>
+                                    <li><strong>Task:</strong> Explain your specific responsibilities and goals</li>
+                                    <li><strong>Action:</strong> Detail the steps you took to address the challenge</li>
+                                    <li><strong>Result:</strong> Share the outcomes and what you learned</li>
+                                  </ul>
+                                  <p className="mt-3">Focus on a project where you demonstrated leadership, technical skills, or overcame significant obstacles. Quantify results when possible.</p>
+                                </div>
+                              )}
+                              {i === 3 && (
+                                <div>
+                                  <p className="font-medium mb-2">How do you handle deadlines and pressure?</p>
+                                  <p>This question assesses your time management, stress management, and prioritization skills.</p>
+                                  <p className="font-medium mt-3 mb-1">Key Points to Cover:</p>
+                                  <ul className="list-disc pl-5 space-y-1">
+                                    <li><strong>Planning:</strong> Discuss your approach to breaking down projects and setting milestones</li>
+                                    <li><strong>Prioritization:</strong> Explain how you identify critical tasks and manage competing priorities</li>
+                                    <li><strong>Communication:</strong> Emphasize the importance of keeping stakeholders informed</li>
+                                    <li><strong>Adaptability:</strong> Show how you adjust when circumstances change</li>
+                                    <li><strong>Self-care:</strong> Briefly mention techniques you use to maintain performance under pressure</li>
+                                  </ul>
+                                  <p className="mt-3">Include a specific example of when you successfully met a challenging deadline.</p>
+                                </div>
+                              )}
+                              {i === 4 && (
+                                <div>
+                                  <p className="font-medium mb-2">What are your strengths and weaknesses?</p>
+                                  
+                                  <p className="font-medium mt-3 mb-1">Strengths:</p>
+                                  <ul className="list-disc pl-5 space-y-1 mb-3">
+                                    <li>Choose 2-3 strengths that are relevant to the position</li>
+                                    <li>Provide specific examples that demonstrate each strength</li>
+                                    <li>Explain how these strengths would benefit the company</li>
+                                  </ul>
+                                  
+                                  <p className="font-medium mb-1">Weaknesses:</p>
+                                  <ul className="list-disc pl-5 space-y-1">
+                                    <li>Choose a genuine weakness that isn't critical to the job</li>
+                                    <li>Describe the steps you're taking to improve in this area</li>
+                                    <li>Show self-awareness and a commitment to professional growth</li>
+                                    <li>Avoid clichés like "I'm a perfectionist" or "I work too hard"</li>
+                                    <li>Never mention weaknesses related to core job requirements</li>
+                                  </ul>
+                                </div>
+                              )}
+                              {i === 5 && (
+                                <div>
+                                  <p className="font-medium mb-2">Where do you see yourself in 5 years?</p>
+                                  <p>This question evaluates your career ambitions and whether the position aligns with your long-term goals.</p>
+                                  
+                                  <p className="font-medium mt-3 mb-1">Effective Response Strategy:</p>
+                                  <ul className="list-disc pl-5 space-y-1">
+                                    <li>Be realistic yet ambitious about your career progression</li>
+                                    <li>Connect your goals to the position and company you're applying to</li>
+                                    <li>Demonstrate commitment to growing with the organization</li>
+                                    <li>Show enthusiasm for developing specific skills relevant to your field</li>
+                                    <li>Balance ambition with flexibility, acknowledging that plans can evolve</li>
+                                  </ul>
+                                  
+                                  <p className="italic mt-3">Example: "In five years, I hope to have deepened my expertise in [relevant skill area], taken on increasing responsibilities in [department/function], and contributed significantly to [company goals]. I'm particularly interested in developing my leadership abilities and potentially leading a team."</p>
+                                </div>
+                              )}
+                              {i === 6 && (
+                                <div>
+                                  <p className="font-medium mb-2">Describe a situation where you had to work in a team:</p>
+                                  <p>This question assesses your collaboration, communication, and interpersonal skills.</p>
+                                  
+                                  <p className="font-medium mt-3 mb-1">STAR Method Approach:</p>
+                                  <ul className="list-disc pl-5 space-y-1">
+                                    <li><strong>Situation:</strong> Briefly describe the team project and its objectives</li>
+                                    <li><strong>Task:</strong> Explain your specific role and responsibilities within the team</li>
+                                    <li><strong>Action:</strong> Detail how you worked with others, highlighting:
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>How you communicated effectively</li>
+                                        <li>How you handled different perspectives</li>
+                                        <li>How you contributed to team dynamics</li>
+                                        <li>How you addressed any conflicts or challenges</li>
+                                      </ul>
+                                    </li>
+                                    <li><strong>Result:</strong> Share the project outcomes and what you learned about teamwork</li>
+                                  </ul>
+                                  
+                                  <p className="mt-3">Choose an example that showcases positive collaboration rather than focusing on difficult team members.</p>
+                                </div>
+                              )}
+                              {i === 7 && (
+                                <div>
+                                  <p className="font-medium mb-2">How do you stay updated with the latest technologies?</p>
+                                  <p>This question evaluates your commitment to continuous learning and professional development.</p>
+                                  
+                                  <p className="font-medium mt-3 mb-1">Effective Response Components:</p>
+                                  <ul className="list-disc pl-5 space-y-1">
+                                    <li><strong>Specific resources you use:</strong>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Industry publications, blogs, or newsletters you follow</li>
+                                        <li>Podcasts, YouTube channels, or online courses</li>
+                                        <li>Technical books or documentation you read</li>
+                                        <li>Open-source projects you contribute to or study</li>
+                                      </ul>
+                                    </li>
+                                    <li><strong>Learning methods:</strong> How you approach learning new technologies (hands-on projects, tutorials, documentation)</li>
+                                    <li><strong>Community engagement:</strong> Participation in forums, meetups, conferences, or online communities</li>
+                                    <li><strong>Practical application:</strong> How you've implemented new knowledge in recent projects</li>
+                                  </ul>
+                                  
+                                  <p className="mt-3">Provide a specific example of a technology or skill you recently learned and how you applied it.</p>
+                                </div>
+                              )}
+                              {i === 8 && (
+                                <div>
+                                  <p className="font-medium mb-2">What do you know about our company?</p>
+                                  <p>This question tests if you've done your research and are genuinely interested in the position.</p>
+                                  
+                                  <p className="font-medium mt-3 mb-1">Key Areas to Research:</p>
+                                  <ul className="list-disc pl-5 space-y-1">
+                                    <li><strong>Products/Services:</strong> Know their main offerings and target market</li>
+                                    <li><strong>Company History:</strong> Understand when, why, and how they were founded</li>
+                                    <li><strong>Mission and Values:</strong> Familiarize yourself with their core principles</li>
+                                    <li><strong>Recent News:</strong> Be aware of recent achievements, product launches, or announcements</li>
+                                    <li><strong>Industry Position:</strong> Understand their competitors and market position</li>
+                                    <li><strong>Culture:</strong> Research what it's like to work there (check their careers page and employee reviews)</li>
+                                  </ul>
+                                  
+                                  <p className="mt-3">Avoid just reciting facts from their website. Instead, connect your knowledge of the company to why you're interested in the position and how you can contribute.</p>
+                                </div>
+                              )}
+                              {i === 9 && (
+                                <div>
+                                  <p className="font-medium mb-2">Do you have any questions for us?</p>
+                                  <p>This question allows you to demonstrate your interest in the role and company while gathering important information for your decision-making.</p>
+                                  
+                                  <p className="font-medium mt-3 mb-1">Strong Questions to Ask:</p>
+                                  <ol className="list-decimal pl-5 space-y-1">
+                                    <li>What does success look like in this role in the first 6-12 months?</li>
+                                    <li>Can you describe the team I'd be working with?</li>
+                                    <li>What are the biggest challenges the team/department is currently facing?</li>
+                                    <li>How would you describe the company's culture and values in practice?</li>
+                                    <li>What opportunities are there for professional development and growth?</li>
+                                    <li>Can you tell me about the typical career path for someone in this role?</li>
+                                    <li>What do you enjoy most about working here?</li>
+                                    <li>What are the next steps in the interview process?</li>
+                                  </ol>
+                                  
+                                  <p className="mt-3 text-red-700">Avoid asking questions about salary, benefits, vacation time, or work hours in the initial interviews. These topics are better discussed once you've received an offer.</p>
+                                </div>
+                              )}
                             </div>
                           </AccordionContent>
                         </AccordionItem>
@@ -329,7 +863,311 @@ export default function AlumniNetwork() {
                               <AccordionTrigger className="text-left">{question}</AccordionTrigger>
                               <AccordionContent>
                                 <div className="p-4 bg-purple-50 rounded-md text-purple-800 text-sm">
-                                  <p>This is a common question for {company.charAt(0).toUpperCase() + company.slice(1)}. Research the company's products and technologies to provide a comprehensive answer.</p>
+                                  {company === 'google' && i === 0 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Design a system like Google Maps:</p>
+                                      <p className="mb-2">This is a complex system design question that covers multiple components:</p>
+                                      
+                                      <ol className="list-decimal pl-5 space-y-2">
+                                        <li>
+                                          <strong>Data Storage:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Graph representation of road networks (nodes = intersections, edges = roads)</li>
+                                            <li>POI (Points of Interest) database</li>
+                                            <li>Traffic data storage (historical and real-time)</li>
+                                            <li>Geospatial indexing for efficient querying</li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <strong>Core Services:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Geocoding service (convert addresses to coordinates)</li>
+                                            <li>Routing service (using algorithms like Dijkstra's or A*)</li>
+                                            <li>Traffic analysis and prediction</li>
+                                            <li>Map rendering service</li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <strong>Frontend Components:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Map visualization with different zoom levels</li>
+                                            <li>Search and autocomplete functionality</li>
+                                            <li>Route display with alternatives</li>
+                                            <li>Real-time updates for traffic conditions</li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <strong>Scalability Considerations:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Distributed data storage for massive road network data</li>
+                                            <li>Caching for frequent routes and queries</li>
+                                            <li>Load balancing for handling peak traffic</li>
+                                            <li>Data partitioning by geographic regions</li>
+                                          </ul>
+                                        </li>
+                                      </ol>
+                                      
+                                      <p className="mt-3">Focus on clearly explaining the high-level architecture before diving into specific components. Be prepared to discuss tradeoffs in your design decisions.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'google' && i === 1 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Implement an LRU Cache:</p>
+                                      <p className="mb-2">LRU (Least Recently Used) Cache is a data structure that maintains a fixed-size cache of key-value pairs, evicting the least recently used item when the cache is full.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Implementation using a Hash Map and Doubly Linked List:</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`class LRUCache {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.cache = new Map(); // Key -> Node mapping
+    this.head = new Node(0, 0); // Dummy head
+    this.tail = new Node(0, 0); // Dummy tail
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
+    this.size = 0;
+  }
+  
+  get(key) {
+    if (!this.cache.has(key)) return -1;
+    
+    // Remove from current position and move to front
+    const node = this.cache.get(key);
+    this.removeNode(node);
+    this.addToFront(node);
+    
+    return node.value;
+  }
+  
+  put(key, value) {
+    // If key exists, update value and move to front
+    if (this.cache.has(key)) {
+      const node = this.cache.get(key);
+      node.value = value;
+      this.removeNode(node);
+      this.addToFront(node);
+      return;
+    }
+    
+    // If at capacity, remove least recently used item (from end)
+    if (this.size === this.capacity) {
+      const lruNode = this.tail.prev;
+      this.removeNode(lruNode);
+      this.cache.delete(lruNode.key);
+      this.size--;
+    }
+    
+    // Add new node to front
+    const newNode = new Node(key, value);
+    this.addToFront(newNode);
+    this.cache.set(key, newNode);
+    this.size++;
+  }
+  
+  // Helper methods
+  removeNode(node) {
+    node.prev.next = node.next;
+    node.next.prev = node.prev;
+  }
+  
+  addToFront(node) {
+    node.next = this.head.next;
+    node.prev = this.head;
+    this.head.next.prev = node;
+    this.head.next = node;
+  }
+}
+
+class Node {
+  constructor(key, value) {
+    this.key = key;
+    this.value = value;
+    this.prev = null;
+    this.next = null;
+  }
+}`}
+                                      </pre>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Complexity Analysis:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li><strong>Time Complexity:</strong> O(1) for both get and put operations</li>
+                                        <li><strong>Space Complexity:</strong> O(capacity) to store at most 'capacity' key-value pairs</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">This implementation uses a doubly linked list for O(1) removal and a hash map for O(1) lookups. Be prepared to explain the purpose of each helper method.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'microsoft' && i === 0 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Write code to check if a binary tree is balanced:</p>
+                                      <p className="mb-2">A balanced binary tree is one where the height difference between the left and right subtrees of every node is at most 1.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Efficient Solution (Bottom-up approach):</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`class TreeNode {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+function isBalanced(root) {
+  // Returns [isBalanced, height]
+  function checkHeight(node) {
+    if (node === null) return [true, -1];
+    
+    // Check left subtree
+    const [leftBalanced, leftHeight] = checkHeight(node.left);
+    if (!leftBalanced) return [false, 0]; // Early termination
+    
+    // Check right subtree
+    const [rightBalanced, rightHeight] = checkHeight(node.right);
+    if (!rightBalanced) return [false, 0]; // Early termination
+    
+    // Check if current node is balanced
+    const balanced = Math.abs(leftHeight - rightHeight) <= 1;
+    const height = Math.max(leftHeight, rightHeight) + 1;
+    
+    return [balanced, height];
+  }
+  
+  return checkHeight(root)[0];
+}`}
+                                      </pre>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Time & Space Complexity:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li><strong>Time Complexity:</strong> O(n) where n is the number of nodes (we visit each node once)</li>
+                                        <li><strong>Space Complexity:</strong> O(h) where h is the height of the tree (for the recursion stack)</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">The key insight is to use a bottom-up approach to avoid redundant calculations. We calculate the height and check balance status simultaneously using a helper function that returns both pieces of information.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'amazon' && i === 0 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Design Amazon's product recommendation system:</p>
+                                      
+                                      <p className="mb-2">A recommendation system for Amazon would need to handle millions of products and users while providing personalized recommendations in real-time.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Key Components:</p>
+                                      <ol className="list-decimal pl-5 space-y-2">
+                                        <li>
+                                          <strong>Data Collection:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Explicit feedback (ratings, reviews)</li>
+                                            <li>Implicit feedback (views, purchases, cart additions, time spent)</li>
+                                            <li>User demographic data</li>
+                                            <li>Product metadata (categories, attributes, pricing)</li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <strong>Recommendation Algorithms:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Collaborative filtering (user-based and item-based)</li>
+                                            <li>Content-based filtering using product attributes</li>
+                                            <li>Hybrid approaches combining multiple methods</li>
+                                            <li>Deep learning models (sequence models for user history)</li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <strong>Real-time Processing:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Stream processing for real-time user behavior</li>
+                                            <li>Pre-computation of recommendations for common cases</li>
+                                            <li>Caching strategies for frequently accessed data</li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <strong>Serving Infrastructure:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Load-balanced recommendation service</li>
+                                            <li>CDN for fast delivery to global users</li>
+                                            <li>A/B testing framework to evaluate recommendation quality</li>
+                                          </ul>
+                                        </li>
+                                      </ol>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Recommendation Types:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>"Frequently bought together" (market basket analysis)</li>
+                                        <li>"Customers who viewed this also viewed"</li>
+                                        <li>"Recommended for you" (personalized based on history)</li>
+                                        <li>"New arrivals in your favorite categories"</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">Be prepared to discuss the tradeoffs between accuracy, diversity, novelty, and computational efficiency in your design.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'infosys' && i === 0 && (
+                                    <div>
+                                      <p className="font-medium mb-2">What are the different types of software development methodologies?</p>
+                                      
+                                      <p className="mb-3">Software development methodologies are structured approaches to building software systems. The main types include:</p>
+                                      
+                                      <ol className="list-decimal pl-5 space-y-2">
+                                        <li>
+                                          <strong>Waterfall Model:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Linear and sequential approach</li>
+                                            <li>Phases: Requirements, Design, Implementation, Verification, Maintenance</li>
+                                            <li>Each phase must be completed before the next begins</li>
+                                            <li><em>Best for:</em> Projects with well-defined requirements and little expected change</li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <strong>Agile Methodology:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Iterative and incremental approach</li>
+                                            <li>Focus on customer feedback and adapting to changes</li>
+                                            <li>Frameworks include Scrum, Kanban, XP (Extreme Programming)</li>
+                                            <li><em>Best for:</em> Projects with evolving requirements or where early delivery is valuable</li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <strong>DevOps:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Integration of development and operations</li>
+                                            <li>Emphasizes continuous integration, delivery, and deployment</li>
+                                            <li>Focuses on automation and monitoring</li>
+                                            <li><em>Best for:</em> Projects requiring frequent releases and high reliability</li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <strong>Spiral Model:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Combines elements of waterfall and iterative development</li>
+                                            <li>Emphasis on risk analysis</li>
+                                            <li>Four phases: Planning, Risk Analysis, Engineering, Evaluation</li>
+                                            <li><em>Best for:</em> Large, high-risk, and expensive projects</li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <strong>Rapid Application Development (RAD):</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Emphasizes rapid prototyping over detailed planning</li>
+                                            <li>User feedback incorporated throughout development</li>
+                                            <li><em>Best for:</em> Projects with tight timelines and where UI/UX is critical</li>
+                                          </ul>
+                                        </li>
+                                      </ol>
+                                      
+                                      <p className="mt-3">Each methodology has its strengths and weaknesses. The choice depends on project requirements, timeline, budget, and team expertise. Modern development often uses hybrid approaches that combine elements from different methodologies.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {/* Default message for other questions */}
+                                  {((company === 'google' && i > 1) || 
+                                    (company === 'microsoft' && i > 0) || 
+                                    (company === 'amazon' && i > 0) || 
+                                    (company === 'infosys' && i > 0)) && (
+                                    <p>This is a common question for {company.charAt(0).toUpperCase() + company.slice(1)}. Research the company's products and technologies to provide a comprehensive answer. Practice system design principles and be prepared to discuss tradeoffs in your solutions.</p>
+                                  )}
                                 </div>
                               </AccordionContent>
                             </AccordionItem>
