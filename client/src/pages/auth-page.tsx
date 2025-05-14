@@ -248,16 +248,9 @@ export default function AuthPage() {
             </div>
           </div>
           
-          <div className="mt-14 border-t border-white/10 pt-10">
-            <div className="flex items-center space-x-4">
-              <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
-                <Briefcase className="h-5 w-5 text-teal-100" />
-              </div>
-              <div>
-                <p className="text-xl font-medium text-teal-100">₹52.3 LPA</p>
-                <p className="text-sm text-teal-200 mt-1">Highest package in 2024</p>
-              </div>
-            </div>
+          <div className="mt-14 border-t border-white/10 pt-10 text-center">
+            <p className="text-lg font-medium text-teal-100">BMSCE College of Engineering</p>
+            <p className="text-sm text-teal-200 mt-1">Excellence in Engineering Education Since 1946</p>
           </div>
         </div>
       </div>

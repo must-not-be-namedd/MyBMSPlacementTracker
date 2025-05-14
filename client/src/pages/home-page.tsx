@@ -42,41 +42,41 @@ export default function HomePage() {
           ) : (
             <>
               <div className="grid gap-4 md:grid-cols-3">
-                <Card>
+                <Card className="border-teal-100 border-t-4">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Average Package
                     </CardTitle>
-                    <Trophy className="h-4 w-4 text-muted-foreground" />
+                    <Trophy className="h-4 w-4 text-teal-500" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">
+                    <div className="text-2xl font-bold text-teal-700">
                       ₹{averages.avgPackage} LPA
                     </div>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="border-indigo-100 border-t-4">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Highest Package
                     </CardTitle>
-                    <Building className="h-4 w-4 text-muted-foreground" />
+                    <Building className="h-4 w-4 text-indigo-500" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">
+                    <div className="text-2xl font-bold text-indigo-700">
                       ₹{averages.highestPackage} LPA
                     </div>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="border-orange-100 border-t-4">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Placement Rate
                     </CardTitle>
-                    <Users className="h-4 w-4 text-muted-foreground" />
+                    <Users className="h-4 w-4 text-orange-500" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">
+                    <div className="text-2xl font-bold text-orange-700">
                       {averages.placementRate}%
                     </div>
                   </CardContent>
