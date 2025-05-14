@@ -228,33 +228,33 @@ export default function AuthPage() {
           
           <div className="grid grid-cols-2 gap-6">
             <div className="bg-white/10 rounded-xl p-5 backdrop-blur-sm">
-              <BarChart2 className="h-6 w-6 text-teal-200 mb-3" />
+              <BarChart2 className="h-6 w-6 text-blue-200 mb-3" />
               <h3 className="font-medium text-lg">Department Analytics</h3>
-              <p className="text-teal-100 text-sm mt-1">Track real-time placement statistics across departments</p>
+              <p className="text-blue-100 text-sm mt-1">Track real-time placement statistics across departments</p>
             </div>
             
             <div className="bg-white/10 rounded-xl p-5 backdrop-blur-sm">
-              <FileText className="h-6 w-6 text-teal-200 mb-3" />
+              <FileText className="h-6 w-6 text-purple-200 mb-3" />
               <h3 className="font-medium text-lg">Resume Builder</h3>
-              <p className="text-teal-100 text-sm mt-1">Create and export professional resumes with our templates</p>
+              <p className="text-blue-100 text-sm mt-1">Create and export professional resumes with our templates</p>
             </div>
             
             <div className="bg-white/10 rounded-xl p-5 backdrop-blur-sm">
-              <Users className="h-6 w-6 text-teal-200 mb-3" />
+              <Users className="h-6 w-6 text-blue-200 mb-3" />
               <h3 className="font-medium text-lg">Mock Interviews</h3>
-              <p className="text-teal-100 text-sm mt-1">Schedule practice interviews to sharpen your skills</p>
+              <p className="text-blue-100 text-sm mt-1">Schedule practice interviews to sharpen your skills</p>
             </div>
             
             <div className="bg-white/10 rounded-xl p-5 backdrop-blur-sm">
-              <BookOpen className="h-6 w-6 text-teal-200 mb-3" />
+              <BookOpen className="h-6 w-6 text-purple-200 mb-3" />
               <h3 className="font-medium text-lg">Learning Resources</h3>
-              <p className="text-teal-100 text-sm mt-1">Access expert guides and alumni insights</p>
+              <p className="text-blue-100 text-sm mt-1">Access expert guides and alumni insights</p>
             </div>
           </div>
           
           <div className="mt-14 border-t border-white/10 pt-10 text-center">
-            <p className="text-lg font-medium text-teal-100">Transform Your Career Path</p>
-            <p className="text-sm text-teal-200 mt-1">Join thousands of successful BMSCE alumni in top companies</p>
+            <p className="text-lg font-medium text-blue-100">Transform Your Career Path</p>
+            <p className="text-sm text-purple-200 mt-1">Join thousands of successful BMSCE alumni in top companies</p>
           </div>
         </div>
       </div>

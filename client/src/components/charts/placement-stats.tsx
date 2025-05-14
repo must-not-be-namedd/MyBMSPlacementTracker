@@ -34,17 +34,17 @@ export function PlacementStats({ data, title }: PlacementStatsProps) {
               <Bar
                 dataKey="highestPackage"
                 name="Highest Package (LPA)"
-                fill="#38B2AC" /* Left color - Teal/Aquamarine */
+                fill="#3B4FD8" /* Dark Blue */
               />
               <Bar
                 dataKey="avgPackage"
                 name="Average Package (LPA)"
-                fill="#8BDFD1" /* Light Teal - Second from left */
+                fill="#94B3D2" /* Light Blue */
               />
               <Bar
                 dataKey="placementRate"
                 name="Placement Rate (%)"
-                fill="#B390D4" /* Purple - Middle color */
+                fill="#8E44AD" /* Purple */
               />
             </Chart>
           </ResponsiveContainer>

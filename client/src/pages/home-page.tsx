@@ -26,7 +26,7 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-8 dark:bg-gray-900">
         <div className="max-w-6xl mx-auto space-y-8">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>

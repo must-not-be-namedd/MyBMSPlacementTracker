@@ -17,6 +17,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 type NavItem = {
   name: string;
@@ -41,9 +42,12 @@ export function Sidebar() {
 
   const SidebarContent = () => (
     <div className="flex h-full flex-col gap-4">
-      <div className="px-6 py-4 border-b">
-        <h2 className="text-lg font-semibold">BMSCE Placements</h2>
-        <p className="text-sm text-muted-foreground">Welcome, {user?.username}</p>
+      <div className="px-6 py-4 border-b flex justify-between items-center">
+        <div>
+          <h2 className="text-lg font-semibold">BMSCE Placements</h2>
+          <p className="text-sm text-muted-foreground">Welcome, {user?.username}</p>
+        </div>
+        <ThemeToggle />
       </div>
 
       <div className="flex-1 px-4">
