@@ -83,10 +83,12 @@ export default function HomePage() {
                 </Card>
               </div>
 
-              <PlacementStats
-                data={stats}
-                title="Overall Placement Statistics"
-              />
+              {stats && (
+                <PlacementStats
+                  data={stats}
+                  title="Overall Placement Statistics"
+                />
+              )}
             </>
           )}
         </div>
