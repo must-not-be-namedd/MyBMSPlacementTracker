@@ -1,8 +1,9 @@
 import { Sidebar } from "@/components/navigation/sidebar";
 import { PlacementStats } from "@/components/charts/placement-stats";
+import { GrowthTrend } from "@/components/charts/growth-trend";
 import { useQuery } from "@tanstack/react-query";
 import { Department, departmentsList } from "@shared/schema";
-import { Loader2 } from "lucide-react";
+import { Loader2, BarChart3, LineChart, TrendingUp, Percent } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -10,15 +11,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 
 export default function DepartmentPage() {
   const [selectedDept, setSelectedDept] = useState<string>(departmentsList[0]);
 
   const { data: stats, isLoading } = useQuery<Department[]>({
-    queryKey: ["/api/departments", selectedDept],
+    queryKey: ["/api/departments", selectedDept] as const,
     queryFn: async ({ queryKey }) => {
-      const [_, department] = queryKey;
+      const department = queryKey[1];
       const response = await fetch(
         `/api/departments?department=${encodeURIComponent(department)}`
       );
@@ -59,10 +61,51 @@ export default function DepartmentPage() {
               <Loader2 className="h-8 w-8 animate-spin" />
             </div>
           ) : (
-            <PlacementStats
-              data={stats || []}
-              title={`${selectedDept} Placement Statistics`}
-            />
+            <Tabs defaultValue="overview" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="overview" className="flex items-center gap-2">
+                  <BarChart3 className="h-4 w-4" />
+                  Overview
+                </TabsTrigger>
+                <TabsTrigger value="trends" className="flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4" />
+                  Year-on-Year Trends
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="overview" className="mt-6">
+                <PlacementStats
+                  data={stats || []}
+                  title={`${selectedDept} Placement Statistics (2021-2024)`}
+                />
+              </TabsContent>
+              
+              <TabsContent value="trends" className="mt-6 space-y-8">
+                <GrowthTrend
+                  data={stats || []}
+                  title={`${selectedDept} Highest Package Trend`}
+                  metric="highestPackage"
+                  metricName="Highest Package (LPA)"
+                  lineColor="#2563eb"
+                />
+                
+                <GrowthTrend
+                  data={stats || []}
+                  title={`${selectedDept} Average Package Trend`}
+                  metric="avgPackage"
+                  metricName="Average Package (LPA)"
+                  lineColor="#16a34a"
+                />
+                
+                <GrowthTrend
+                  data={stats || []}
+                  title={`${selectedDept} Placement Rate Trend`}
+                  metric="placementRate"
+                  metricName="Placement Rate (%)"
+                  lineColor="#9333ea"
+                />
+              </TabsContent>
+            </Tabs>
           )}
         </div>
       </div>

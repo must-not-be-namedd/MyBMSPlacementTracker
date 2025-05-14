@@ -134,16 +134,32 @@ export class MemStorage implements IStorage {
 
   private seedDepartmentStats() {
     const departments = ["Computer Science", "Information Science", "Electronics and Electrical", "Mechanical", "Civil"];
-    const years = [2021, 2022, 2023];
+    const years = [2021, 2022, 2023, 2024];
     
-    years.forEach(year => {
+    // Base values for each department to ensure realistic trends
+    const baseValues = {
+      "Computer Science": { highest: 48, avg: 18, rate: 92 },
+      "Information Science": { highest: 45, avg: 17, rate: 90 },
+      "Electronics and Electrical": { highest: 40, avg: 15, rate: 85 },
+      "Mechanical": { highest: 35, avg: 12, rate: 80 },
+      "Civil": { highest: 30, avg: 10, rate: 75 }
+    };
+    
+    // Generate data with year-on-year growth
+    years.forEach((year, index) => {
       departments.forEach(dept => {
+        // Base department values
+        const base = baseValues[dept as keyof typeof baseValues];
+        
+        // Add yearly growth factor (increases each year)
+        const growthFactor = 1 + (index * 0.05); // 5% increase each year
+        
         this.createDepartmentStat({
           id: this.currentId++,
           name: dept,
-          highestPackage: Math.floor(Math.random() * 30 + 20),
-          avgPackage: Math.floor(Math.random() * 15 + 8),
-          placementRate: Math.floor(Math.random() * 30 + 70),
+          highestPackage: Math.floor(base.highest * growthFactor),
+          avgPackage: Math.floor(base.avg * growthFactor),
+          placementRate: Math.min(99, Math.floor(base.rate + (index * 2))), // Cap at 99%
           year
         });
       });
