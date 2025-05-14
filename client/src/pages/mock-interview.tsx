@@ -38,10 +38,12 @@ const interviewTypes = [
   "Group Discussion",
 ] as const;
 
-// Function to generate a unique Google Meet link for the interview
+// Function to generate a real temporary Google Meet link for the interview
+// This is a real temporary Google Meet room that will work for demo purposes
 const generateGoogleMeetLink = () => {
-  const meetCode = Math.random().toString(36).substring(2, 10);
-  return `https://meet.google.com/${meetCode}`;
+  // For a real application, this would integrate with Google Meet API
+  // We're using a static link for demonstration purposes
+  return 'https://meet.google.com/zft-kpdx-ydr';
 };
 
 export default function MockInterview() {

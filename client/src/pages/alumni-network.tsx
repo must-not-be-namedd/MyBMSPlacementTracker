@@ -1161,12 +1161,854 @@ function isBalanced(root) {
                                     </div>
                                   )}
                                   
-                                  {/* Default message for other questions */}
-                                  {((company === 'google' && i > 1) || 
-                                    (company === 'microsoft' && i > 0) || 
-                                    (company === 'amazon' && i > 0) || 
-                                    (company === 'infosys' && i > 0)) && (
-                                    <p>This is a common question for {company.charAt(0).toUpperCase() + company.slice(1)}. Research the company's products and technologies to provide a comprehensive answer. Practice system design principles and be prepared to discuss tradeoffs in your solutions.</p>
+                                  {company === 'microsoft' && i === 1 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Implement a function to detect a cycle in a linked list:</p>
+                                      
+                                      <p className="mb-2">This is a classic problem that can be solved using Floyd's Cycle-Finding Algorithm (also known as the "tortoise and hare" algorithm).</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Efficient Solution:</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`class ListNode {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+function hasCycle(head) {
+  if (!head || !head.next) return false;
+  
+  // Initialize slow and fast pointers
+  let slow = head;
+  let fast = head;
+  
+  // Move slow by 1 step and fast by 2 steps
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    
+    // If slow and fast meet, there's a cycle
+    if (slow === fast) return true;
+  }
+  
+  // If fast reaches the end (null), there's no cycle
+  return false;
+}`}
+                                      </pre>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Explanation:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>We use two pointers: slow (moving one step at a time) and fast (moving two steps at a time)</li>
+                                        <li>If there's a cycle, the fast pointer will eventually catch up to the slow pointer</li>
+                                        <li>If there's no cycle, the fast pointer will reach the end of the list</li>
+                                      </ul>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Time & Space Complexity:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li><strong>Time Complexity:</strong> O(n) where n is the number of nodes</li>
+                                        <li><strong>Space Complexity:</strong> O(1) as we only use two pointers regardless of input size</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">This is a popular interview question at Microsoft because it tests your understanding of both linked list operations and efficient algorithm design.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'microsoft' && i === 2 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Explain different types of joins in SQL:</p>
+                                      
+                                      <p className="mb-2">SQL joins are used to combine rows from two or more tables based on a related column. Here are the main types of joins:</p>
+                                      
+                                      <ol className="list-decimal pl-5 space-y-3 mt-3">
+                                        <li>
+                                          <strong>INNER JOIN:</strong>
+                                          <p className="mt-1">Returns records that have matching values in both tables.</p>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`SELECT Orders.OrderID, Customers.CustomerName
+FROM Orders
+INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID;`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>LEFT JOIN (or LEFT OUTER JOIN):</strong>
+                                          <p className="mt-1">Returns all records from the left table and the matched records from the right table. The result is NULL on the right side when there is no match.</p>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`SELECT Customers.CustomerName, Orders.OrderID
+FROM Customers
+LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID;`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>RIGHT JOIN (or RIGHT OUTER JOIN):</strong>
+                                          <p className="mt-1">Returns all records from the right table and the matched records from the left table. The result is NULL on the left side when there is no match.</p>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`SELECT Orders.OrderID, Employees.LastName
+FROM Orders
+RIGHT JOIN Employees ON Orders.EmployeeID = Employees.EmployeeID;`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>FULL JOIN (or FULL OUTER JOIN):</strong>
+                                          <p className="mt-1">Returns all records when there is a match in either left or right table. The result can have NULL values on both sides.</p>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`SELECT Customers.CustomerName, Orders.OrderID
+FROM Customers
+FULL OUTER JOIN Orders ON Customers.CustomerID = Orders.CustomerID;`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>CROSS JOIN:</strong>
+                                          <p className="mt-1">Returns the Cartesian product of the two tables (every row from the first table combined with every row from the second table).</p>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`SELECT Customers.CustomerName, Products.ProductName
+FROM Customers
+CROSS JOIN Products;`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>SELF JOIN:</strong>
+                                          <p className="mt-1">A regular join, but the table is joined with itself. Useful for comparing rows within the same table.</p>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`SELECT A.EmployeeName AS Employee, B.EmployeeName AS Manager
+FROM Employees A
+JOIN Employees B ON A.ManagerID = B.EmployeeID;`}
+                                          </pre>
+                                        </li>
+                                      </ol>
+                                      
+                                      <p className="mt-3">Microsoft's SQL Server is one of their core products, so understanding SQL joins thoroughly is important for many roles within the company.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'google' && i === 2 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Design a rate limiter:</p>
+                                      
+                                      <p className="mb-2">A rate limiter is a tool that monitors the number of requests a client can send to an API within a time window. It helps protect services from abuse, DoS attacks, and ensures fair resource usage.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Approaches to Rate Limiting:</p>
+                                      
+                                      <ol className="list-decimal pl-5 space-y-2">
+                                        <li>
+                                          <strong>Token Bucket Algorithm:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Uses a bucket that constantly refills with tokens at a fixed rate</li>
+                                            <li>Each request consumes one token</li>
+                                            <li>When bucket is empty, additional requests are throttled</li>
+                                            <li>Good for handling burst traffic while maintaining a long-term rate limit</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Leaky Bucket Algorithm:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Requests enter a queue (bucket) and are processed at a constant rate</li>
+                                            <li>If the queue is full, new requests are dropped ("leak")</li>
+                                            <li>Good for scenarios requiring a consistent processing rate</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Fixed Window Counter:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Divides timeline into fixed windows (e.g., 1-minute windows)</li>
+                                            <li>Counts requests in each window</li>
+                                            <li>Simple to implement but has edge case issues at window boundaries</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Sliding Window Log:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Keeps track of timestamps of all requests in a time window</li>
+                                            <li>When a new request comes in, remove timestamps outside the window</li>
+                                            <li>More precise but higher memory usage</li>
+                                          </ul>
+                                        </li>
+                                      </ol>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Implementation Example (Token Bucket in JavaScript):</p>
+                                      
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto mt-2">
+{`class TokenBucket {
+  constructor(capacity, refillRate) {
+    this.capacity = capacity;      // Maximum tokens
+    this.tokens = capacity;        // Current token count
+    this.refillRate = refillRate;  // Tokens added per second
+    this.lastRefillTimestamp = Date.now();
+  }
+  
+  refill() {
+    const now = Date.now();
+    const deltaSeconds = (now - this.lastRefillTimestamp) / 1000;
+    this.tokens = Math.min(
+      this.capacity, 
+      this.tokens + deltaSeconds * this.refillRate
+    );
+    this.lastRefillTimestamp = now;
+  }
+  
+  tryConsume(tokens = 1) {
+    this.refill();
+    if (this.tokens < tokens) {
+      return false; // Rate limit exceeded
+    }
+    this.tokens -= tokens;
+    return true;    // Request allowed
+  }
+}
+
+// Usage example
+const rateLimiter = new TokenBucket(10, 2); // 10 tokens max, refills 2 tokens/sec
+
+function handleRequest(req, res) {
+  if (rateLimiter.tryConsume()) {
+    // Process the request
+    res.status(200).send('Request processed');
+  } else {
+    // Rate limit exceeded
+    res.status(429).send('Too many requests');
+  }
+}`}
+                                      </pre>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Distributed Rate Limiting Considerations:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Use Redis or a similar distributed cache to share rate limit state across servers</li>
+                                        <li>Consider using the Lua scripting feature in Redis for atomic operations</li>
+                                        <li>Implement backup mechanisms in case the rate limiter fails (fail-open vs. fail-closed)</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">Rate limiting is critical for Google's services to protect their infrastructure while providing fair access to all users. It's an excellent system design topic that demonstrates your understanding of both algorithms and practical implementation concerns.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'amazon' && i === 1 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Find the k closest points to the origin:</p>
+                                      
+                                      <p className="mb-2">Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane and an integer k, return the k closest points to the origin (0, 0).</p>
+                                      
+                                      <p className="mb-2">The distance between two points is the Euclidean distance: √((x₁ - x₂)² + (y₁ - y₂)²).</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Solution using Max Heap (Priority Queue):</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`function kClosest(points, k) {
+  // Max heap (priority queue) to keep track of the k closest points
+  const maxHeap = [];
+  
+  for (const [x, y] of points) {
+    // Calculate distance squared (no need for square root since relative ordering is the same)
+    const distSquared = x * x + y * y;
+    
+    if (maxHeap.length < k) {
+      // If we haven't collected k points yet, add this one
+      maxHeap.push([distSquared, [x, y]]);
+      // Heapify if needed
+      if (maxHeap.length === k) {
+        buildMaxHeap(maxHeap);
+      }
+    } else if (distSquared < maxHeap[0][0]) {
+      // If this point is closer than the farthest one in our heap, replace it
+      maxHeap[0] = [distSquared, [x, y]];
+      heapify(maxHeap, 0);
+    }
+  }
+  
+  // Extract just the points from our result
+  return maxHeap.map(item => item[1]);
+}
+
+// Helper functions for max heap operations
+function buildMaxHeap(heap) {
+  const n = heap.length;
+  for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+    heapify(heap, i);
+  }
+}
+
+function heapify(heap, i) {
+  const n = heap.length;
+  let largest = i;
+  const left = 2 * i + 1;
+  const right = 2 * i + 2;
+  
+  if (left < n && heap[left][0] > heap[largest][0]) {
+    largest = left;
+  }
+  
+  if (right < n && heap[right][0] > heap[largest][0]) {
+    largest = right;
+  }
+  
+  if (largest !== i) {
+    [heap[i], heap[largest]] = [heap[largest], heap[i]];
+    heapify(heap, largest);
+  }
+}`}
+                                      </pre>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Alternative Solution using Quickselect:</p>
+                                      <pre className="bg-gray-100 p-3 rounded-md text-sm overflow-x-auto">
+{`function kClosest(points, k) {
+  // Calculate distances
+  const distances = points.map(point => {
+    const [x, y] = point;
+    return [x * x + y * y, point]; // [distance^2, original point]
+  });
+  
+  // Use quickselect to find the kth smallest distance
+  quickSelect(distances, 0, distances.length - 1, k);
+  
+  // Return the first k elements (now contains k closest points)
+  return distances.slice(0, k).map(d => d[1]);
+}
+
+function quickSelect(arr, left, right, k) {
+  if (left >= right) return;
+  
+  const pivotIndex = partition(arr, left, right);
+  
+  if (pivotIndex === k - 1) {
+    return;
+  } else if (pivotIndex > k - 1) {
+    quickSelect(arr, left, pivotIndex - 1, k);
+  } else {
+    quickSelect(arr, pivotIndex + 1, right, k);
+  }
+}
+
+function partition(arr, left, right) {
+  const pivot = arr[right][0];
+  let i = left;
+  
+  for (let j = left; j < right; j++) {
+    if (arr[j][0] <= pivot) {
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+      i++;
+    }
+  }
+  
+  [arr[i], arr[right]] = [arr[right], arr[i]];
+  return i;
+}`}
+                                      </pre>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Time & Space Complexity:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li><strong>Max Heap Approach:</strong> O(n log k) time, O(k) space</li>
+                                        <li><strong>Quickselect Approach:</strong> O(n) average time (O(n²) worst case), O(1) extra space</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">This problem tests your understanding of data structures (heaps) and algorithms (quickselect), as well as your ability to optimize for efficiency. Amazon frequently asks spatial/geometric problems due to their logistics and operations focus.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'amazon' && i === 2 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Design a distributed cache:</p>
+                                      
+                                      <p className="mb-2">A distributed cache is a system that pools memory across multiple servers to create a large, fast data store for frequently accessed data.</p>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Core Components:</p>
+                                      <ol className="list-decimal pl-5 space-y-2">
+                                        <li>
+                                          <strong>Cache Nodes:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Multiple servers that store cached data in memory</li>
+                                            <li>Each node responsible for a subset of the key space</li>
+                                            <li>Nodes can be added/removed dynamically for scaling</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Consistent Hashing:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Maps keys to specific cache nodes</li>
+                                            <li>Minimizes remapping when nodes are added/removed</li>
+                                            <li>Uses a hash ring with virtual nodes for better distribution</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Client Library:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Handles routing requests to appropriate cache nodes</li>
+                                            <li>Implements retry and failover logic</li>
+                                            <li>Maintains connection pools to cache servers</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Eviction Policies:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>LRU (Least Recently Used), LFU (Least Frequently Used), etc.</li>
+                                            <li>Configurable TTL (Time-To-Live) values</li>
+                                            <li>Memory pressure-based eviction</li>
+                                          </ul>
+                                        </li>
+                                      </ol>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Key Features:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>
+                                          <strong>Replication:</strong> Multiple copies of data across nodes for fault tolerance
+                                        </li>
+                                        <li>
+                                          <strong>Consistency Models:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Strong consistency: All reads reflect most recent writes</li>
+                                            <li>Eventual consistency: Updates propagate asynchronously</li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <strong>Write Strategies:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li>Write-through: Update cache and backing store synchronously</li>
+                                            <li>Write-behind: Update cache immediately, backing store asynchronously</li>
+                                            <li>Write-around: Write directly to backing store, bypassing cache</li>
+                                          </ul>
+                                        </li>
+                                        <li>
+                                          <strong>Monitoring and Observability:</strong> Metrics for hit rates, latency, memory usage
+                                        </li>
+                                      </ul>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Handling Failure Scenarios:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li><strong>Node Failure:</strong> Rebalance data among remaining nodes</li>
+                                        <li><strong>Network Partitions:</strong> Configure behavior (AP vs CP in CAP theorem)</li>
+                                        <li><strong>Thundering Herd:</strong> Use request coalescing to prevent cache stampedes</li>
+                                        <li><strong>Hot Keys:</strong> Shard hot keys across multiple nodes</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">Amazon's ElastiCache and DynamoDB Accelerator (DAX) are examples of distributed cache services. Understanding distributed systems principles is essential for designing services that can scale to Amazon's needs.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'infosys' && i === 1 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Explain SOLID principles in object-oriented programming:</p>
+                                      
+                                      <p className="mb-2">SOLID is an acronym for five design principles that help make software designs more understandable, flexible, and maintainable.</p>
+                                      
+                                      <ol className="list-decimal pl-5 space-y-4 mt-3">
+                                        <li>
+                                          <strong>S - Single Responsibility Principle (SRP):</strong>
+                                          <p className="mt-1">A class should have only one reason to change, meaning it should have only one job or responsibility.</p>
+                                          
+                                          <div className="mt-2">
+                                            <p className="text-sm font-medium">Bad Example:</p>
+                                            <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`class User {
+  constructor(name) { this.name = name; }
+  
+  getName() { return this.name; }
+  saveToDatabase() { /* database logic */ }
+  generateReport() { /* report generation logic */ }
+}`}
+                                            </pre>
+                                            
+                                            <p className="text-sm font-medium mt-2">Good Example:</p>
+                                            <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`class User {
+  constructor(name) { this.name = name; }
+  getName() { return this.name; }
+}
+
+class UserRepository {
+  saveUser(user) { /* database logic */ }
+}
+
+class ReportGenerator {
+  generateUserReport(user) { /* report generation logic */ }
+}`}
+                                            </pre>
+                                          </div>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>O - Open/Closed Principle (OCP):</strong>
+                                          <p className="mt-1">Software entities should be open for extension but closed for modification. This means you should be able to add new functionality without changing existing code.</p>
+                                          
+                                          <div className="mt-2">
+                                            <p className="text-sm font-medium">Bad Example:</p>
+                                            <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`class Rectangle {
+  constructor(width, height) {
+    this.width = width;
+    this.height = height;
+  }
+}
+
+class AreaCalculator {
+  calculateArea(shapes) {
+    let area = 0;
+    for (const shape of shapes) {
+      if (shape instanceof Rectangle) {
+        area += shape.width * shape.height;
+      } else if (shape instanceof Circle) {
+        area += Math.PI * shape.radius * shape.radius;
+      }
+      // Adding a new shape requires modifying this class
+    }
+    return area;
+  }
+}`}
+                                            </pre>
+                                            
+                                            <p className="text-sm font-medium mt-2">Good Example:</p>
+                                            <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`class Shape {
+  calculateArea() { /* to be implemented by subclasses */ }
+}
+
+class Rectangle extends Shape {
+  constructor(width, height) {
+    super();
+    this.width = width;
+    this.height = height;
+  }
+  
+  calculateArea() {
+    return this.width * this.height;
+  }
+}
+
+class Circle extends Shape {
+  constructor(radius) {
+    super();
+    this.radius = radius;
+  }
+  
+  calculateArea() {
+    return Math.PI * this.radius * this.radius;
+  }
+}
+
+class AreaCalculator {
+  calculateArea(shapes) {
+    return shapes.reduce((sum, shape) => sum + shape.calculateArea(), 0);
+  }
+}`}
+                                            </pre>
+                                          </div>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>L - Liskov Substitution Principle (LSP):</strong>
+                                          <p className="mt-1">Subtypes must be substitutable for their base types without altering the correctness of the program. This means that objects of a superclass should be replaceable with objects of a subclass without affecting the functionality.</p>
+                                          
+                                          <div className="mt-2">
+                                            <p className="text-sm font-medium">Example Violation:</p>
+                                            <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`class Rectangle {
+  constructor(width, height) {
+    this.width = width;
+    this.height = height;
+  }
+  
+  setWidth(width) { this.width = width; }
+  setHeight(height) { this.height = height; }
+  getArea() { return this.width * this.height; }
+}
+
+// Square is a special Rectangle where width = height
+class Square extends Rectangle {
+  setWidth(width) {
+    super.setWidth(width);
+    super.setHeight(width); // Violates LSP by changing behavior
+  }
+  
+  setHeight(height) {
+    super.setWidth(height); // Violates LSP by changing behavior
+    super.setHeight(height);
+  }
+}`}
+                                            </pre>
+                                            
+                                            <p className="text-sm font-medium mt-2">Better Approach:</p>
+                                            <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`class Shape {
+  getArea() { /* to be implemented */ }
+}
+
+class Rectangle extends Shape {
+  constructor(width, height) {
+    super();
+    this.width = width;
+    this.height = height;
+  }
+  
+  setWidth(width) { this.width = width; }
+  setHeight(height) { this.height = height; }
+  getArea() { return this.width * this.height; }
+}
+
+class Square extends Shape {
+  constructor(side) {
+    super();
+    this.side = side;
+  }
+  
+  setSide(side) { this.side = side; }
+  getArea() { return this.side * this.side; }
+}`}
+                                            </pre>
+                                          </div>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>I - Interface Segregation Principle (ISP):</strong>
+                                          <p className="mt-1">Clients should not be forced to depend on interfaces they do not use. This means creating specific interfaces rather than one general-purpose interface.</p>
+                                          
+                                          <div className="mt-2">
+                                            <p className="text-sm font-medium">Bad Example:</p>
+                                            <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`interface Worker {
+  work();
+  eat();
+  sleep();
+}
+
+// Robot can work but doesn't need to eat or sleep
+class Robot implements Worker {
+  work() { /* work implementation */ }
+  eat() { /* empty or throw error */ }  // Forced to implement
+  sleep() { /* empty or throw error */ } // Forced to implement
+}`}
+                                            </pre>
+                                            
+                                            <p className="text-sm font-medium mt-2">Good Example:</p>
+                                            <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`interface Workable {
+  work();
+}
+
+interface Eatable {
+  eat();
+}
+
+interface Sleepable {
+  sleep();
+}
+
+class Human implements Workable, Eatable, Sleepable {
+  work() { /* work implementation */ }
+  eat() { /* eat implementation */ }
+  sleep() { /* sleep implementation */ }
+}
+
+class Robot implements Workable {
+  work() { /* work implementation */ }
+}`}
+                                            </pre>
+                                          </div>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>D - Dependency Inversion Principle (DIP):</strong>
+                                          <p className="mt-1">High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend on details. Details should depend on abstractions.</p>
+                                          
+                                          <div className="mt-2">
+                                            <p className="text-sm font-medium">Bad Example:</p>
+                                            <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`class MySQLDatabase {
+  save(data) { /* save to MySQL */ }
+}
+
+class UserService {
+  constructor() {
+    this.database = new MySQLDatabase(); // Direct dependency
+  }
+  
+  saveUser(user) {
+    this.database.save(user);
+  }
+}`}
+                                            </pre>
+                                            
+                                            <p className="text-sm font-medium mt-2">Good Example:</p>
+                                            <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`interface Database {
+  save(data);
+}
+
+class MySQLDatabase implements Database {
+  save(data) { /* save to MySQL */ }
+}
+
+class MongoDatabase implements Database {
+  save(data) { /* save to MongoDB */ }
+}
+
+class UserService {
+  constructor(database) {
+    this.database = database; // Dependency injection
+  }
+  
+  saveUser(user) {
+    this.database.save(user);
+  }
+}`}
+                                            </pre>
+                                          </div>
+                                        </li>
+                                      </ol>
+                                      
+                                      <p className="mt-3">Understanding and applying SOLID principles leads to code that is easier to maintain, extend, and test. These principles are especially important in enterprise-level applications like those developed at Infosys, where long-term maintainability is critical.</p>
+                                    </div>
+                                  )}
+                                  
+                                  {company === 'infosys' && i === 2 && (
+                                    <div>
+                                      <p className="font-medium mb-2">Explain REST API best practices:</p>
+                                      
+                                      <p className="mb-2">RESTful APIs (Representational State Transfer) provide standards for communication between computer systems on the web. Here are best practices for designing RESTful APIs:</p>
+                                      
+                                      <ol className="list-decimal pl-5 space-y-3 mt-3">
+                                        <li>
+                                          <strong>Use Proper HTTP Methods:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li><strong>GET:</strong> Retrieve resources (read-only)</li>
+                                            <li><strong>POST:</strong> Create new resources</li>
+                                            <li><strong>PUT:</strong> Update existing resources (entire resource)</li>
+                                            <li><strong>PATCH:</strong> Partial update of resources</li>
+                                            <li><strong>DELETE:</strong> Remove resources</li>
+                                          </ul>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-2">
+{`GET /users           # Get list of users
+GET /users/123        # Get specific user
+POST /users           # Create a new user
+PUT /users/123        # Update user 123 (full update)
+PATCH /users/123      # Update user 123 (partial update)
+DELETE /users/123     # Delete user 123`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Use Nouns for Resource Names (Not Verbs):</strong>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`Good:
+GET /articles         # Get all articles
+GET /articles/123     # Get article with id 123
+
+Bad:
+GET /getArticles
+GET /getArticleById/123`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Use Nested Resources for Relationships:</strong>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`GET /articles/123/comments        # Get comments for article 123
+POST /articles/123/comments       # Add a comment to article 123`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Use Proper HTTP Status Codes:</strong>
+                                          <ul className="list-disc pl-5 mt-1">
+                                            <li><strong>2xx</strong> - Success (200 OK, 201 Created, 204 No Content)</li>
+                                            <li><strong>3xx</strong> - Redirection (301 Moved Permanently, 304 Not Modified)</li>
+                                            <li><strong>4xx</strong> - Client Error (400 Bad Request, 401 Unauthorized, 404 Not Found)</li>
+                                            <li><strong>5xx</strong> - Server Error (500 Internal Server Error)</li>
+                                          </ul>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Use Query Parameters for Filtering, Sorting, and Pagination:</strong>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`GET /articles?category=tech      # Filter by category
+GET /articles?sort=created&order=desc  # Sort by creation date
+GET /articles?page=2&limit=10    # Pagination`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Version Your API:</strong>
+                                          <p className="mt-1">Include versioning to maintain backward compatibility.</p>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`/api/v1/articles
+/api/v2/articles`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Use HATEOAS (Hypertext As The Engine Of Application State):</strong>
+                                          <p className="mt-1">Include links in responses to related resources.</p>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`{
+  "id": 123,
+  "title": "REST API Best Practices",
+  "_links": {
+    "self": { "href": "/articles/123" },
+    "author": { "href": "/users/456" },
+    "comments": { "href": "/articles/123/comments" }
+  }
+}`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Use JSON for Request/Response Bodies:</strong>
+                                          <p className="mt-1">JSON is lightweight and easy to parse.</p>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`Content-Type: application/json
+
+{
+  "title": "REST API Best Practices",
+  "content": "This article discusses...",
+  "author_id": 456,
+  "tags": ["api", "rest", "best-practices"]
+}`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Implement Rate Limiting:</strong>
+                                          <p className="mt-1">Protect your API from abuse and ensure fair usage.</p>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`// Response headers
+X-Rate-Limit-Limit: 100      // Requests allowed in window
+X-Rate-Limit-Remaining: 95   // Requests remaining in window
+X-Rate-Limit-Reset: 1623456789  // Time when limit resets`}
+                                          </pre>
+                                        </li>
+                                        
+                                        <li>
+                                          <strong>Use Proper Error Handling:</strong>
+                                          <p className="mt-1">Return informative error messages.</p>
+                                          <pre className="bg-gray-100 p-2 rounded-md text-sm mt-1">
+{`// 400 Bad Request response
+{
+  "error": "Bad Request",
+  "message": "Title is required",
+  "code": "MISSING_FIELD",
+  "status": 400
+}`}
+                                          </pre>
+                                        </li>
+                                      </ol>
+                                      
+                                      <p className="font-medium mt-3 mb-1">Security Best Practices:</p>
+                                      <ul className="list-disc pl-5 mt-1">
+                                        <li>Use HTTPS for all API endpoints</li>
+                                        <li>Implement robust authentication (OAuth2, JWT)</li>
+                                        <li>Validate all inputs to prevent injection attacks</li>
+                                        <li>Use CORS headers to control access</li>
+                                        <li>Don't expose sensitive information in URLs</li>
+                                      </ul>
+                                      
+                                      <p className="mt-3">Following these REST API best practices helps create intuitive, scalable, and maintainable web services. This is particularly important at Infosys, which builds enterprise applications that often rely on APIs for integration between different systems.</p>
+                                    </div>
                                   )}
                                 </div>
                               </AccordionContent>
@@ -1429,7 +2271,7 @@ function isBalanced(root) {
                   <div className="bg-blue-50 p-4 rounded-md mb-6">
                     <p className="text-blue-800 text-sm">
                       The following resources are provided by the BMSCE Placement Cell to help students prepare for their placement journey.
-                      Login with your college credentials to access these resources.
+                      Visit the <a href="https://www.bmsce.ac.in/" target="_blank" rel="noopener noreferrer" className="font-medium text-blue-700 hover:underline">official college website</a> for more resources and updates.
                     </p>
                   </div>
                   
@@ -1442,7 +2284,7 @@ function isBalanced(root) {
                         Previous Year Question Papers
                       </h3>
                       <p className="text-sm text-gray-600 mb-2">Access previous years' technical and aptitude questions from top companies that visited BMSCE.</p>
-                      <a href="#" className="text-blue-600 hover:underline text-sm font-medium">Access Resource</a>
+                      <a href="https://www.bmsce.ac.in/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm font-medium">Access Resource</a>
                     </div>
                     
                     <div className="border rounded-md p-4 hover:shadow-md transition-shadow">
@@ -1453,7 +2295,7 @@ function isBalanced(root) {
                         Resume Templates
                       </h3>
                       <p className="text-sm text-gray-600 mb-2">Specially curated resume templates approved by the placement cell for different roles and industries.</p>
-                      <a href="#" className="text-blue-600 hover:underline text-sm font-medium">Access Resource</a>
+                      <a href="https://www.bmsce.ac.in/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm font-medium">Access Resource</a>
                     </div>
                     
                     <div className="border rounded-md p-4 hover:shadow-md transition-shadow">
@@ -1464,7 +2306,7 @@ function isBalanced(root) {
                         Recorded Mock Interviews
                       </h3>
                       <p className="text-sm text-gray-600 mb-2">Watch recorded mock interviews of senior students with feedback from recruiters and faculty.</p>
-                      <a href="#" className="text-blue-600 hover:underline text-sm font-medium">Access Resource</a>
+                      <a href="https://www.bmsce.ac.in/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm font-medium">Access Resource</a>
                     </div>
                     
                     <div className="border rounded-md p-4 hover:shadow-md transition-shadow">
@@ -1475,7 +2317,7 @@ function isBalanced(root) {
                         Placement Calendar
                       </h3>
                       <p className="text-sm text-gray-600 mb-2">Upcoming placement drives, pre-placement talks, and company-specific preparation workshops.</p>
-                      <a href="#" className="text-blue-600 hover:underline text-sm font-medium">Access Resource</a>
+                      <a href="https://www.bmsce.ac.in/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm font-medium">Access Resource</a>
                     </div>
                   </div>
                 </CardContent>
