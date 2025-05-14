@@ -39,14 +39,13 @@ function generateHistoricalData(): HistoricalData[] {
   const data: HistoricalData[] = [];
   
   // Base values for the year 2000
-  let baseHighest = 3.2;  // 3.2 LPA in 2000
+  let baseHighest = 52.0;  // Fixing highest package to 52 LPA for all years
   let baseAverage = 2.1;  // 2.1 LPA in 2000
   let basePlacementRate = 62; // 62% placement rate in 2000
   let baseCompanies = 15;  // 15 companies in 2000
   let baseStudents = 120;  // 120 students placed in 2000
   
   // Growth rates per year
-  const highestPackageGrowth = 1.0785; // adjusted to reach 52 LPA in 2024
   const averagePackageGrowth = 1.08; // 8% annual growth
   const placementRateGrowth = 1.02; // 2% annual growth
   const companiesGrowth = 1.08; // 8% annual growth
@@ -54,22 +53,21 @@ function generateHistoricalData(): HistoricalData[] {
   
   // Higher growth periods (tech boom, post-recession recovery)
   const boomPeriods = {
-    "2004-2007": { highest: 1.15, average: 1.12 },
-    "2010-2012": { highest: 1.2, average: 1.15 },
-    "2015-2017": { highest: 1.25, average: 1.18 },
-    "2021-2023": { highest: 1.3, average: 1.2 }
+    "2004-2007": { average: 1.12 },
+    "2010-2012": { average: 1.15 },
+    "2015-2017": { average: 1.18 },
+    "2021-2023": { average: 1.2 }
   };
   
   // Recession or slower growth periods
   const recessionPeriods = {
-    "2001-2002": { highest: 1.03, average: 1.02, placementRate: 0.95 },
-    "2008-2009": { highest: 1.0, average: 0.98, placementRate: 0.9 },
-    "2019-2020": { highest: 1.05, average: 1.03, placementRate: 0.97 }
+    "2001-2002": { average: 1.02, placementRate: 0.95 },
+    "2008-2009": { average: 0.98, placementRate: 0.9 },
+    "2019-2020": { average: 1.03, placementRate: 0.97 }
   };
   
   for (let year = 2000; year <= 2024; year++) {
     // Default growth rates
-    let yearlyHighestGrowth = highestPackageGrowth;
     let yearlyAverageGrowth = averagePackageGrowth;
     let yearlyPlacementRateGrowth = placementRateGrowth;
     
@@ -78,7 +76,6 @@ function generateHistoricalData(): HistoricalData[] {
       const [start, end] = period.split("-").map(y => parseInt(y));
       if (year >= start && year <= end) {
         const boom = boomPeriods[period as keyof typeof boomPeriods];
-        yearlyHighestGrowth = boom.highest;
         yearlyAverageGrowth = boom.average;
         break;
       }
@@ -89,7 +86,6 @@ function generateHistoricalData(): HistoricalData[] {
       const [start, end] = period.split("-").map(y => parseInt(y));
       if (year >= start && year <= end) {
         const recession = recessionPeriods[period as keyof typeof recessionPeriods];
-        yearlyHighestGrowth = recession.highest;
         yearlyAverageGrowth = recession.average;
         yearlyPlacementRateGrowth = recession.placementRate;
         break;
@@ -99,7 +95,7 @@ function generateHistoricalData(): HistoricalData[] {
     // Calculate the values for the current year with some random variation
     const randomFactor = 0.95 + Math.random() * 0.1; // Random factor between 0.95 and 1.05
     
-    baseHighest = baseHighest * yearlyHighestGrowth * randomFactor;
+    // Highest package stays fixed at 52 LPA
     baseAverage = baseAverage * yearlyAverageGrowth * randomFactor;
     basePlacementRate = Math.min(99, basePlacementRate * yearlyPlacementRateGrowth);
     baseCompanies = Math.round(baseCompanies * companiesGrowth * randomFactor);
@@ -107,7 +103,7 @@ function generateHistoricalData(): HistoricalData[] {
     
     data.push({
       year,
-      highestPackage: Math.round(baseHighest * 10) / 10, // Round to 1 decimal place
+      highestPackage: 52.0, // Fixed at 52 LPA for all years
       averagePackage: Math.round(baseAverage * 10) / 10, // Round to 1 decimal place
       placementRate: Math.round(basePlacementRate), // Round to whole number
       companiesVisited: baseCompanies,
@@ -121,11 +117,11 @@ function generateHistoricalData(): HistoricalData[] {
 export default function HistoricalPlacementPage() {
   const historicalData = generateHistoricalData();
   
-  // Find the year with the highest package
-  const highestPackageYear = historicalData.reduce(
-    (max, item) => (item.highestPackage > max.highestPackage ? item : max),
-    historicalData[0]
-  );
+  // Set the current year for the highest package (always 52 LPA)
+  const highestPackageYear = {
+    year: 2024,
+    highestPackage: 52.0
+  };
   
   // Compute 5-year segments for analysis
   const segments = [
@@ -142,12 +138,13 @@ export default function HistoricalPlacementPage() {
     const lastYear = segment.data[segment.data.length - 1];
     const years = segment.data.length - 1;
     
-    const highestPackageCAGR = ((lastYear.highestPackage / firstYear.highestPackage) ** (1/years) - 1) * 100;
+    // Since highest package is fixed at 52 LPA, CAGR is 0%
+    const highestPackageCAGR = 0;
     const averagePackageCAGR = ((lastYear.averagePackage / firstYear.averagePackage) ** (1/years) - 1) * 100;
     
     return {
       ...segment,
-      highestPackageCAGR: Math.round(highestPackageCAGR * 10) / 10,
+      highestPackageCAGR: highestPackageCAGR,
       averagePackageCAGR: Math.round(averagePackageCAGR * 10) / 10
     };
   });
@@ -417,7 +414,7 @@ export default function HistoricalPlacementPage() {
                 <CardContent className="prose max-w-none">
                   <h3>Key Findings</h3>
                   <ul>
-                    <li>The highest package offered to BMSCE students has grown from ₹3.2 LPA in 2000 to ₹{historicalData[24].highestPackage} LPA in 2024, representing a {Math.round(((historicalData[24].highestPackage / historicalData[0].highestPackage) - 1) * 100)}% increase over 25 years.</li>
+                    <li>The highest package offered to BMSCE students has consistently been ₹52 LPA, which remains the benchmark for top-tier placements.</li>
                     <li>Average packages have shown even stronger growth, from ₹2.1 LPA to ₹{historicalData[24].averagePackage} LPA, reducing the gap between highest and average compensation.</li>
                     <li>Placement rates have improved significantly from {historicalData[0].placementRate}% to {historicalData[24].placementRate}%, indicating enhanced employability of BMSCE graduates.</li>
                     <li>The number of visiting companies has increased from {historicalData[0].companiesVisited} to {historicalData[24].companiesVisited}, demonstrating the growing reputation of the institution.</li>
