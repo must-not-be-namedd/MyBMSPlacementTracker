@@ -16,7 +16,18 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Briefcase, Building, MapPin, BookOpen, User, Award } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { 
+  Briefcase, 
+  Building, 
+  MapPin, 
+  BookOpen, 
+  User, 
+  Award, 
+  Linkedin, 
+  Mail, 
+  Clock 
+} from "lucide-react";
 
 // Alumni data with success stories
 const alumni = [
@@ -129,6 +140,11 @@ const alumni = [
       "Stay positive during the placement season",
     ],
     achievements: ["Fastest promotion in department", "Developed automation tool used company-wide"],
+    contact: {
+      linkedin: "linkedin.com/in/karthik-reddy-bmsce",
+      email: "karthik.reddy@alumni.bmsce.ac.in",
+      officeTiming: "Wednesdays, 6-8 PM IST"
+    },
   },
 ];
 
@@ -267,16 +283,46 @@ export default function AlumniNetwork() {
                   </CardContent>
                   <CardFooter className="pt-0 border-t bg-gray-50 px-6">
                     <div className="w-full">
-                      <h4 className="text-sm font-medium flex items-center gap-1 mb-2">
-                        <Award className="h-4 w-4" /> Key Achievements
-                      </h4>
-                      <ul className="grid grid-cols-1 gap-2">
-                        {alum.achievements.map((achievement, i) => (
-                          <li key={i} className="text-gray-700 text-sm flex items-start gap-1">
-                            <span className="text-green-500 mt-1">•</span> {achievement}
-                          </li>
-                        ))}
-                      </ul>
+                      <div className="flex flex-col md:flex-row md:justify-between">
+                        <div className="md:w-6/12 mb-4 md:mb-0">
+                          <h4 className="text-sm font-medium flex items-center gap-1 mb-2">
+                            <Award className="h-4 w-4" /> Key Achievements
+                          </h4>
+                          <ul className="grid grid-cols-1 gap-2">
+                            {alum.achievements.map((achievement, i) => (
+                              <li key={i} className="text-gray-700 text-sm flex items-start gap-1">
+                                <span className="text-green-500 mt-1">•</span> {achievement}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        
+                        <div className="border-t md:border-t-0 md:border-l border-gray-200 md:pl-6 pt-4 md:pt-0 md:w-5/12">
+                          <h4 className="text-sm font-medium mb-3">Contact Information</h4>
+                          <div className="space-y-2">
+                            <a 
+                              href={`https://${alum.contact.linkedin}`} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 text-sm text-blue-600 hover:underline"
+                            >
+                              <Linkedin className="h-4 w-4" />
+                              <span>LinkedIn Profile</span>
+                            </a>
+                            <a 
+                              href={`mailto:${alum.contact.email}`}
+                              className="flex items-center gap-2 text-sm text-purple-600 hover:underline"
+                            >
+                              <Mail className="h-4 w-4" />
+                              <span>{alum.contact.email}</span>
+                            </a>
+                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                              <Clock className="h-4 w-4" />
+                              <span>Office Hours: {alum.contact.officeTiming}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </CardFooter>
                 </Card>
