@@ -37,6 +37,11 @@ const alumni = [
       "Prepare for system design interviews",
     ],
     achievements: ["Google's Peer Bonus Award 2022", "Published research paper on distributed systems"],
+    contact: {
+      linkedin: "linkedin.com/in/priyasharma-bmsce",
+      email: "priya.sharma@alumni.bmsce.ac.in",
+      officeTiming: "Weekdays, 4-6 PM IST"
+    },
   },
   {
     id: 2,
@@ -55,6 +60,11 @@ const alumni = [
       "Document your projects well on GitHub",
     ],
     achievements: ["Youngest SDE-2 in team", "Led development of key service components"],
+    contact: {
+      linkedin: "linkedin.com/in/akashpatel-tech",
+      email: "akash.patel@alumni.bmsce.ac.in",
+      officeTiming: "Weekends, 10 AM-12 PM IST"
+    },
   },
   {
     id: 3,
@@ -73,6 +83,11 @@ const alumni = [
       "Explore internship opportunities early",
     ],
     achievements: ["Hackathon winner at Microsoft", "Open source contributor"],
+    contact: {
+      linkedin: "linkedin.com/in/rohitnair-dev",
+      email: "rohit.nair@alumni.bmsce.ac.in",
+      officeTiming: "Tuesdays and Thursdays, 7-8 PM IST"
+    },
   },
   {
     id: 4,
@@ -91,6 +106,11 @@ const alumni = [
       "Have a standout resume with quantifiable achievements",
     ],
     achievements: ["Led team that launched major product feature", "Mentored 15+ junior developers"],
+    contact: {
+      linkedin: "linkedin.com/in/ananya-desai",
+      email: "ananya.desai@alumni.bmsce.ac.in",
+      officeTiming: "Mondays and Fridays, 3-5 PM IST"
+    },
   },
   {
     id: 5,
