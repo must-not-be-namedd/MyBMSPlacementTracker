@@ -41,10 +41,10 @@ export function Sidebar() {
   const isMobile = useIsMobile();
 
   const SidebarContent = () => (
-    <div className="flex h-full flex-col gap-4">
-      <div className="px-6 py-4 border-b">
-        <h2 className="text-lg font-semibold">BMSCE Placements</h2>
-        <p className="text-sm text-muted-foreground">Welcome, {user?.username}</p>
+    <div className="flex h-full flex-col gap-4 bg-gray-800 text-gray-100">
+      <div className="px-6 py-4 border-b border-gray-700">
+        <h2 className="text-lg font-semibold text-white">BMSCE Placements</h2>
+        <p className="text-sm text-gray-300">Welcome, {user?.username}</p>
       </div>
 
       <div className="flex-1 px-4">
@@ -56,14 +56,14 @@ export function Sidebar() {
                 <Button
                   variant={isActive ? "secondary" : "ghost"}
                   className={cn(
-                    "w-full justify-start gap-2",
-                    isActive && "bg-secondary"
+                    "w-full justify-start gap-2 text-gray-200 hover:text-white hover:bg-gray-700",
+                    isActive && "bg-gray-700 text-white"
                   )}
                 >
                   <item.icon className="h-4 w-4" />
                   <span className="flex-1">{item.name}</span>
                   {item.badge && (
-                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded">
+                    <span className="bg-purple-100 text-purple-800 text-xs font-medium px-2 py-0.5 rounded">
                       {item.badge}
                     </span>
                   )}
@@ -74,10 +74,10 @@ export function Sidebar() {
         </div>
       </div>
 
-      <div className="px-4 py-4 border-t">
+      <div className="px-4 py-4 border-t border-gray-700">
         <Button
           variant="outline"
-          className="w-full justify-start gap-2"
+          className="w-full justify-start gap-2 text-gray-200 border-gray-600 hover:bg-gray-700 hover:text-white"
           onClick={() => logoutMutation.mutate()}
           disabled={logoutMutation.isPending}
         >
@@ -88,24 +88,26 @@ export function Sidebar() {
     </div>
   );
 
-  if (isMobile) {
-    return (
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="lg:hidden">
-            <Menu className="h-5 w-5" />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="p-0 w-72">
-          <SidebarContent />
-        </SheetContent>
-      </Sheet>
-    );
-  }
-
   return (
-    <div className="hidden lg:flex h-screen w-72 border-r flex-col">
-      <SidebarContent />
-    </div>
+    <>
+      {/* Mobile hamburger menu */}
+      <div className="lg:hidden fixed top-4 left-4 z-50">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="bg-white shadow-lg">
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 w-72 bg-gray-800">
+            <SidebarContent />
+          </SheetContent>
+        </Sheet>
+      </div>
+
+      {/* Desktop sidebar */}
+      <div className="hidden lg:flex h-screen w-72 border-r border-gray-700 flex-col bg-gray-800">
+        <SidebarContent />
+      </div>
+    </>
   );
 }

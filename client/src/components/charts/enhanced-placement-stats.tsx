@@ -78,11 +78,11 @@ export function EnhancedPlacementStats({ data, title }: EnhancedPlacementStatsPr
       <h2 className="text-2xl font-bold text-gray-800 mb-4">{title}</h2>
       
       <Tabs defaultValue="trends" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="trends">Year Trends</TabsTrigger>
-          <TabsTrigger value="comparison">Department Comparison</TabsTrigger>
-          <TabsTrigger value="distribution">Placement Distribution</TabsTrigger>
-          <TabsTrigger value="packages">Package Analysis</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 bg-gray-100 dark:bg-gray-700">
+          <TabsTrigger value="trends" className="text-gray-700 data-[state=active]:text-white data-[state=active]:bg-gray-800">Year Trends</TabsTrigger>
+          <TabsTrigger value="comparison" className="text-gray-700 data-[state=active]:text-white data-[state=active]:bg-gray-800">Department Comparison</TabsTrigger>
+          <TabsTrigger value="distribution" className="text-gray-700 data-[state=active]:text-white data-[state=active]:bg-gray-800">Placement Distribution</TabsTrigger>
+          <TabsTrigger value="packages" className="text-gray-700 data-[state=active]:text-white data-[state=active]:bg-gray-800">Package Analysis</TabsTrigger>
         </TabsList>
 
         <TabsContent value="trends" className="space-y-4">

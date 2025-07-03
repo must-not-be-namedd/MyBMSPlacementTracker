@@ -29,7 +29,7 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 dark:from-slate-900 dark:to-gray-900">
       <Sidebar />
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-8 lg:pl-8 pl-20">
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="flex items-center justify-between">
             <div>
@@ -138,7 +138,7 @@ export default function HomePage() {
                     <CardContent>
                       <EnhancedPlacementStats
                         data={stats || []}
-                        title="Interactive Department Analytics"
+                        title="Computer Science & Engineering - Year Trends (2018-2025)"
                       />
                     </CardContent>
                   </Card>
@@ -233,7 +233,7 @@ export default function HomePage() {
                     <div className="space-y-4">
                       <div className="rounded-lg overflow-hidden">
                         <img 
-                          src="/attached_assets/bms_1751557225798.PNG" 
+                          src="attached_assets/bms_1751557225798.PNG" 
                           alt="BMS College Achievement Recognition Ceremony" 
                           className="w-full h-64 object-cover"
                         />
