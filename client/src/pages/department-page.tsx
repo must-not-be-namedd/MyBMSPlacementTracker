@@ -37,13 +37,13 @@ export default function DepartmentPage() {
     ((latestStats.placementRate - previousStats.placementRate) / previousStats.placementRate * 100) : 0;
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 dark:from-slate-900 dark:to-gray-900">
       <Sidebar />
       <div className="flex-1 p-8">
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-slate-600 to-purple-600 bg-clip-text text-transparent">
                 Department Analytics
               </h1>
               <p className="text-lg text-muted-foreground mt-2">

@@ -37,24 +37,24 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen flex bg-gradient-to-br from-slate-100 to-gray-200 dark:from-slate-900 dark:to-gray-800">
       {/* Left Side - Auth Form */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl flex items-center justify-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-slate-600 to-purple-700 rounded-2xl flex items-center justify-center">
                 <GraduationCap className="w-8 h-8 text-white" />
               </div>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome</h1>
-            <p className="text-gray-600">Sign in to your BMSCE Placement Portal account</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Welcome</h1>
+            <p className="text-gray-600 dark:text-gray-300">Sign in to your BMSCE Placement Portal account</p>
           </div>
 
-          <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+          <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
             <CardContent className="p-6">
               <Tabs defaultValue="login" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsList className="grid w-full grid-cols-2 mb-6 bg-gray-100 dark:bg-gray-700">
                   <TabsTrigger value="login">Sign In</TabsTrigger>
                   <TabsTrigger value="register">Sign Up</TabsTrigger>
                 </TabsList>
@@ -72,13 +72,13 @@ export default function AuthPage() {
                         name="username"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-gray-700">Email Address</FormLabel>
+                            <FormLabel className="text-gray-700 dark:text-gray-300">Email Address</FormLabel>
                             <FormControl>
                               <Input 
                                 {...field} 
                                 autoComplete="username"
                                 placeholder="Enter your email"
-                                className="h-11 bg-white border-gray-200 focus:border-teal-500 focus:ring-teal-500"
+                                className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600"
                                 required
                               />
                             </FormControl>
@@ -91,14 +91,14 @@ export default function AuthPage() {
                         name="password"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-gray-700">Password</FormLabel>
+                            <FormLabel className="text-gray-700 dark:text-gray-300">Password</FormLabel>
                             <FormControl>
                               <Input 
                                 type="password" 
                                 {...field} 
                                 autoComplete="current-password"
                                 placeholder="Enter your password"
-                                className="h-11 bg-white border-gray-200 focus:border-teal-500 focus:ring-teal-500"
+                                className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600"
                                 required
                               />
                             </FormControl>
@@ -108,10 +108,10 @@ export default function AuthPage() {
                       />
                       <Button 
                         type="submit" 
-                        className="w-full h-11 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-medium rounded-lg" 
+                        className="w-full h-11 bg-gradient-to-r from-slate-600 to-purple-700 hover:from-slate-700 hover:to-purple-800 text-white font-medium"
                         disabled={loginMutation.isPending}
                       >
-                        {loginMutation.isPending ? "Signing in..." : "Sign In"}
+                        {loginMutation.isPending ? "Signing In..." : "Sign In"}
                       </Button>
                     </form>
                   </Form>
@@ -130,13 +130,13 @@ export default function AuthPage() {
                         name="username"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-gray-700">Email Address</FormLabel>
+                            <FormLabel className="text-gray-700 dark:text-gray-300">Email Address</FormLabel>
                             <FormControl>
                               <Input 
                                 {...field} 
                                 autoComplete="username"
                                 placeholder="Enter your email"
-                                className="h-11 bg-white border-gray-200 focus:border-teal-500 focus:ring-teal-500"
+                                className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600"
                                 required
                               />
                             </FormControl>
@@ -149,14 +149,14 @@ export default function AuthPage() {
                         name="password"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-gray-700">Password</FormLabel>
+                            <FormLabel className="text-gray-700 dark:text-gray-300">Password</FormLabel>
                             <FormControl>
                               <Input 
                                 type="password" 
                                 {...field} 
                                 autoComplete="new-password"
-                                placeholder="Create a password (min 6 characters)"
-                                className="h-11 bg-white border-gray-200 focus:border-teal-500 focus:ring-teal-500"
+                                placeholder="Create a password"
+                                className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600"
                                 required
                               />
                             </FormControl>
@@ -169,15 +169,15 @@ export default function AuthPage() {
                         name="department"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-gray-700">Department</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormLabel className="text-gray-700 dark:text-gray-300">Department</FormLabel>
+                            <Select onValueChange={field.onChange} value={field.value}>
                               <FormControl>
-                                <SelectTrigger className="h-11 bg-white border-gray-200 focus:border-teal-500 focus:ring-teal-500">
+                                <SelectTrigger className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600">
                                   <SelectValue placeholder="Select your department" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {departmentsList.map(dept => (
+                                {departmentsList.map((dept) => (
                                   <SelectItem key={dept} value={dept}>
                                     {dept}
                                   </SelectItem>
@@ -190,10 +190,10 @@ export default function AuthPage() {
                       />
                       <Button 
                         type="submit" 
-                        className="w-full h-11 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-medium rounded-lg" 
+                        className="w-full h-11 bg-gradient-to-r from-slate-600 to-purple-700 hover:from-slate-700 hover:to-purple-800 text-white font-medium"
                         disabled={registerMutation.isPending}
                       >
-                        {registerMutation.isPending ? "Creating account..." : "Create Account"}
+                        {registerMutation.isPending ? "Creating Account..." : "Create Account"}
                       </Button>
                     </form>
                   </Form>
@@ -204,52 +204,38 @@ export default function AuthPage() {
         </div>
       </div>
 
-      {/* Right Side - Branding and Features */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-teal-600 to-emerald-600 items-center justify-center p-8">
-        <div className="max-w-lg text-white">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">BMSCE Placement Portal</h1>
-            <p className="text-xl text-teal-100 leading-relaxed">
-              Your gateway to career opportunities at BMS College of Engineering, Bangalore
-            </p>
-          </div>
-
+      {/* Right Side - Info Panel */}
+      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-slate-600 to-purple-700 p-8 items-center justify-center">
+        <div className="max-w-md text-white">
           <div className="space-y-6">
-            <div className="flex items-start space-x-4">
-              <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                <TrendingUp className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg mb-2">Track Placement Statistics</h3>
-                <p className="text-teal-100">Monitor department-wise placement rates, salary packages, and hiring trends in real-time.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-4">
-              <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Users className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg mb-2">Connect with Alumni</h3>
-                <p className="text-teal-100">Network with successful alumni working at top companies and get career guidance.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-4">
-              <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Award className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg mb-2">Interview Preparation</h3>
-                <p className="text-teal-100">Access mock interviews, coding practice, and comprehensive placement resources.</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-12 p-6 bg-white/10 rounded-2xl backdrop-blur-sm">
             <div className="text-center">
-              <p className="text-2xl font-bold mb-2">95%</p>
-              <p className="text-teal-100">Average Placement Rate</p>
+              <h2 className="text-3xl font-bold mb-4">BMSCE Placement Portal</h2>
+              <p className="text-slate-200 leading-relaxed">
+                Your gateway to exceptional career opportunities at BMS College of Engineering
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                <Users className="w-8 h-8 mx-auto mb-2 text-white" />
+                <div className="text-xl font-bold">89%</div>
+                <div className="text-sm text-slate-200">Placement Rate</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                <Award className="w-8 h-8 mx-auto mb-2 text-white" />
+                <div className="text-xl font-bold">₹52L</div>
+                <div className="text-sm text-slate-200">Highest Package</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                <TrendingUp className="w-8 h-8 mx-auto mb-2 text-white" />
+                <div className="text-xl font-bold">₹18L</div>
+                <div className="text-sm text-slate-200">Average Package</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                <GraduationCap className="w-8 h-8 mx-auto mb-2 text-white" />
+                <div className="text-xl font-bold">56+</div>
+                <div className="text-sm text-slate-200">Companies</div>
+              </div>
             </div>
           </div>
         </div>

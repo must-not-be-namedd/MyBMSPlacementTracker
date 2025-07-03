@@ -130,18 +130,18 @@ export default function ResumeBuilder() {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 dark:from-slate-900 dark:to-gray-900">
       <Sidebar />
       <div className="flex-1 p-8">
         <div className="max-w-3xl mx-auto space-y-8">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Resume Builder</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-800 dark:text-gray-200">Resume Builder</h1>
             <p className="text-muted-foreground">
               Create a professional resume with our templates
             </p>
           </div>
 
-          <Card>
+          <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
             <CardContent className="pt-6">
               <Form {...form}>
                 <form
