@@ -11,6 +11,7 @@ import DepartmentPage from "@/pages/department-page";
 import ResumeBuilder from "@/pages/resume-builder";
 import MockInterview from "@/pages/mock-interview";
 import AlumniNetwork from "@/pages/alumni-network";
+import Resources from "@/pages/resources";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -21,6 +22,7 @@ function Router() {
       <ProtectedRoute path="/resume" component={ResumeBuilder} />
       <ProtectedRoute path="/interviews" component={MockInterview} />
       <ProtectedRoute path="/alumni" component={AlumniNetwork} />
+      <ProtectedRoute path="/resources" component={Resources} />
       <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />
     </Switch>

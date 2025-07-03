@@ -54,7 +54,14 @@ export default function ResumeBuilder() {
   });
 
   const generatePDF = async () => {
-    if (!resumeRef.current) return;
+    if (!resumeRef.current || !resumeData) {
+      toast({
+        title: "Error",
+        description: "Resume data not available. Please generate preview first.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     toast({
       title: "Generating PDF",
@@ -62,32 +69,50 @@ export default function ResumeBuilder() {
     });
 
     try {
-      const canvas = await html2canvas(resumeRef.current, {
-        scale: 2, // Higher scale for better quality
+      // Ensure the element is visible for rendering
+      const element = resumeRef.current;
+      const originalDisplay = element.style.display;
+      element.style.display = 'block';
+      element.style.position = 'absolute';
+      element.style.top = '-9999px';
+      element.style.left = '-9999px';
+      element.style.width = '210mm'; // A4 width
+      element.style.background = 'white';
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
         useCORS: true,
-        logging: false
+        allowTaint: true,
+        logging: false,
+        width: 794, // A4 width in pixels at 96 DPI
+        height: 1123, // A4 height in pixels at 96 DPI
+        backgroundColor: '#ffffff'
       });
       
-      const imgData = canvas.toDataURL('image/png');
+      // Restore original styles
+      element.style.display = originalDisplay;
+      element.style.position = '';
+      element.style.top = '';
+      element.style.left = '';
+      element.style.width = '';
+      
+      const imgData = canvas.toDataURL('image/png', 1.0);
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
-      // Calculate ratio to fit the image into PDF page
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const imgX = (pdfWidth - imgWidth * ratio) / 2;
-      const imgY = 10; // Top margin
+      // Add the image to fill the entire page
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       
-      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+      // Generate filename
+      const fileName = `${resumeData.fullName.replace(/[^a-zA-Z0-9]/g, '_')}_resume.pdf`;
       
       // Download the PDF
-      pdf.save(`${resumeData?.fullName.replace(/\s+/g, '_')}_resume.pdf`);
+      pdf.save(fileName);
       
       toast({
         title: "Resume Downloaded",
-        description: "Your resume has been downloaded successfully!",
+        description: `Your resume has been saved as ${fileName}`,
       });
     } catch (error) {
       console.error("PDF generation error:", error);

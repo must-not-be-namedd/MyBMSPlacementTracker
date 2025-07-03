@@ -13,6 +13,7 @@ import {
   Calendar,
   TrendingUp,
   Badge,
+  BookOpen,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/use-auth";
@@ -31,6 +32,7 @@ const navigation: NavItem[] = [
   { name: "Resume Builder", href: "/resume", icon: FileText },
   { name: "Mock Interview", href: "/interviews", icon: MessageSquare },
   { name: "Alumni Network", href: "/alumni", icon: Users },
+  { name: "Resources", href: "/resources", icon: BookOpen },
 ];
 
 export function Sidebar() {

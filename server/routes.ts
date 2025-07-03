@@ -52,6 +52,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Companies endpoints
+  app.get("/api/companies", async (req, res) => {
+    const companies = await storage.getCompanies();
+    res.json(companies);
+  });
+
+  // Alumni endpoints
+  app.get("/api/alumni", async (req, res) => {
+    const alumni = await storage.getAlumni();
+    res.json(alumni);
+  });
+
+  // Resources endpoints
+  app.get("/api/resources", async (req, res) => {
+    const resources = await storage.getResources();
+    res.json(resources);
+  });
+
+  // FAQs endpoints
+  app.get("/api/faqs", async (req, res) => {
+    const faqs = await storage.getFAQs();
+    res.json(faqs);
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
