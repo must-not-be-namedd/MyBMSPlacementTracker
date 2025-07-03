@@ -62,64 +62,33 @@ export default function ResumeBuilder() {
     });
 
     try {
-      // Make the hidden template visible temporarily
-      const hiddenContainer = resumeRef.current.parentElement;
-      if (hiddenContainer) {
-        const originalDisplay = hiddenContainer.style.display;
-        hiddenContainer.style.position = 'absolute';
-        hiddenContainer.style.display = 'block';
-        hiddenContainer.style.width = '816px'; // A4 width at 96 DPI
-        hiddenContainer.style.opacity = '1';
-        hiddenContainer.style.top = '-9999px';
-        hiddenContainer.style.left = '-9999px';
-        
-        // Force a reflow to ensure the DOM is updated
-        document.body.appendChild(hiddenContainer);
-        
-        // Wait a bit to ensure rendering is complete
-        await new Promise(resolve => setTimeout(resolve, 200));
-        
-        // Generate the canvas
-        const canvas = await html2canvas(resumeRef.current, {
-          scale: 2, // Higher scale for better quality
-          useCORS: true,
-          logging: false,
-          allowTaint: true,
-          backgroundColor: '#ffffff'
-        });
-        
-        // Reset the container
-        hiddenContainer.style.display = originalDisplay;
-        hiddenContainer.style.position = '';
-        hiddenContainer.style.width = '';
-        hiddenContainer.style.opacity = '';
-        hiddenContainer.style.top = '';
-        hiddenContainer.style.left = '';
-        document.body.removeChild(hiddenContainer);
-        
-        // Generate PDF from canvas
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        
-        // Calculate ratio to fit the image into PDF page
-        const imgWidth = canvas.width;
-        const imgHeight = canvas.height;
-        const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-        const imgX = (pdfWidth - imgWidth * ratio) / 2;
-        const imgY = 10; // Top margin
-        
-        pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-        
-        // Download the PDF
-        pdf.save(`${resumeData?.fullName.replace(/\s+/g, '_')}_resume.pdf`);
-        
-        toast({
-          title: "Resume Downloaded",
-          description: "Your resume has been downloaded successfully!",
-        });
-      }
+      const canvas = await html2canvas(resumeRef.current, {
+        scale: 2, // Higher scale for better quality
+        useCORS: true,
+        logging: false
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      // Calculate ratio to fit the image into PDF page
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const imgX = (pdfWidth - imgWidth * ratio) / 2;
+      const imgY = 10; // Top margin
+      
+      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+      
+      // Download the PDF
+      pdf.save(`${resumeData?.fullName.replace(/\s+/g, '_')}_resume.pdf`);
+      
+      toast({
+        title: "Resume Downloaded",
+        description: "Your resume has been downloaded successfully!",
+      });
     } catch (error) {
       console.error("PDF generation error:", error);
       toast({
@@ -138,7 +107,7 @@ export default function ResumeBuilder() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <div className="flex-1 p-8 dark:bg-gray-900">
+      <div className="flex-1 p-8">
         <div className="max-w-3xl mx-auto space-y-8">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Resume Builder</h1>
@@ -294,19 +263,13 @@ export default function ResumeBuilder() {
           
           {resumeData && (
             <div className="mt-4">
-              <div className="hidden" id="resume-for-pdf">
+              <div className="hidden">
                 <ResumeTemplate ref={resumeRef} data={resumeData} />
               </div>
-              
-              <div className="visible-resume">
-                <ResumeTemplate data={resumeData} />
-              </div>
+              <ResumeTemplate data={resumeData} />
               
               <div className="flex justify-center mt-8">
-                <Button 
-                  onClick={generatePDF} 
-                  className="gap-2"
-                >
+                <Button onClick={generatePDF} className="gap-2">
                   <Download className="w-4 h-4" />
                   Download PDF
                 </Button>

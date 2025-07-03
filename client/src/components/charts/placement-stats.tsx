@@ -34,17 +34,17 @@ export function PlacementStats({ data, title }: PlacementStatsProps) {
               <Bar
                 dataKey="highestPackage"
                 name="Highest Package (LPA)"
-                fill="#3B4FD8" /* Dark Blue */
+                fill="hsl(var(--chart-1))"
               />
               <Bar
                 dataKey="avgPackage"
                 name="Average Package (LPA)"
-                fill="#94B3D2" /* Light Blue */
+                fill="hsl(var(--chart-2))"
               />
               <Bar
                 dataKey="placementRate"
                 name="Placement Rate (%)"
-                fill="#8E44AD" /* Purple */
+                fill="hsl(var(--chart-3))"
               />
             </Chart>
           </ResponsiveContainer>

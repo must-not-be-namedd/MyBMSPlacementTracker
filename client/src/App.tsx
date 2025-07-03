@@ -3,13 +3,11 @@ import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "./hooks/use-auth";
-import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ProtectedRoute } from "./lib/protected-route";
 
 import HomePage from "@/pages/home-page";
 import AuthPage from "@/pages/auth-page";
 import DepartmentPage from "@/pages/department-page";
-import HistoricalPlacementPage from "@/pages/historical-placement";
 import ResumeBuilder from "@/pages/resume-builder";
 import MockInterview from "@/pages/mock-interview";
 import AlumniNetwork from "@/pages/alumni-network";
@@ -20,7 +18,6 @@ function Router() {
     <Switch>
       <ProtectedRoute path="/" component={HomePage} />
       <ProtectedRoute path="/departments" component={DepartmentPage} />
-      <ProtectedRoute path="/historical-placement" component={HistoricalPlacementPage} />
       <ProtectedRoute path="/resume" component={ResumeBuilder} />
       <ProtectedRoute path="/interviews" component={MockInterview} />
       <ProtectedRoute path="/alumni" component={AlumniNetwork} />
@@ -33,12 +30,10 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="system" storageKey="bmsce-theme">
-        <AuthProvider>
-          <Router />
-          <Toaster />
-        </AuthProvider>
-      </ThemeProvider>
+      <AuthProvider>
+        <Router />
+        <Toaster />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
