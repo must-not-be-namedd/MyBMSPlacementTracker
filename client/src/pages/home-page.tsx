@@ -27,7 +27,7 @@ export default function HomePage() {
   const topCompanies = companies?.sort((a, b) => (b.visitCount || 0) - (a.visitCount || 0)).slice(0, 5) || [];
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 dark:from-slate-900 dark:to-gray-900">
+    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800">
       <Sidebar />
       <div className="flex-1 p-8 lg:pl-8 pl-20">
         <div className="max-w-7xl mx-auto space-y-8">
@@ -56,69 +56,69 @@ export default function HomePage() {
             <>
               {/* Key Metrics Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <Card className="bg-gradient-to-br from-slate-600 to-purple-700 text-white shadow-lg border-0">
+                <Card className="bg-gradient-to-br from-slate-50 to-purple-50 text-gray-800 shadow-lg border border-gray-200">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-slate-100">
+                    <CardTitle className="text-sm font-medium text-gray-700">
                       Average Package
                     </CardTitle>
-                    <Trophy className="h-5 w-5 text-slate-200" />
+                    <Trophy className="h-5 w-5 text-gray-600" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-3xl font-bold mb-1">
+                    <div className="text-3xl font-bold mb-1 text-gray-800">
                       ₹{averages.avgPackage} LPA
                     </div>
-                    <p className="text-xs text-slate-200">
+                    <p className="text-xs text-gray-600">
                       +12% from last year
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card className="bg-gradient-to-br from-indigo-600 to-blue-700 text-white shadow-lg border-0">
+                <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 text-gray-800 shadow-lg border border-gray-200">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-indigo-100">
+                    <CardTitle className="text-sm font-medium text-gray-700">
                       Highest Package
                     </CardTitle>
-                    <Award className="h-5 w-5 text-indigo-200" />
+                    <Award className="h-5 w-5 text-gray-600" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-3xl font-bold mb-1">
+                    <div className="text-3xl font-bold mb-1 text-gray-800">
                       ₹{averages.highestPackage} LPA
                     </div>
-                    <p className="text-xs text-indigo-200">
+                    <p className="text-xs text-gray-600">
                       Record achievement this year
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card className="bg-gradient-to-br from-slate-700 to-gray-800 text-white shadow-lg border-0">
+                <Card className="bg-gradient-to-br from-green-50 to-teal-50 text-gray-800 shadow-lg border border-gray-200">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-slate-100">
+                    <CardTitle className="text-sm font-medium text-gray-700">
                       Placement Rate
                     </CardTitle>
-                    <TrendingUp className="h-5 w-5 text-slate-200" />
+                    <TrendingUp className="h-5 w-5 text-gray-600" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-3xl font-bold mb-1">
+                    <div className="text-3xl font-bold mb-1 text-gray-800">
                       {averages.placementRate}%
                     </div>
-                    <p className="text-xs text-slate-200">
+                    <p className="text-xs text-gray-600">
                       Excellent success rate
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card className="bg-gradient-to-br from-purple-600 to-violet-700 text-white shadow-lg border-0">
+                <Card className="bg-gradient-to-br from-orange-50 to-red-50 text-gray-800 shadow-lg border border-gray-200">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-purple-100">
+                    <CardTitle className="text-sm font-medium text-gray-700">
                       Total Companies
                     </CardTitle>
-                    <Building className="h-5 w-5 text-purple-200" />
+                    <Building className="h-5 w-5 text-gray-600" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-3xl font-bold mb-1">
+                    <div className="text-3xl font-bold mb-1 text-gray-800">
                       {totalCompaniesCount}
                     </div>
-                    <p className="text-xs text-purple-200">
+                    <p className="text-xs text-gray-600">
                       Recruiting partners
                     </p>
                   </CardContent>

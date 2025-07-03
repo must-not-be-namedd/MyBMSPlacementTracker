@@ -37,7 +37,7 @@ export default function DepartmentPage() {
     ((latestStats.placementRate - previousStats.placementRate) / previousStats.placementRate * 100) : 0;
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 dark:from-slate-900 dark:to-gray-900">
+    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800">
       <Sidebar />
       <div className="flex-1 p-8 lg:pl-8 pl-20">
         <div className="max-w-7xl mx-auto space-y-8">

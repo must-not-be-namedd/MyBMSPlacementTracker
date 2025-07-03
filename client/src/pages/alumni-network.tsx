@@ -34,7 +34,7 @@ export default function AlumniNetwork() {
   const generalFAQs = faqs?.filter(faq => !["Interview Preparation", "Placement Statistics"].includes(faq.category)) || [];
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 dark:from-slate-900 dark:to-gray-900">
+    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800">
       <Sidebar />
       <div className="flex-1 p-8 lg:pl-8 pl-20">
         <div className="max-w-7xl mx-auto space-y-8">

@@ -109,7 +109,7 @@ export function Sidebar() {
       </div>
 
       {/* Desktop sidebar */}
-      <div className="hidden lg:flex h-screen w-72 border-r border-gray-700 flex-col bg-gray-800">
+      <div className="hidden lg:flex min-h-screen w-72 border-r border-gray-700 flex-col bg-gray-800">
         <SidebarContent />
       </div>
     </>

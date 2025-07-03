@@ -37,7 +37,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-slate-100 to-gray-200 dark:from-slate-900 dark:to-gray-800">
+    <div className="min-h-screen flex bg-gray-100 dark:bg-gray-800">
       {/* Left Side - Auth Form */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
@@ -98,7 +98,7 @@ export default function AuthPage() {
                                 {...field} 
                                 autoComplete="current-password"
                                 placeholder="Enter your password"
-                                className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600"
+                                className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600 text-gray-800 dark:text-gray-200"
                                 required
                               />
                             </FormControl>
@@ -136,7 +136,7 @@ export default function AuthPage() {
                                 {...field} 
                                 autoComplete="username"
                                 placeholder="Enter your email"
-                                className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600"
+                                className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600 text-gray-800 dark:text-gray-200"
                                 required
                               />
                             </FormControl>
@@ -156,7 +156,7 @@ export default function AuthPage() {
                                 {...field} 
                                 autoComplete="new-password"
                                 placeholder="Create a password"
-                                className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600"
+                                className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600 text-gray-800 dark:text-gray-200"
                                 required
                               />
                             </FormControl>
