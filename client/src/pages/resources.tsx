@@ -40,7 +40,7 @@ export default function Resources() {
   };
 
   const ResourceCard = ({ resource }: { resource: Resource }) => (
-    <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
+    <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex-1">

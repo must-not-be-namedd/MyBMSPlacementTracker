@@ -61,7 +61,7 @@ export default function AlumniNetwork() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {alumni?.map((alum) => (
-                    <Card key={alum.id} className="shadow-lg border-0 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
+                    <Card key={alum.id} className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
                       <CardHeader className="pb-4">
                         <div className="flex items-center space-x-4">
                           <Avatar className="h-16 w-16 border-2 border-purple-200">

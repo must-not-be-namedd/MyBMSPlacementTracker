@@ -233,7 +233,7 @@ export default function HomePage() {
                     <div className="space-y-4">
                       <div className="rounded-lg overflow-hidden">
                         <img 
-                          src="attached_assets/bms_1751557225798.PNG" 
+                          src="/bms-college-image.png" 
                           alt="BMS College Achievement Recognition Ceremony" 
                           className="w-full h-64 object-cover"
                         />

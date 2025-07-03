@@ -56,7 +56,7 @@ export function Sidebar() {
                 <Button
                   variant={isActive ? "secondary" : "ghost"}
                   className={cn(
-                    "w-full justify-start gap-2 text-gray-200 hover:text-white hover:bg-gray-700",
+                    "w-full justify-start gap-2 text-gray-200",
                     isActive && "bg-gray-700 text-white"
                   )}
                 >
@@ -77,7 +77,7 @@ export function Sidebar() {
       <div className="px-4 py-4 border-t border-gray-700">
         <Button
           variant="outline"
-          className="w-full justify-start gap-2 text-gray-200 border-gray-600 hover:bg-gray-700 hover:text-white"
+          className="w-full justify-start gap-2 text-gray-200 border-gray-600"
           onClick={() => logoutMutation.mutate()}
           disabled={logoutMutation.isPending}
         >
@@ -99,6 +99,10 @@ export function Sidebar() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-72 bg-gray-800">
+            <div className="sr-only">
+              <h2>Navigation Menu</h2>
+              <p>Main navigation for the BMSCE Placement Portal</p>
+            </div>
             <SidebarContent />
           </SheetContent>
         </Sheet>
