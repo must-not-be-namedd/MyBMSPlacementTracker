@@ -12,7 +12,6 @@ import ResumeBuilder from "@/pages/resume-builder";
 import MockInterview from "@/pages/mock-interview";
 import AlumniNetwork from "@/pages/alumni-network";
 import Resources from "@/pages/resources";
-import CareerGuidancePage from "@/pages/career-guidance";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,7 +23,6 @@ function Router() {
       <ProtectedRoute path="/interviews" component={MockInterview} />
       <ProtectedRoute path="/alumni" component={AlumniNetwork} />
       <ProtectedRoute path="/resources" component={Resources} />
-      <ProtectedRoute path="/career-guidance" component={CareerGuidancePage} />
       <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />
     </Switch>
