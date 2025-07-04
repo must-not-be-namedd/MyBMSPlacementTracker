@@ -39,7 +39,7 @@ export const ResumeTemplate = forwardRef<HTMLDivElement, ResumeTemplateProps>(
         </div>
 
         {/* Education */}
-        <div className="mb-6">
+        <div className="mb-6 p-4 bg-gray-50 rounded-lg">
           <h2 className="text-2xl font-bold text-gray-800 mb-3">Education</h2>
           <div className="ml-1 text-gray-700">
             {data.education.split('\n').map((edu, index) => (
@@ -49,11 +49,11 @@ export const ResumeTemplate = forwardRef<HTMLDivElement, ResumeTemplateProps>(
         </div>
         
         {/* Skills */}
-        <div className="mb-6">
+        <div className="mb-6 p-4 bg-blue-50 rounded-lg">
           <h2 className="text-2xl font-bold text-gray-800 mb-3">Skills</h2>
           <div className="flex flex-wrap gap-2">
             {skills.map((skill, index) => (
-              <span key={index} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">
+              <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm border border-blue-200">
                 {skill}
               </span>
             ))}
@@ -62,7 +62,7 @@ export const ResumeTemplate = forwardRef<HTMLDivElement, ResumeTemplateProps>(
         
         {/* Experience (if any) */}
         {data.experience && (
-          <div className="mb-6">
+          <div className="mb-6 p-4 bg-green-50 rounded-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-3">Experience</h2>
             <div className="ml-1 text-gray-700">
               {data.experience.split('\n').map((exp, index) => (
@@ -74,7 +74,7 @@ export const ResumeTemplate = forwardRef<HTMLDivElement, ResumeTemplateProps>(
         
         {/* Projects */}
         {data.projects && (
-          <div className="mb-6">
+          <div className="mb-6 p-4 bg-purple-50 rounded-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-3">Projects</h2>
             <div className="ml-1 text-gray-700">
               {data.projects.split('\n').map((project, index) => (

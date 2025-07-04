@@ -14,6 +14,7 @@ import {
   TrendingUp,
   Badge,
   BookOpen,
+  Brain,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/use-auth";
@@ -33,6 +34,7 @@ const navigation: NavItem[] = [
   { name: "Mock Interview", href: "/interviews", icon: MessageSquare },
   { name: "Alumni Network", href: "/alumni", icon: Users },
   { name: "Resources", href: "/resources", icon: BookOpen },
+  { name: "AI Career Guidance", href: "/career-guidance", icon: Brain, badge: "New" },
 ];
 
 export function Sidebar() {

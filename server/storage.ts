@@ -69,7 +69,7 @@ export class DatabaseStorage implements IStorage {
     const existingStats = await db.select().from(departments).limit(1);
     
     if (existingStats.length === 0) {
-      const departmentNames = ["Computer Science", "Information Science", "Electronics and Electrical", "Mechanical", "Civil"];
+      const departmentNames = ["Computer Science", "Information Science", "Electronics and Electrical", "Mechanical", "Civil", "Biotechnology"];
       const years = Array.from({length: 16}, (_, i) => 2010 + i); // 2010-2025
       
       const statsToInsert = [];

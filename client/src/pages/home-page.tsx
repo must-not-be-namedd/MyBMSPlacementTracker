@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { Department, Company } from "@shared/schema";
 import { EnhancedPlacementStats } from "@/components/charts/enhanced-placement-stats";
+import { RealTimeDashboard } from "@/components/analytics/real-time-dashboard";
 import { Loader2, Trophy, Users, Building, TrendingUp, Calendar, Award, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -190,6 +191,11 @@ export default function HomePage() {
                     </CardContent>
                   </Card>
                 </div>
+              </div>
+
+              {/* Real-time Analytics Dashboard */}
+              <div className="mb-12">
+                <RealTimeDashboard />
               </div>
 
               {/* BMS College Showcase */}

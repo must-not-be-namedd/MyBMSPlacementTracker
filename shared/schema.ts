@@ -118,5 +118,6 @@ export const departmentsList = [
   "Information Science",
   "Electronics and Electrical",
   "Mechanical",
-  "Civil"
+  "Civil",
+  "Biotechnology"
 ] as const;
