@@ -22,7 +22,7 @@ export default function DepartmentPage() {
     queryFn: async ({ queryKey }) => {
       const [_, department] = queryKey;
       const response = await fetch(
-        `/api/departments?department=${encodeURIComponent(department)}`
+        `/api/departments?department=${encodeURIComponent(department as string)}`
       );
       if (!response.ok) throw new Error("Failed to fetch department stats");
       return response.json();
