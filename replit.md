@@ -102,6 +102,11 @@ This is a full-stack web application built for BMS College of Engineering's plac
 
 ## Changelog
 
+- July 05, 2025. Replaced department page graphs with comprehensive historical data tables (2005-2025) with realistic placement statistics
+- July 05, 2025. Created dedicated Department Comparison page with single comprehensive chart comparing all departments
+- July 05, 2025. Fixed 0% placement rates and NaN values by implementing authentic historical data generation
+- July 05, 2025. Removed graphs from all pages except dashboard as requested, keeping only essential metrics
+- July 05, 2025. Added realistic department-specific data including student counts, placement rates, and salary packages
 - July 05, 2025. Fixed mobile responsiveness across all pages with improved navigation and layout structure
 - July 05, 2025. Updated department name from "Computer Science" to "Computer Science & Engineering" (CSE) 
 - July 05, 2025. Improved sidebar navigation with fixed positioning and mobile hamburger menu

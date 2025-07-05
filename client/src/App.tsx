@@ -8,6 +8,7 @@ import { ProtectedRoute } from "./lib/protected-route";
 import HomePage from "@/pages/home-page";
 import AuthPage from "@/pages/auth-page";
 import DepartmentPage from "@/pages/department-page";
+import DepartmentComparison from "@/pages/department-comparison";
 import ResumeBuilder from "@/pages/resume-builder";
 import MockInterview from "@/pages/mock-interview";
 import AlumniNetwork from "@/pages/alumni-network";
@@ -19,6 +20,7 @@ function Router() {
     <Switch>
       <ProtectedRoute path="/" component={HomePage} />
       <ProtectedRoute path="/departments" component={DepartmentPage} />
+      <ProtectedRoute path="/department-comparison" component={DepartmentComparison} />
       <ProtectedRoute path="/resume" component={ResumeBuilder} />
       <ProtectedRoute path="/interviews" component={MockInterview} />
       <ProtectedRoute path="/alumni" component={AlumniNetwork} />

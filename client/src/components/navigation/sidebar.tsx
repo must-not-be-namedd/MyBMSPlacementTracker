@@ -29,6 +29,7 @@ type NavItem = {
 const navigation: NavItem[] = [
   { name: "Home", href: "/", icon: Home },
   { name: "Departments", href: "/departments", icon: BarChart },
+  { name: "Department Comparison", href: "/department-comparison", icon: TrendingUp },
   { name: "Resume Builder", href: "/resume", icon: FileText },
   { name: "Mock Interview", href: "/interviews", icon: MessageSquare },
   { name: "Alumni Network", href: "/alumni", icon: Users },
