@@ -110,38 +110,39 @@ export default function DepartmentPage() {
     ((latestYear.placementRate - previousYear.placementRate)) : 0;
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-800">
       <Sidebar />
-      <div className="flex-1 lg:ml-80 p-4 lg:p-8">
-        <div className="max-w-7xl mx-auto space-y-6 lg:space-y-8">
-          <div className="flex flex-col gap-4">
-            <div className="pt-12 lg:pt-0">
-              <h1 className="text-2xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-slate-600 to-purple-600 bg-clip-text text-transparent">
-                Department Analytics
-              </h1>
-              <p className="text-base lg:text-lg text-muted-foreground mt-2">
-                Comprehensive placement insights for {selectedDept}
-              </p>
+      <div className="flex-1 ml-0 lg:ml-80 min-h-screen">
+        <div className="px-4 py-6 lg:px-8 lg:py-8">
+          <div className="max-w-7xl mx-auto space-y-6 lg:space-y-8">
+            <div className="flex flex-col gap-4">
+              <div className="pt-16 lg:pt-0">
+                <h1 className="text-2xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-slate-600 to-purple-600 bg-clip-text text-transparent">
+                  Department Analytics
+                </h1>
+                <p className="text-base lg:text-lg text-muted-foreground mt-2">
+                  Comprehensive placement insights for {selectedDept}
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <Badge variant="secondary" className="text-xs lg:text-sm">
+                  <Building2 className="h-3 w-3 mr-1" />
+                  {selectedDept}
+                </Badge>
+                <Select value={selectedDept} onValueChange={setSelectedDept}>
+                  <SelectTrigger className="w-full sm:w-[280px] bg-white shadow-lg">
+                    <SelectValue placeholder="Select a department" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {departmentsList.map((dept) => (
+                      <SelectItem key={dept} value={dept}>
+                        {dept}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <Badge variant="secondary" className="text-xs lg:text-sm">
-                <Building2 className="h-3 w-3 mr-1" />
-                {selectedDept}
-              </Badge>
-              <Select value={selectedDept} onValueChange={setSelectedDept}>
-                <SelectTrigger className="w-full sm:w-[280px] bg-white shadow-lg">
-                  <SelectValue placeholder="Select a department" />
-                </SelectTrigger>
-                <SelectContent>
-                  {departmentsList.map((dept) => (
-                    <SelectItem key={dept} value={dept}>
-                      {dept}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
 
           {isLoading ? (
             <div className="flex items-center justify-center h-64">
@@ -265,6 +266,7 @@ export default function DepartmentPage() {
               </Card>
             </>
           )}
+          </div>
         </div>
       </div>
     </div>
