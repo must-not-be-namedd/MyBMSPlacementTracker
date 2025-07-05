@@ -102,6 +102,9 @@ This is a full-stack web application built for BMS College of Engineering's plac
 
 ## Changelog
 
+- July 05, 2025. Fixed mobile responsiveness across all pages with improved navigation and layout structure
+- July 05, 2025. Updated department name from "Computer Science" to "Computer Science & Engineering" (CSE) 
+- July 05, 2025. Improved sidebar navigation with fixed positioning and mobile hamburger menu
 - July 05, 2025. Enhanced department-wise analytics with 6 comprehensive visualization tabs including multi-year trends, detailed performance matrices, and market insights
 - July 05, 2025. Fixed TypeScript error in department page query parameter handling
 - July 05, 2025. Ensured resume template maintains white background for proper PDF generation

@@ -36,13 +36,13 @@ export default function AlumniNetwork() {
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800">
       <Sidebar />
-      <div className="flex-1 p-8 lg:pl-8 pl-20">
-        <div className="max-w-7xl mx-auto space-y-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+      <div className="flex-1 lg:ml-80 p-4 lg:p-8">
+        <div className="max-w-7xl mx-auto space-y-6 lg:space-y-8">
+          <div className="text-center pt-12 lg:pt-0">
+            <h1 className="text-2xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               Alumni Network & Mentorship
             </h1>
-            <p className="text-lg text-muted-foreground mt-2">
+            <p className="text-base lg:text-lg text-muted-foreground mt-2">
               Connect with successful alumni and get guidance for your career journey
             </p>
           </div>

@@ -30,19 +30,19 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800">
       <Sidebar />
-      <div className="flex-1 p-8 lg:pl-8 pl-20">
-        <div className="max-w-7xl mx-auto space-y-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-slate-600 to-purple-600 bg-clip-text text-transparent">
+      <div className="flex-1 lg:ml-80 p-4 lg:p-8">
+        <div className="max-w-7xl mx-auto space-y-6 lg:space-y-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div className="pt-12 lg:pt-0">
+              <h1 className="text-2xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-slate-600 to-purple-600 bg-clip-text text-transparent">
                 BMSCE Placement Dashboard
               </h1>
-              <p className="text-lg text-muted-foreground mt-2">
+              <p className="text-base lg:text-lg text-muted-foreground mt-2">
                 Real-time placement analytics for BMS College of Engineering
               </p>
             </div>
             <div className="flex items-center space-x-2">
-              <Badge variant="secondary" className="text-sm bg-slate-100 dark:bg-slate-800">
+              <Badge variant="secondary" className="text-xs lg:text-sm bg-slate-100 dark:bg-slate-800">
                 <Calendar className="h-3 w-3 mr-1" />
                 Academic Year 2024-25
               </Badge>
@@ -56,7 +56,7 @@ export default function HomePage() {
           ) : (
             <>
               {/* Key Metrics Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
                 <Card className="bg-gradient-to-br from-slate-50 to-purple-50 text-gray-800 shadow-lg border border-gray-200">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium text-gray-700">

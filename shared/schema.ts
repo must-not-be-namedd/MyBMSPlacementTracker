@@ -114,7 +114,7 @@ export type InsertResource = z.infer<typeof insertResourceSchema>;
 export type InsertFAQ = z.infer<typeof insertFaqSchema>;
 
 export const departmentsList = [
-  "Computer Science",
+  "Computer Science & Engineering",
   "Information Science",
   "Electronics and Electrical",
   "Mechanical",

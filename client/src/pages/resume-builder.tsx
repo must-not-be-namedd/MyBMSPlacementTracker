@@ -132,11 +132,11 @@ export default function ResumeBuilder() {
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800">
       <Sidebar />
-      <div className="flex-1 p-8 lg:pl-8 pl-20">
-        <div className="max-w-3xl mx-auto space-y-8">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-gray-800 dark:text-gray-200">Resume Builder</h1>
-            <p className="text-muted-foreground">
+      <div className="flex-1 lg:ml-80 p-4 lg:p-8">
+        <div className="max-w-3xl mx-auto space-y-6 lg:space-y-8">
+          <div className="pt-12 lg:pt-0">
+            <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-gray-800 dark:text-gray-200">Resume Builder</h1>
+            <p className="text-base lg:text-lg text-muted-foreground">
               Create a professional resume with our templates
             </p>
           </div>

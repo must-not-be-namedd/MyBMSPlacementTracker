@@ -94,11 +94,11 @@ export function Sidebar() {
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="bg-white shadow-lg">
+            <Button variant="outline" size="icon" className="bg-white shadow-lg border-gray-300">
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-72 bg-gray-800">
+          <SheetContent side="left" className="p-0 w-80 bg-gray-800">
             <div className="sr-only">
               <h2>Navigation Menu</h2>
               <p>Main navigation for the BMSCE Placement Portal</p>
@@ -109,7 +109,7 @@ export function Sidebar() {
       </div>
 
       {/* Desktop sidebar */}
-      <div className="hidden lg:flex min-h-screen w-72 border-r border-gray-700 flex-col bg-gray-800">
+      <div className="hidden lg:flex min-h-screen w-80 border-r border-gray-700 flex-col bg-gray-800 fixed left-0 top-0 z-40">
         <SidebarContent />
       </div>
     </>

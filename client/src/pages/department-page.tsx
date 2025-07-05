@@ -39,24 +39,24 @@ export default function DepartmentPage() {
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800">
       <Sidebar />
-      <div className="flex-1 p-8 lg:pl-8 pl-20">
-        <div className="max-w-7xl mx-auto space-y-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-slate-600 to-purple-600 bg-clip-text text-transparent">
+      <div className="flex-1 lg:ml-80 p-4 lg:p-8">
+        <div className="max-w-7xl mx-auto space-y-6 lg:space-y-8">
+          <div className="flex flex-col gap-4">
+            <div className="pt-12 lg:pt-0">
+              <h1 className="text-2xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-slate-600 to-purple-600 bg-clip-text text-transparent">
                 Department Analytics
               </h1>
-              <p className="text-lg text-muted-foreground mt-2">
+              <p className="text-base lg:text-lg text-muted-foreground mt-2">
                 Comprehensive placement insights for {selectedDept}
               </p>
             </div>
-            <div className="flex items-center gap-4">
-              <Badge variant="secondary" className="text-sm">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <Badge variant="secondary" className="text-xs lg:text-sm">
                 <Building2 className="h-3 w-3 mr-1" />
                 {selectedDept}
               </Badge>
               <Select value={selectedDept} onValueChange={setSelectedDept}>
-                <SelectTrigger className="w-[280px] bg-white shadow-lg">
+                <SelectTrigger className="w-full sm:w-[280px] bg-white shadow-lg">
                   <SelectValue placeholder="Select a department" />
                 </SelectTrigger>
                 <SelectContent>
@@ -77,7 +77,7 @@ export default function DepartmentPage() {
           ) : (
             <>
               {/* Key Metrics for Selected Department */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
                 <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium text-gray-700">
