@@ -81,18 +81,19 @@ export default function Resources() {
   );
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-800">
       <Sidebar />
-      <div className="flex-1 lg:ml-80 p-4 lg:p-8">
-        <div className="max-w-7xl mx-auto space-y-6 lg:space-y-8">
-          <div className="text-center pt-12 lg:pt-0">
-            <h1 className="text-2xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Placement Resources
-            </h1>
-            <p className="text-base lg:text-lg text-muted-foreground mt-2">
-              Essential platforms and resources to help you crack top IT companies
-            </p>
-          </div>
+      <div className="flex-1 ml-0 lg:ml-80 min-h-screen">
+        <div className="px-4 py-6 lg:px-8 lg:py-8">
+          <div className="max-w-7xl mx-auto space-y-6 lg:space-y-8">
+            <div className="text-center pt-16 lg:pt-0">
+              <h1 className="text-2xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                Placement Resources
+              </h1>
+              <p className="text-base lg:text-lg text-muted-foreground mt-2">
+                Essential platforms and resources to help you crack top IT companies
+              </p>
+            </div>
 
           {isLoading ? (
             <div className="flex items-center justify-center h-64">
@@ -243,6 +244,7 @@ export default function Resources() {
               </div>
             </CardContent>
           </Card>
+          </div>
         </div>
       </div>
     </div>

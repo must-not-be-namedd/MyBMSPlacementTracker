@@ -139,20 +139,21 @@ export default function DepartmentComparison() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-96 w-full">
+                <div className="h-[500px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                       data={comparisonData}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 120 }}
                     >
                       <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                       <XAxis 
                         dataKey="department" 
                         stroke="#666"
-                        fontSize={12}
+                        fontSize={11}
                         angle={-45}
                         textAnchor="end"
-                        height={80}
+                        height={100}
+                        interval={0}
                       />
                       <YAxis stroke="#666" fontSize={12} />
                       <Tooltip 
@@ -168,12 +169,14 @@ export default function DepartmentComparison() {
                         fill="#8B5CF6" 
                         name="Placement Rate (%)"
                         radius={[4, 4, 0, 0]}
+                        barSize={40}
                       />
                       <Bar 
                         dataKey="avg2025" 
                         fill="#06B6D4" 
                         name="Average Package (LPA)"
                         radius={[4, 4, 0, 0]}
+                        barSize={40}
                       />
                     </BarChart>
                   </ResponsiveContainer>

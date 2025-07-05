@@ -15,7 +15,7 @@ import { useState } from "react";
 
 // Generate realistic historical placement data for each department
 const generateHistoricalData = (department: string) => {
-  const years = Array.from({ length: 21 }, (_, i) => 2005 + i); // 2005-2025
+  const years = Array.from({ length: 12 }, (_, i) => 2014 + i); // 2014-2025
   
   // Department-specific base statistics
   const deptConfig = {

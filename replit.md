@@ -102,6 +102,10 @@ This is a full-stack web application built for BMS College of Engineering's plac
 
 ## Changelog
 
+- July 05, 2025. Fixed chart text visibility and spacing issues in Department Comparison page with better margins and bar spacing
+- July 05, 2025. Updated department page historical data range from 2005-2025 to 2014-2025 for more relevant timeframe
+- July 05, 2025. Applied consistent responsive layout structure to Resources page with proper mobile spacing
+- July 05, 2025. Enhanced chart readability with increased height, proper bottom margins, and better font sizing
 - July 05, 2025. Replaced department page graphs with comprehensive historical data tables (2005-2025) with realistic placement statistics
 - July 05, 2025. Created dedicated Department Comparison page with single comprehensive chart comparing all departments
 - July 05, 2025. Fixed 0% placement rates and NaN values by implementing authentic historical data generation
