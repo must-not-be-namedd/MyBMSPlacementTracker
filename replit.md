@@ -2,26 +2,25 @@
 
 ## Overview
 
-This is a full-stack web application built for BMS College of Engineering's placement portal. The application provides students with placement statistics, resume building tools, mock interview scheduling, and alumni networking features. It's built using a modern tech stack with React on the frontend and Express.js on the backend.
+This is a placement portal for BMS College of Engineering that has been converted from a React/Vite application to a plain HTML/CSS/JS static website for GitHub Pages deployment. The application provides students with placement statistics, resume building tools, mock interview scheduling, and alumni networking features. It requires no build process or dependencies and can be deployed directly from the main branch.
 
 ## System Architecture
 
-### Frontend Architecture
-- **Framework**: React 18 with TypeScript
-- **Styling**: Tailwind CSS with custom theme configuration
-- **UI Components**: Radix UI primitives with custom shadcn/ui components
-- **State Management**: React Query (TanStack Query) for server state management
-- **Routing**: Wouter for lightweight client-side routing
-- **Forms**: React Hook Form with Zod validation
-- **Build Tool**: Vite for development and production builds
+### Static Website Architecture
+- **Framework**: Pure HTML/CSS/JS with no build dependencies
+- **Styling**: Custom CSS with responsive design and mobile-first approach
+- **UI Components**: Hand-crafted CSS components with modern design patterns
+- **State Management**: Vanilla JavaScript with local data storage
+- **Routing**: JavaScript-based single-page application with hash-free navigation
+- **Forms**: Native HTML forms with JavaScript validation
+- **Build Tool**: None required - direct deployment from files
 
-### Backend Architecture
-- **Framework**: Express.js with TypeScript
-- **Database**: PostgreSQL with Drizzle ORM
-- **Authentication**: Passport.js with local strategy and bcrypt password hashing
-- **Session Management**: Express sessions with PostgreSQL session store
-- **API Design**: RESTful API with JSON responses
-- **CORS**: Configured for Replit hosting with appropriate origin handling
+### Data Architecture
+- **Data Storage**: JavaScript objects with comprehensive department statistics
+- **Data Processing**: Client-side data manipulation and filtering
+- **Historical Data**: 12 years of placement data (2014-2025) for all departments
+- **API Integration**: Prepared for future backend integration if needed
+- **Persistence**: Browser localStorage for user preferences and form data
 
 ## Key Components
 
@@ -102,6 +101,13 @@ This is a full-stack web application built for BMS College of Engineering's plac
 
 ## Changelog
 
+- July 17, 2025. **MAJOR ARCHITECTURAL CHANGE**: Converted entire application from Vite/React to plain HTML/CSS/JS for GitHub Pages deployment
+- July 17, 2025. Created static version with vanilla JavaScript maintaining all original functionality including department analytics, resume builder, and interview booking
+- July 17, 2025. Implemented responsive design with mobile-first approach using pure CSS without external dependencies
+- July 17, 2025. Added comprehensive department data with historical placement statistics from 2014-2025
+- July 17, 2025. Built interactive navigation system with mobile sidebar functionality
+- July 17, 2025. Deployed static files to root directory for direct GitHub Pages hosting without build process
+- July 17, 2025. Added .nojekyll file for proper GitHub Pages deployment
 - July 05, 2025. Fixed chart text visibility and spacing issues in Department Comparison page with better margins and bar spacing
 - July 05, 2025. Updated department page historical data range from 2005-2025 to 2014-2025 for more relevant timeframe
 - July 05, 2025. Applied consistent responsive layout structure to Resources page with proper mobile spacing
