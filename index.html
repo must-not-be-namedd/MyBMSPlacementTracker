@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>BMSCE Placement Portal</title>
+    <!-- Add a fallback message in case JavaScript is disabled -->
+    <noscript>
+      <style>
+        .noscript-message {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          text-align: center;
+          font-family: sans-serif;
+          padding: 0 20px;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div class="noscript-message">
+        <div>
+          <h2>Please enable JavaScript</h2>
+          <p>This application requires JavaScript to function properly.</p>
+        </div>
+      </div>
+    </noscript>
+    <script type="module" src="/client/src/main.tsx"></script>
+  </body>
+</html>
