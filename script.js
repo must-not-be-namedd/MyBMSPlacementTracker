@@ -266,6 +266,7 @@ function initializeLogin() {
         // Initialize charts after login
         setTimeout(() => {
             initializeCharts();
+            initializeInteractiveGraphs();
         }, 500);
     }
 }
