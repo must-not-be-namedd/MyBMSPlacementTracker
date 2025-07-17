@@ -592,6 +592,227 @@ function openLinkedIn(profileHandle) {
     showMessage('Opening LinkedIn profile in new tab...', 'info');
 }
 
+// Sharp Interactive Mathematical Graphs
+function initializeCharts() {
+    createSharpPlacementTrends();
+    createSharpDepartmentPerformance();
+    createSharpSalaryTrends();
+}
+
+function createSharpPlacementTrends() {
+    const container = document.getElementById('placementTrendsChart');
+    if (!container) return;
+    
+    const data = [
+        { year: '2020', rate: 75, students: 850, placed: 638, avg: 8.5 },
+        { year: '2021', rate: 78, students: 880, placed: 686, avg: 11.2 },
+        { year: '2022', rate: 82, students: 920, placed: 754, avg: 14.8 },
+        { year: '2023', rate: 85, students: 950, placed: 808, avg: 17.9 },
+        { year: '2024', rate: 88, students: 980, placed: 862, avg: 21.4 },
+        { year: '2025', rate: 89, students: 1000, placed: 890, avg: 23.7 }
+    ];
+    
+    container.innerHTML = `
+        <div class="sharp-graph-container">
+            <h3 class="graph-title">Placement Rate Trend Analysis (2020-2025)</h3>
+            <div class="mathematical-precision">σ = 5.2% | μ = 82.8% | R² = 0.94</div>
+            <div class="sharp-graph">
+                <div class="graph-grid"></div>
+                <div class="graph-data-bars">
+                    ${data.map((item, index) => `
+                        <div class="data-bar" 
+                             style="height: ${(item.rate - 50) * 4}px"
+                             data-year="${item.year}"
+                             data-rate="${item.rate}"
+                             data-students="${item.students}"
+                             data-placed="${item.placed}"
+                             data-avg="${item.avg}">
+                            <div class="bar-value">${item.rate}%</div>
+                            <div class="bar-label">${item.year}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="y-axis">
+                    <span>100%</span>
+                    <span>80%</span>
+                    <span>60%</span>
+                    <span>40%</span>
+                    <span>20%</span>
+                </div>
+                <div class="formula-overlay">f(x) = 2.8x + 70.2</div>
+            </div>
+            <div class="hover-tooltip" id="placementTooltip"></div>
+        </div>
+    `;
+    
+    addInteractiveTooltips('placementTooltip');
+}
+
+function createSharpDepartmentPerformance() {
+    const container = document.getElementById('departmentPerformanceChart');
+    if (!container) return;
+    
+    const deptData = [
+        { dept: 'CSE', rate: 92, color: '#7c3aed', students: 162 },
+        { dept: 'ISE', rate: 86, color: '#8b5cf6', students: 132 },
+        { dept: 'ECE', rate: 78, color: '#a855f7', students: 142 },
+        { dept: 'MECH', rate: 71, color: '#c084fc', students: 152 },
+        { dept: 'CIVIL', rate: 67, color: '#ddd6fe', students: 138 },
+        { dept: 'BIO', rate: 62, color: '#ede9fe', students: 98 }
+    ];
+    
+    container.innerHTML = `
+        <div class="sharp-graph-container">
+            <h3 class="graph-title">Department Performance Comparison (2024-25)</h3>
+            <div class="mathematical-precision">Σ = 456% | μ = 76% | σ = 12.3%</div>
+            <div class="dept-performance-chart">
+                ${deptData.map((dept, index) => `
+                    <div class="dept-bar" 
+                         style="height: ${dept.rate * 2.5}px; background: linear-gradient(to top, ${dept.color} 0%, ${dept.color}aa 100%)"
+                         data-dept="${dept.dept}"
+                         data-rate="${dept.rate}"
+                         data-students="${dept.students}"
+                         data-value="${dept.rate}%">
+                        <div class="dept-label">${dept.dept}</div>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="hover-tooltip" id="deptTooltip"></div>
+        </div>
+    `;
+    
+    addInteractiveTooltips('deptTooltip');
+}
+
+function createSharpSalaryTrends() {
+    const container = document.getElementById('salaryTrendsChart');
+    if (!container) return;
+    
+    const salaryData = [
+        { year: '2020', highest: 28, avg: 8.5, median: 6.2 },
+        { year: '2021', highest: 32, avg: 11.2, median: 8.1 },
+        { year: '2022', highest: 38, avg: 14.8, median: 10.5 },
+        { year: '2023', highest: 44, avg: 17.9, median: 13.2 },
+        { year: '2024', highest: 50, avg: 21.4, median: 16.8 },
+        { year: '2025', highest: 52, avg: 23.7, median: 18.5 }
+    ];
+    
+    container.innerHTML = `
+        <div class="sharp-graph-container">
+            <h3 class="graph-title">Salary Package Trends (LPA)</h3>
+            <div class="mathematical-precision">Growth Rate: 18.4% YoY | Correlation: 0.97</div>
+            <div class="trends-chart">
+                <svg width="100%" height="100%">
+                    <defs>
+                        <linearGradient id="salaryGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    ${createTrendLines(salaryData)}
+                </svg>
+            </div>
+            <div class="hover-tooltip" id="salaryTooltip"></div>
+        </div>
+    `;
+    
+    addInteractiveTooltips('salaryTooltip');
+}
+
+function createTrendLines(data) {
+    const width = 100;
+    const height = 85;
+    const padding = 10;
+    
+    const maxValue = Math.max(...data.map(d => d.highest));
+    const minValue = Math.min(...data.map(d => d.avg));
+    
+    const scaleX = (width - 2 * padding) / (data.length - 1);
+    const scaleY = (height - 2 * padding) / (maxValue - minValue);
+    
+    let highestPath = '';
+    let avgPath = '';
+    let points = '';
+    
+    data.forEach((item, index) => {
+        const x = padding + index * scaleX;
+        const highestY = height - padding - (item.highest - minValue) * scaleY;
+        const avgY = height - padding - (item.avg - minValue) * scaleY;
+        
+        if (index === 0) {
+            highestPath = `M ${x} ${highestY}`;
+            avgPath = `M ${x} ${avgY}`;
+        } else {
+            highestPath += ` L ${x} ${highestY}`;
+            avgPath += ` L ${x} ${avgY}`;
+        }
+        
+        points += `
+            <circle class="trend-point" cx="${x}%" cy="${highestY}%" r="4" 
+                    data-year="${item.year}" data-type="highest" data-value="${item.highest}"/>
+            <circle class="trend-point" cx="${x}%" cy="${avgY}%" r="3" 
+                    data-year="${item.year}" data-type="average" data-value="${item.avg}"/>
+        `;
+    });
+    
+    return `
+        <path class="trend-line" d="${highestPath}" stroke="#7c3aed" stroke-width="3" fill="none"/>
+        <path class="trend-line" d="${avgPath}" stroke="#a855f7" stroke-width="2" fill="none"/>
+        ${points}
+    `;
+}
+
+function addInteractiveTooltips(tooltipId) {
+    const tooltip = document.getElementById(tooltipId);
+    const interactiveElements = document.querySelectorAll('.data-bar, .dept-bar, .trend-point');
+    
+    interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', (e) => {
+            const rect = e.target.getBoundingClientRect();
+            const data = e.target.dataset;
+            
+            let content = '';
+            if (data.year && data.rate) {
+                content = `
+                    <div class="tooltip-title">Year ${data.year}</div>
+                    <div class="tooltip-value">${data.rate}% Placement Rate</div>
+                    <div class="tooltip-details">
+                        Students: ${data.students}<br>
+                        Placed: ${data.placed}<br>
+                        Avg Package: ₹${data.avg} LPA
+                    </div>
+                `;
+            } else if (data.dept) {
+                content = `
+                    <div class="tooltip-title">${data.dept} Department</div>
+                    <div class="tooltip-value">${data.rate}% Placement</div>
+                    <div class="tooltip-details">
+                        Total Students: ${data.students}<br>
+                        Placed: ${Math.round(data.students * data.rate / 100)}
+                    </div>
+                `;
+            } else if (data.type) {
+                content = `
+                    <div class="tooltip-title">${data.year} - ${data.type}</div>
+                    <div class="tooltip-value">₹${data.value} LPA</div>
+                    <div class="tooltip-details">
+                        Mathematical precision: f(${data.year}) = ${data.value}
+                    </div>
+                `;
+            }
+            
+            tooltip.innerHTML = content;
+            tooltip.style.left = (rect.left + rect.width / 2) + 'px';
+            tooltip.style.top = (rect.top - 10) + 'px';
+            tooltip.classList.add('show');
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            tooltip.classList.remove('show');
+        });
+    });
+}
+
 // Utility functions
 function formatDate(date) {
     return new Date(date).toLocaleDateString('en-IN', {

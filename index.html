@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BMSCE Placement Portal</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./graph-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -269,16 +270,13 @@
                 <!-- Dashboard Charts -->
                 <div class="charts-section">
                     <div class="chart-container">
-                        <h3>Placement Trends (2020-2025)</h3>
-                        <div class="chart-wrapper">
-                            <canvas id="placementTrendChart" width="400" height="200"></canvas>
-                        </div>
+                        <div id="placementTrendsChart"></div>
                     </div>
                     <div class="chart-container">
-                        <h3>Department Performance</h3>
-                        <div class="chart-wrapper">
-                            <canvas id="departmentChart" width="400" height="200"></canvas>
-                        </div>
+                        <div id="departmentPerformanceChart"></div>
+                    </div>
+                    <div class="chart-container">
+                        <div id="salaryTrendsChart"></div>
                     </div>
                 </div>
             </section>
