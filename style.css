@@ -44,42 +44,68 @@ body {
     max-width: 1200px;
     height: 100vh;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 @media (max-width: 768px) {
     .login-container {
         flex-direction: column;
         height: auto;
+        min-height: 100vh;
         max-width: 100%;
     }
     
     .login-left,
     .login-right {
         flex: none;
-        padding: 2rem;
+        padding: 1.5rem;
+        min-height: auto;
     }
     
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
     
     .welcome-section h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
     
     .portal-header h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+    
+    .stat-card {
+        padding: 1rem;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .form-tabs {
+        gap: 1rem;
+    }
+    
+    .form-tab {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
     }
 }
 
 .login-left {
     flex: 1;
     background: white;
-    padding: 3rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-height: 50vh;
 }
 
 .welcome-section {
@@ -367,6 +393,11 @@ body {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-right: 1px solid #374151;
+    transform: translateX(-100%);
+}
+
+.sidebar.active {
+    transform: translateX(0);
 }
 
 .sidebar-header {
@@ -405,7 +436,7 @@ body {
     border-radius: 0.5rem;
     padding: 0.75rem;
     cursor: pointer;
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -458,6 +489,77 @@ body {
     
     .sidebar-toggle {
         display: none;
+    }
+}
+
+@media (min-width: 769px) {
+    .sidebar {
+        transform: translateX(-100%);
+        z-index: 1000;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .mobile-menu-btn {
+        display: flex;
+    }
+}
+
+/* No horizontal scrollbar styling */
+html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure all content fits within viewport */
+.login-container,
+.main-content,
+.page {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Mobile device specific fixes */
+@media (max-width: 576px) {
+    .login-container {
+        padding: 0.5rem;
+    }
+    
+    .login-left, .login-right {
+        padding: 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .metric-card {
+        padding: 1rem;
+    }
+    
+    .excellence-section {
+        padding: 1rem;
+    }
+    
+    .recruiting-section {
+        padding: 1rem;
+    }
+    
+    .charts-section {
+        padding: 1rem;
+        grid-template-columns: 1fr;
     }
 }
 
@@ -547,14 +649,15 @@ body {
 /* Main Content */
 .main-content {
     flex: 1;
-    margin-left: 280px;
+    margin-left: 0;
     padding: 1rem;
     min-height: 100vh;
     background: #0f1419;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    width: calc(100% - 280px);
-    max-width: calc(100vw - 280px);
+    width: 100%;
+    max-width: 100vw;
     overflow-x: hidden;
+    padding-top: 4rem;
 }
 
 @media (max-width: 768px) {
@@ -969,13 +1072,33 @@ body {
 .department-selector select {
     width: 100%;
     max-width: 400px;
-    padding: 0.75rem;
-    border: 1px solid #d1d5db;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    border: 1px solid #374151;
     border-radius: 0.5rem;
     font-size: 1rem;
-    background: white;
+    background: #1e293b;
+    color: #e2e8f0;
     margin: 0 auto;
     display: block;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23e2e8f0' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.25em 1.25em;
+    transition: all 0.3s ease;
+}
+
+.department-selector select:focus {
+    outline: none;
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.department-selector select option {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 0.75rem;
 }
 
 /* Tables */
