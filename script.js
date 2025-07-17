@@ -278,8 +278,29 @@ function initializeNavigation() {
     const sidebar = document.getElementById('sidebar');
 
     // Mobile sidebar toggle
-    sidebarToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebarClose = document.getElementById('sidebarClose');
+    
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.add('active');
+        });
+    }
+
+    if (sidebarClose) {
+        sidebarClose.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+        });
+    }
+
+    // Close sidebar when clicking outside
+    document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768 && 
+            !sidebar.contains(e.target) && 
+            mobileMenuBtn && !mobileMenuBtn.contains(e.target) &&
+            sidebar.classList.contains('active')) {
+            sidebar.classList.remove('active');
+        }
     });
 
     // Page navigation
