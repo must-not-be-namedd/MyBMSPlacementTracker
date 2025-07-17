@@ -483,7 +483,60 @@ function generateResumePreview(data, container) {
 }
 
 function downloadResume() {
-    alert('Resume download feature would be implemented with a PDF library in a full application');
+    // Get the resume preview element
+    const resumeElement = document.getElementById('resumePreview');
+    if (!resumeElement) return;
+    
+    // Check if libraries are loaded
+    if (typeof html2canvas === 'undefined') {
+        alert('PDF libraries are loading. Please try again in a moment.');
+        return;
+    }
+    
+    // Use html2canvas to capture the resume preview
+    html2canvas(resumeElement, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff'
+    }).then(canvas => {
+        // Convert canvas to image
+        const imgData = canvas.toDataURL('image/png', 1.0);
+        
+        // Create PDF using jsPDF
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        
+        // Calculate image dimensions to fit A4
+        const canvasRatio = canvas.height / canvas.width;
+        const pdfRatio = pdfHeight / pdfWidth;
+        
+        let imgWidth, imgHeight;
+        if (canvasRatio > pdfRatio) {
+            imgHeight = pdfHeight;
+            imgWidth = imgHeight / canvasRatio;
+        } else {
+            imgWidth = pdfWidth;
+            imgHeight = imgWidth * canvasRatio;
+        }
+        
+        // Center the image on the page
+        const x = (pdfWidth - imgWidth) / 2;
+        const y = (pdfHeight - imgHeight) / 2;
+        
+        // Add image to PDF
+        pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+        
+        // Download the PDF
+        pdf.save('BMSCE_Resume.pdf');
+        
+        alert('Resume downloaded successfully!');
+    }).catch(error => {
+        console.error('Error generating PDF:', error);
+        alert('Error generating PDF. Please try again.');
+    });
 }
 
 // Interview booking functionality
@@ -628,23 +681,205 @@ function initializeInteractiveGraphs() {
     if (dashboardContainer) {
         dashboardContainer.innerHTML = `
             <div class="sharp-graph-container">
-                <h3 class="graph-title">Department Performance Analytics</h3>
+                <h3 class="graph-title">Placement Trends (2019-2025)</h3>
                 <div class="mathematical-precision">Statistical Analysis: μ = 82.3%, σ = 9.2%, R² = 0.94</div>
-                <div class="sharp-graph" id="sharpGraph1"></div>
+                <canvas id="placementTrendsChart" width="600" height="300"></canvas>
             </div>
             <div class="sharp-graph-container">
-                <h3 class="graph-title">Placement Trends (2020-25)</h3>
+                <h3 class="graph-title">Department Performance Comparison</h3>
                 <div class="mathematical-precision">Regression Analysis: y = 1.2x + 82.4, p-value < 0.001</div>
-                <div class="sharp-graph" id="sharpGraph2"></div>
+                <canvas id="departmentComparisonChart" width="600" height="300"></canvas>
             </div>
         `;
         
-        // Create sharp interactive graph 1
-        createSharpGraph('sharpGraph1', 'departments');
+        // Create placement trends chart
+        createPlacementTrendsChart();
         
-        // Create sharp interactive graph 2
-        createSharpGraph('sharpGraph2', 'trends');
+        // Create department comparison chart
+        createDepartmentComparisonChart();
     }
+}
+
+// Chart creation functions
+function createPlacementTrendsChart() {
+    const canvas = document.getElementById('placementTrendsChart');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Chart data
+    const years = ['2019', '2021', '2023', '2025'];
+    const totalStudents = [100, 105, 110, 115];
+    const placementRate = [75, 82, 87, 90];
+    
+    // Chart dimensions
+    const padding = 60;
+    const chartWidth = canvas.width - 2 * padding;
+    const chartHeight = canvas.height - 2 * padding;
+    
+    // Set up scaling
+    const xScale = chartWidth / (years.length - 1);
+    const yScale = chartHeight / 100;
+    
+    // Draw axes
+    ctx.strokeStyle = '#374151';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(padding, padding);
+    ctx.lineTo(padding, padding + chartHeight);
+    ctx.lineTo(padding + chartWidth, padding + chartHeight);
+    ctx.stroke();
+    
+    // Draw placement rate area chart (purple)
+    ctx.fillStyle = 'rgba(139, 92, 246, 0.3)';
+    ctx.strokeStyle = '#8b5cf6';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(padding, padding + chartHeight);
+    
+    placementRate.forEach((rate, i) => {
+        const x = padding + i * xScale;
+        const y = padding + chartHeight - (rate * yScale);
+        if (i === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
+    });
+    
+    ctx.lineTo(padding + chartWidth, padding + chartHeight);
+    ctx.lineTo(padding, padding + chartHeight);
+    ctx.fill();
+    
+    // Draw placement rate line
+    ctx.strokeStyle = '#8b5cf6';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    placementRate.forEach((rate, i) => {
+        const x = padding + i * xScale;
+        const y = padding + chartHeight - (rate * yScale);
+        if (i === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
+    });
+    ctx.stroke();
+    
+    // Draw total students line (teal)
+    ctx.strokeStyle = '#14b8a6';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    totalStudents.forEach((count, i) => {
+        const x = padding + i * xScale;
+        const y = padding + chartHeight - (count * yScale);
+        if (i === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
+    });
+    ctx.stroke();
+    
+    // Add labels
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    
+    years.forEach((year, i) => {
+        const x = padding + i * xScale;
+        ctx.fillText(year, x, padding + chartHeight + 20);
+    });
+    
+    // Add legend
+    ctx.fillStyle = '#14b8a6';
+    ctx.fillRect(padding, 20, 20, 15);
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText('Total Students', padding + 30, 32);
+    
+    ctx.fillStyle = '#8b5cf6';
+    ctx.fillRect(padding + 150, 20, 20, 15);
+    ctx.fillText('Placement Rate %', padding + 180, 32);
+}
+
+function createDepartmentComparisonChart() {
+    const canvas = document.getElementById('departmentComparisonChart');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Chart data
+    const departments = ['Computer Science', 'Information Science', 'Mechanical', 'Electronics and Electrical', 'Civil'];
+    const highestPackage = [52, 48, 30, 38, 28];
+    const averagePackage = [18, 16, 14, 15, 13];
+    
+    // Chart dimensions
+    const padding = 80;
+    const chartWidth = canvas.width - 2 * padding;
+    const chartHeight = canvas.height - 2 * padding;
+    
+    // Bar dimensions
+    const barWidth = chartWidth / (departments.length * 2);
+    const maxValue = Math.max(...highestPackage);
+    const yScale = chartHeight / maxValue;
+    
+    // Draw axes
+    ctx.strokeStyle = '#374151';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(padding, padding);
+    ctx.lineTo(padding, padding + chartHeight);
+    ctx.lineTo(padding + chartWidth, padding + chartHeight);
+    ctx.stroke();
+    
+    // Draw bars
+    departments.forEach((dept, i) => {
+        const x = padding + i * (barWidth * 2) + 10;
+        
+        // Highest package bar (red)
+        const highestHeight = highestPackage[i] * yScale;
+        ctx.fillStyle = '#ef4444';
+        ctx.fillRect(x, padding + chartHeight - highestHeight, barWidth - 5, highestHeight);
+        
+        // Average package bar (blue)
+        const avgHeight = averagePackage[i] * yScale;
+        ctx.fillStyle = '#3b82f6';
+        ctx.fillRect(x + barWidth, padding + chartHeight - avgHeight, barWidth - 5, avgHeight);
+    });
+    
+    // Add labels
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = '10px Arial';
+    ctx.textAlign = 'center';
+    
+    departments.forEach((dept, i) => {
+        const x = padding + i * (barWidth * 2) + barWidth;
+        ctx.save();
+        ctx.translate(x, padding + chartHeight + 15);
+        ctx.rotate(-Math.PI / 4);
+        ctx.fillText(dept, 0, 0);
+        ctx.restore();
+    });
+    
+    // Add legend
+    ctx.fillStyle = '#ef4444';
+    ctx.fillRect(padding, 20, 20, 15);
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText('Highest Package (LPA)', padding + 30, 32);
+    
+    ctx.fillStyle = '#3b82f6';
+    ctx.fillRect(padding + 200, 20, 20, 15);
+    ctx.fillText('Average Package (LPA)', padding + 230, 32);
 }
 
 function createSharpGraph(containerId, type) {
