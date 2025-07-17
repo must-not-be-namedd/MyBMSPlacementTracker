@@ -14,36 +14,106 @@
         <!-- Login Page -->
         <div id="loginPage" class="login-page active">
             <div class="login-container">
-                <div class="login-card">
-                    <div class="login-header">
-                        <h1>BMSCE Placement Portal</h1>
-                        <p>Welcome to BMS College of Engineering</p>
+                <div class="login-left">
+                    <div class="welcome-section">
+                        <div class="welcome-icon">
+                            <div class="grad-cap">🎓</div>
+                        </div>
+                        <h1>Welcome</h1>
+                        <p>Sign in to your BMSCE Placement Portal account</p>
                     </div>
-                    <form id="loginForm" class="login-form">
-                        <div class="form-group">
-                            <label for="loginEmail">Email</label>
-                            <input type="email" id="loginEmail" placeholder="Enter your college email" required>
+                    
+                    <div class="auth-tabs">
+                        <button class="tab-btn active" data-tab="signin">Sign In</button>
+                        <button class="tab-btn" data-tab="signup">Sign Up</button>
+                    </div>
+                    
+                    <div id="signinTab" class="tab-content active">
+                        <form id="loginForm" class="auth-form">
+                            <div class="form-group">
+                                <label for="loginEmail">Email Address</label>
+                                <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="loginPassword">Password</label>
+                                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                            </div>
+                            <button type="submit" class="auth-btn">Sign In</button>
+                        </form>
+                    </div>
+                    
+                    <div id="signupTab" class="tab-content">
+                        <form id="signupForm" class="auth-form">
+                            <div class="form-group">
+                                <label for="signupName">Full Name</label>
+                                <input type="text" id="signupName" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupEmail">Email Address</label>
+                                <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupPassword">Password</label>
+                                <input type="password" id="signupPassword" placeholder="Create a password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupDepartment">Department</label>
+                                <div class="custom-select">
+                                    <select id="signupDepartment" required>
+                                        <option value="">Select Department</option>
+                                        <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                                        <option value="Information Science & Engineering">Information Science & Engineering</option>
+                                        <option value="Electronics & Communication">Electronics & Communication</option>
+                                        <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                        <option value="Civil Engineering">Civil Engineering</option>
+                                        <option value="Biotechnology">Biotechnology</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupYear">Year of Study</label>
+                                <div class="custom-select">
+                                    <select id="signupYear" required>
+                                        <option value="">Select Year</option>
+                                        <option value="1st Year">1st Year</option>
+                                        <option value="2nd Year">2nd Year</option>
+                                        <option value="3rd Year">3rd Year</option>
+                                        <option value="4th Year">4th Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="auth-btn">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="login-right">
+                    <div class="portal-header">
+                        <h2>BMSCE Placement Portal</h2>
+                        <p>Your gateway to exceptional career opportunities at BMS College of Engineering</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-number">89%</div>
+                            <div class="stat-label">Placement Rate</div>
                         </div>
-                        <div class="form-group">
-                            <label for="loginPassword">Password</label>
-                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-number">₹52L</div>
+                            <div class="stat-label">Highest Package</div>
                         </div>
-                        <div class="form-group">
-                            <label for="loginDepartment">Department</label>
-                            <select id="loginDepartment" required>
-                                <option value="">Select your department</option>
-                                <option value="Computer Science & Engineering">Computer Science & Engineering</option>
-                                <option value="Information Science">Information Science</option>
-                                <option value="Electronics and Electrical">Electronics and Electrical</option>
-                                <option value="Mechanical">Mechanical</option>
-                                <option value="Civil">Civil</option>
-                                <option value="Biotechnology">Biotechnology</option>
-                            </select>
+                        <div class="stat-card">
+                            <div class="stat-icon">📈</div>
+                            <div class="stat-number">₹18L</div>
+                            <div class="stat-label">Average Package</div>
                         </div>
-                        <button type="submit" class="login-btn">Login to Portal</button>
-                    </form>
-                    <div class="login-footer">
-                        <p>Don't have an account? <a href="#" id="registerLink">Register here</a></p>
+                        <div class="stat-card">
+                            <div class="stat-icon">🏢</div>
+                            <div class="stat-number">56+</div>
+                            <div class="stat-label">Companies</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -116,14 +186,84 @@
                     </div>
                 </div>
 
-                <div class="info-card">
-                    <h3>BMS College of Engineering Excellence</h3>
-                    <p>BMS College of Engineering stands as a beacon of academic excellence and innovation in Karnataka. 
-                    Our institution has consistently produced exceptional engineering talent that has made significant 
-                    contributions to the technology industry across India and globally.</p>
-                    <p>With a remarkable track record of <strong>89% placement rate</strong> and 
-                    an impressive <strong>highest package of ₹52 LPA</strong>, 
-                    our students continue to showcase their expertise and secure positions in top-tier companies.</p>
+                <div class="excellence-section">
+                    <div class="excellence-left">
+                        <h3>BMS College of Engineering Excellence</h3>
+                        <p>BMS College of Engineering stands as a beacon of academic excellence and innovation in Karnataka. Our institution has consistently produced exceptional engineering talent that has made significant contributions to the technology industry across India and globally.</p>
+                        <p>With a remarkable track record of <strong style="color: #7c3aed;">89% placement rate</strong> and an impressive <strong style="color: #7c3aed;">highest package of ₹52 LPA</strong>, our students continue to showcase their expertise and secure positions in top-tier companies.</p>
+                        <p>The college's commitment to fostering innovation, research, and industry collaboration has resulted in year-on-year growth in placement statistics, with our graduates being recruited by <strong style="color: #7c3aed;">over 56 premier companies</strong> annually.</p>
+                    </div>
+                    <div class="excellence-right">
+                        <h3>Recent Achievement Recognition</h3>
+                        <div class="achievement-image">
+                            <img src="./attached_assets/image_1752734850908.png" alt="BMSCE Achievement Recognition" style="width: 100%; border-radius: 8px;">
+                        </div>
+                        <p>Our faculty and students being recognized for outstanding achievements in engineering education and industry partnerships at our Bengaluru campus.</p>
+                    </div>
+                </div>
+
+                <!-- Top Recruiting Companies -->
+                <div class="recruiting-section">
+                    <div class="recruiting-header">
+                        <h3>⭐ Top Recruiting Companies</h3>
+                    </div>
+                    <div class="recruiting-list">
+                        <div class="recruiting-item">
+                            <div class="rank-badge">1</div>
+                            <div class="company-info">
+                                <h4>Tata Consultancy Services</h4>
+                                <p>Information Technology</p>
+                            </div>
+                            <div class="company-stats">
+                                <span class="visits">25 visits</span>
+                                <span class="package">₹4 LPA avg</span>
+                            </div>
+                        </div>
+                        <div class="recruiting-item">
+                            <div class="rank-badge">2</div>
+                            <div class="company-info">
+                                <h4>Infosys</h4>
+                                <p>Information Technology</p>
+                            </div>
+                            <div class="company-stats">
+                                <span class="visits">22 visits</span>
+                                <span class="package">₹4 LPA avg</span>
+                            </div>
+                        </div>
+                        <div class="recruiting-item">
+                            <div class="rank-badge">3</div>
+                            <div class="company-info">
+                                <h4>Wipro</h4>
+                                <p>Information Technology</p>
+                            </div>
+                            <div class="company-stats">
+                                <span class="visits">18 visits</span>
+                                <span class="package">₹4 LPA avg</span>
+                            </div>
+                        </div>
+                        <div class="recruiting-item">
+                            <div class="rank-badge">4</div>
+                            <div class="company-info">
+                                <h4>HCL Technologies</h4>
+                                <p>Information Technology</p>
+                            </div>
+                            <div class="company-stats">
+                                <span class="visits">15 visits</span>
+                                <span class="package">₹5 LPA avg</span>
+                            </div>
+                        </div>
+                        <div class="recruiting-item">
+                            <div class="rank-badge">5</div>
+                            <div class="company-info">
+                                <h4>Tech Mahindra</h4>
+                                <p>Information Technology</p>
+                            </div>
+                            <div class="company-stats">
+                                <span class="visits">12 visits</span>
+                                <span class="package">₹4 LPA avg</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Dashboard Charts -->
@@ -379,7 +519,7 @@
                         <p><strong>Graduation Year:</strong> 2020</p>
                         <p>"Focus on data structures and algorithms. Practice consistently on LeetCode."</p>
                         <div class="alumni-contact">
-                            <button class="connect-btn" onclick="connectAlumni('rajesh.kumar@gmail.com')">Connect</button>
+                            <button class="connect-btn" onclick="openLinkedIn('rajesh-kumar-bmsce')">Connect on LinkedIn</button>
                         </div>
                     </div>
                     <div class="alumni-card">
@@ -390,7 +530,7 @@
                         <p><strong>Graduation Year:</strong> 2019</p>
                         <p>"Understanding user needs and technical feasibility is key to product success."</p>
                         <div class="alumni-contact">
-                            <button class="connect-btn" onclick="connectAlumni('priya.sharma@outlook.com')">Connect</button>
+                            <button class="connect-btn" onclick="openLinkedIn('priya-sharma-bmsce')">Connect on LinkedIn</button>
                         </div>
                     </div>
                     <div class="alumni-card">
@@ -401,7 +541,7 @@
                         <p><strong>Graduation Year:</strong> 2018</p>
                         <p>"System design knowledge is crucial for senior roles. Start learning early."</p>
                         <div class="alumni-contact">
-                            <button class="connect-btn" onclick="connectAlumni('arun.patel@amazon.com')">Connect</button>
+                            <button class="connect-btn" onclick="openLinkedIn('arun-patel-bmsce')">Connect on LinkedIn</button>
                         </div>
                     </div>
                     <div class="alumni-card">
@@ -412,7 +552,7 @@
                         <p><strong>Graduation Year:</strong> 2021</p>
                         <p>"Machine learning and statistics are the future. Build strong foundations."</p>
                         <div class="alumni-contact">
-                            <button class="connect-btn" onclick="connectAlumni('sneha.reddy@meta.com')">Connect</button>
+                            <button class="connect-btn" onclick="openLinkedIn('sneha-reddy-bmsce')">Connect on LinkedIn</button>
                         </div>
                     </div>
                     <div class="alumni-card">
@@ -423,7 +563,7 @@
                         <p><strong>Graduation Year:</strong> 2017</p>
                         <p>"Mobile development is rewarding. Focus on user experience and performance."</p>
                         <div class="alumni-contact">
-                            <button class="connect-btn" onclick="connectAlumni('karthik.nair@apple.com')">Connect</button>
+                            <button class="connect-btn" onclick="openLinkedIn('karthik-nair-bmsce')">Connect on LinkedIn</button>
                         </div>
                     </div>
                     <div class="alumni-card">
@@ -434,7 +574,7 @@
                         <p><strong>Graduation Year:</strong> 2019</p>
                         <p>"Cloud technologies and automation are essential. Learn Docker and Kubernetes."</p>
                         <div class="alumni-contact">
-                            <button class="connect-btn" onclick="connectAlumni('divya.menon@netflix.com')">Connect</button>
+                            <button class="connect-btn" onclick="openLinkedIn('divya-menon-bmsce')">Connect on LinkedIn</button>
                         </div>
                     </div>
                 </div>

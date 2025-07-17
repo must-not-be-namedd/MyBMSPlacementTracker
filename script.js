@@ -125,7 +125,7 @@ const departmentData = {
 // Login functionality
 function initializeLogin() {
     const loginForm = document.getElementById('loginForm');
-    const registerLink = document.getElementById('registerLink');
+    const signupForm = document.getElementById('signupForm');
     const loginPage = document.getElementById('loginPage');
     const mainContent = document.getElementById('mainContent');
     
@@ -134,20 +134,23 @@ function initializeLogin() {
         showMainApp();
     }
     
+    // Initialize auth tabs
+    initializeAuthTabs();
+    
+    // Handle sign in form
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
-        const department = document.getElementById('loginDepartment').value;
         
         // Basic validation (in real app, this would connect to backend)
-        if (email && password && department) {
+        if (email && password) {
             // Store user data
             const userData = {
                 email: email,
-                department: department,
-                loginTime: new Date().toISOString()
+                loginTime: new Date().toISOString(),
+                type: 'signin'
             };
             
             localStorage.setItem('bmsce-user', JSON.stringify(userData));
@@ -164,23 +167,92 @@ function initializeLogin() {
         }
     });
     
-    registerLink.addEventListener('click', (e) => {
+    // Handle sign up form
+    signupForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        showMessage('Registration feature coming soon! Please contact admin.', 'info');
+        
+        const name = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const department = document.getElementById('signupDepartment').value;
+        const year = document.getElementById('signupYear').value;
+        
+        // Basic validation
+        if (name && email && password && department && year) {
+            // Store user data
+            const userData = {
+                name: name,
+                email: email,
+                department: department,
+                year: year,
+                loginTime: new Date().toISOString(),
+                type: 'signup'
+            };
+            
+            localStorage.setItem('bmsce-user', JSON.stringify(userData));
+            
+            // Show success animation
+            showSignupSuccess();
+            
+            // Transition to main app
+            setTimeout(() => {
+                showMainApp();
+            }, 1500);
+        } else {
+            showMessage('Please fill in all fields', 'error');
+        }
     });
     
+    function initializeAuthTabs() {
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const targetTab = button.dataset.tab;
+                
+                // Remove active class from all tabs
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                button.classList.add('active');
+                document.getElementById(targetTab + 'Tab').classList.add('active');
+            });
+        });
+    }
+    
     function showLoginSuccess() {
-        const loginCard = document.querySelector('.login-card');
-        loginCard.style.transform = 'scale(1.1)';
-        loginCard.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-        loginCard.style.color = 'white';
+        const loginLeft = document.querySelector('.login-left');
+        loginLeft.style.transform = 'scale(1.05)';
+        loginLeft.style.background = 'linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%)';
+        loginLeft.style.color = 'white';
         
         setTimeout(() => {
-            loginCard.innerHTML = `
+            loginLeft.innerHTML = `
                 <div style="text-align: center; padding: 2rem;">
                     <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
-                    <h2>Welcome to BMSCE Portal!</h2>
+                    <h2>Welcome Back!</h2>
                     <p>Redirecting to dashboard...</p>
+                </div>
+            `;
+        }, 500);
+    }
+    
+    function showSignupSuccess() {
+        const loginLeft = document.querySelector('.login-left');
+        loginLeft.style.transform = 'scale(1.05)';
+        loginLeft.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+        loginLeft.style.color = 'white';
+        
+        setTimeout(() => {
+            loginLeft.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
+                    <h2>Account Created!</h2>
+                    <p>Welcome to BMSCE Portal...</p>
                 </div>
             `;
         }, 500);
@@ -507,28 +579,17 @@ function addToCalendar(bookingId, type, date, time, meetLink) {
 }
 
 // Alumni connection functionality
-function connectAlumni(email) {
-    const subject = 'Connection Request from BMSCE Student';
-    const body = `Dear Alumni,
+function connectAlumni(linkedinUrl) {
+    // Open LinkedIn profile in new tab
+    window.open(linkedinUrl, '_blank');
+    showMessage('LinkedIn profile opened in new tab!', 'success');
+}
 
-I hope this message finds you well. I am a current student at BMS College of Engineering and came across your profile on our placement portal.
-
-I would love to connect with you and learn from your experience in the industry. Would you be available for a brief conversation about your career journey and any advice you might have for someone starting their career?
-
-Thank you for your time and I look forward to hearing from you.
-
-Best regards,
-[Your Name]
-[Your Department]
-[Your Contact Information]
-
----
-This message was sent through the BMSCE Placement Portal`;
-    
-    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    window.open(mailtoLink);
-    showMessage('Email client opened! Please send the connection request.', 'success');
+// LinkedIn integration for alumni network
+function openLinkedIn(profileHandle) {
+    const linkedInUrl = `https://www.linkedin.com/in/${profileHandle}`;
+    window.open(linkedInUrl, '_blank');
+    showMessage('Opening LinkedIn profile in new tab...', 'info');
 }
 
 // Utility functions
