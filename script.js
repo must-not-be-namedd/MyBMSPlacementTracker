@@ -129,48 +129,232 @@ function initializeLogin() {
     const loginPage = document.getElementById('loginPage');
     const mainContent = document.getElementById('mainContent');
     
-    // Check if user is already logged in
-    if (localStorage.getItem('bmsce-user')) {
-        showMainApp();
-    }
+    // Check if user is already authenticated
+    checkAuthStatus();
     
     // Initialize auth tabs
     initializeAuthTabs();
     
     // Handle sign in form
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         
-        // Basic validation (in real app, this would connect to backend)
-        if (email && password) {
-            // Store user data
-            const userData = {
-                email: email,
-                loginTime: new Date().toISOString(),
-                type: 'signin'
-            };
+        // Validate password strength
+        if (password.length < 4) {
+            showMessage('Password must be at least 4 characters long', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/auth/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({ email, password })
+            });
             
-            localStorage.setItem('bmsce-user', JSON.stringify(userData));
+            const data = await response.json();
             
-            // Show success animation
-            showLoginSuccess();
-            
-            // Transition to main app
-            setTimeout(() => {
-                showMainApp();
-            }, 1500);
-        } else {
-            showMessage('Please fill in all fields', 'error');
+            if (response.ok) {
+                currentUser = data.user;
+                isAuthenticated = true;
+                showLoginSuccess();
+                
+                // Transition to main app
+                setTimeout(() => {
+                    showMainApp();
+                }, 1500);
+            } else {
+                showMessage(data.message || 'Invalid email or password', 'error');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            showMessage('Login failed. Please try again.', 'error');
         }
     });
     
     // Handle sign up form
-    signupForm.addEventListener('submit', (e) => {
+    signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const fullName = document.getElementById('signupName').value;
+        const department = document.getElementById('signupDepartment').value;
+        
+        // Validate password strength
+        if (password.length < 4) {
+            showMessage('Password must be at least 4 characters long', 'error');
+            return;
+        }
+        
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+            showMessage('Password must contain at least one uppercase letter, one lowercase letter, and one number', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify({ email, password, fullName, department })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                currentUser = data.user;
+                isAuthenticated = true;
+                showSignupSuccess();
+                
+                // Transition to main app
+                setTimeout(() => {
+                    showMainApp();
+                }, 1500);
+            } else {
+                showMessage(data.message || 'Signup failed', 'error');
+            }
+        } catch (error) {
+            console.error('Signup error:', error);
+            showMessage('Signup failed. Please try again.', 'error');
+        }
+        
+        });
+    }
+}
+
+// Authentication functions
+async function checkAuthStatus() {
+    try {
+        const response = await fetch('/api/user', {
+            credentials: 'include'
+        });
+        
+        if (response.ok) {
+            const user = await response.json();
+            currentUser = user;
+            isAuthenticated = true;
+            showMainApp();
+        } else {
+            showLoginPage();
+        }
+    } catch (error) {
+        console.error('Auth check error:', error);
+        showLoginPage();
+    }
+}
+
+function showLoginPage() {
+    const loginPage = document.getElementById('loginPage');
+    const mainContent = document.getElementById('mainContent');
+    
+    loginPage.style.display = 'flex';
+    mainContent.style.display = 'none';
+}
+
+function showMainContent() {
+    const loginPage = document.getElementById('loginPage');
+    const mainContent = document.getElementById('mainContent');
+    
+    loginPage.style.display = 'none';
+    mainContent.style.display = 'block';
+}
+
+async function loadDashboardData() {
+    try {
+        const response = await fetch('/api/dashboard/stats', {
+            credentials: 'include'
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            updateDashboardStats(data);
+        }
+    } catch (error) {
+        console.error('Dashboard data error:', error);
+    }
+}
+
+function updateDashboardStats(data) {
+    const stats = document.querySelectorAll('.stats-card');
+    if (stats.length >= 4) {
+        stats[0].querySelector('.stats-value').textContent = data.totalStudents;
+        stats[1].querySelector('.stats-value').textContent = data.placementRate + '%';
+        stats[2].querySelector('.stats-value').textContent = data.averagePackage + ' LPA';
+        stats[3].querySelector('.stats-value').textContent = data.highestPackage + ' LPA';
+    }
+}
+
+// Authentication functions
+async function checkAuthStatus() {
+    try {
+        const response = await fetch('/api/user', {
+            credentials: 'include'
+        });
+        
+        if (response.ok) {
+            const user = await response.json();
+            currentUser = user;
+            isAuthenticated = true;
+            showMainApp();
+        } else {
+            showLoginPage();
+        }
+    } catch (error) {
+        console.error('Auth check error:', error);
+        showLoginPage();
+    }
+}
+
+function showLoginPage() {
+    const loginPage = document.getElementById('loginPage');
+    const mainContent = document.getElementById('mainContent');
+    
+    loginPage.style.display = 'flex';
+    mainContent.style.display = 'none';
+}
+
+function showMainContent() {
+    const loginPage = document.getElementById('loginPage');
+    const mainContent = document.getElementById('mainContent');
+    
+    loginPage.style.display = 'none';
+    mainContent.style.display = 'block';
+}
+
+async function loadDashboardData() {
+    try {
+        const response = await fetch('/api/dashboard/stats', {
+            credentials: 'include'
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            updateDashboardStats(data);
+        }
+    } catch (error) {
+        console.error('Dashboard data error:', error);
+    }
+}
+
+function updateDashboardStats(data) {
+    const stats = document.querySelectorAll('.stats-card');
+    if (stats.length >= 4) {
+        stats[0].querySelector('.stats-value').textContent = data.totalStudents;
+        stats[1].querySelector('.stats-value').textContent = data.placementRate + '%';
+        stats[2].querySelector('.stats-value').textContent = data.averagePackage + ' LPA';
+        stats[3].querySelector('.stats-value').textContent = data.highestPackage + ' LPA';
+    }
+}
+
         const name = document.getElementById('signupName').value;
         const email = document.getElementById('signupEmail').value;
         const password = document.getElementById('signupPassword').value;
@@ -267,6 +451,7 @@ function initializeLogin() {
         setTimeout(() => {
             initializeCharts();
             initializeInteractiveGraphs();
+            loadDashboardData();
         }, 500);
     }
 }
