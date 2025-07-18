@@ -136,45 +136,34 @@ function initializeLogin() {
     initializeAuthTabs();
     
     // Handle sign in form
-    loginForm.addEventListener('submit', async (e) => {
+    loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         
-        // Validate password strength
-        if (password.length < 4) {
-            showMessage('Password must be at least 4 characters long', 'error');
-            return;
-        }
-        
-        try {
-            const response = await fetch('/api/auth/signin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include',
-                body: JSON.stringify({ email, password })
-            });
+        // Basic validation (simple check)
+        if (email && password) {
+            // Store user data
+            const userData = {
+                email: email,
+                loginTime: new Date().toISOString(),
+                type: 'signin'
+            };
             
-            const data = await response.json();
+            localStorage.setItem('bmsce-user', JSON.stringify(userData));
+            currentUser = userData;
+            isAuthenticated = true;
             
-            if (response.ok) {
-                currentUser = data.user;
-                isAuthenticated = true;
-                showLoginSuccess();
-                
-                // Transition to main app
-                setTimeout(() => {
-                    showMainApp();
-                }, 1500);
-            } else {
-                showMessage(data.message || 'Invalid email or password', 'error');
-            }
-        } catch (error) {
-            console.error('Login error:', error);
-            showMessage('Login failed. Please try again.', 'error');
+            // Show success animation
+            showLoginSuccess();
+            
+            // Transition to main app
+            setTimeout(() => {
+                showMainApp();
+            }, 1500);
+        } else {
+            showMessage('Please fill in all fields', 'error');
         }
     });
     
@@ -187,44 +176,30 @@ function initializeLogin() {
         const fullName = document.getElementById('signupName').value;
         const department = document.getElementById('signupDepartment').value;
         
-        // Validate password strength
-        if (password.length < 4) {
-            showMessage('Password must be at least 4 characters long', 'error');
-            return;
-        }
-        
-        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-            showMessage('Password must contain at least one uppercase letter, one lowercase letter, and one number', 'error');
-            return;
-        }
-        
-        try {
-            const response = await fetch('/api/auth/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include',
-                body: JSON.stringify({ email, password, fullName, department })
-            });
+        // Simple validation - just check if fields are filled
+        if (email && password && fullName && department) {
+            // Store user data locally for easy access
+            const userData = {
+                email: email,
+                fullName: fullName,
+                department: department,
+                loginTime: new Date().toISOString(),
+                type: 'signup'
+            };
             
-            const data = await response.json();
+            localStorage.setItem('bmsce-user', JSON.stringify(userData));
+            currentUser = userData;
+            isAuthenticated = true;
             
-            if (response.ok) {
-                currentUser = data.user;
-                isAuthenticated = true;
-                showSignupSuccess();
-                
-                // Transition to main app
-                setTimeout(() => {
-                    showMainApp();
-                }, 1500);
-            } else {
-                showMessage(data.message || 'Signup failed', 'error');
-            }
-        } catch (error) {
-            console.error('Signup error:', error);
-            showMessage('Signup failed. Please try again.', 'error');
+            // Show success animation
+            showSignupSuccess();
+            
+            // Transition to main app
+            setTimeout(() => {
+                showMainApp();
+            }, 1500);
+        } else {
+            showMessage('Please fill in all fields', 'error');
         }
         
         });
@@ -232,15 +207,11 @@ function initializeLogin() {
 }
 
 // Authentication functions
-async function checkAuthStatus() {
+function checkAuthStatus() {
     try {
-        const response = await fetch('/api/user', {
-            credentials: 'include'
-        });
-        
-        if (response.ok) {
-            const user = await response.json();
-            currentUser = user;
+        const storedUser = localStorage.getItem('bmsce-user');
+        if (storedUser) {
+            currentUser = JSON.parse(storedUser);
             isAuthenticated = true;
             showMainApp();
         } else {
@@ -293,25 +264,12 @@ function updateDashboardStats(data) {
     }
 }
 
-// Authentication functions
-async function checkAuthStatus() {
-    try {
-        const response = await fetch('/api/user', {
-            credentials: 'include'
-        });
-        
-        if (response.ok) {
-            const user = await response.json();
-            currentUser = user;
-            isAuthenticated = true;
-            showMainApp();
-        } else {
-            showLoginPage();
-        }
-    } catch (error) {
-        console.error('Auth check error:', error);
-        showLoginPage();
-    }
+// Logout function
+function logout() {
+    localStorage.removeItem('bmsce-user');
+    currentUser = null;
+    isAuthenticated = false;
+    showLoginPage();
 }
 
 function showLoginPage() {
@@ -1339,6 +1297,254 @@ function createSharpSalaryTrends() {
     `;
     
     addInteractiveTooltips('salaryTooltip');
+}
+
+// Initialize the application
+document.addEventListener('DOMContentLoaded', () => {
+    initialize();
+    checkAuthStatus();
+    
+    // Add logout button functionality
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', logout);
+    }
+    
+    // Initialize charts after DOM is ready
+    if (typeof Chart !== 'undefined') {
+        initializeCharts();
+    }
+});
+
+// Initialize charts with Chart.js
+function initializeCharts() {
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeInteractiveGraphs);
+    } else {
+        initializeInteractiveGraphs();
+    }
+}
+
+function initializeInteractiveGraphs() {
+    initializeDashboardCharts();
+    initializeDepartmentCharts();
+    initializeRecruitmentChart();
+    initializeSalaryTrendsChart();
+}
+
+function initializeDashboardCharts() {
+    // Placement Rate Chart
+    const placementCtx = document.getElementById('placementChart');
+    if (placementCtx) {
+        new Chart(placementCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Placed', 'Not Placed'],
+                datasets: [{
+                    data: [89, 11],
+                    backgroundColor: ['#4CAF50', '#F44336'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#333',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Package Distribution Chart
+    const packageCtx = document.getElementById('packageChart');
+    if (packageCtx) {
+        new Chart(packageCtx, {
+            type: 'bar',
+            data: {
+                labels: ['0-5 LPA', '5-10 LPA', '10-15 LPA', '15-20 LPA', '20+ LPA'],
+                datasets: [{
+                    label: 'Students',
+                    data: [150, 420, 380, 200, 100],
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+
+    // Yearly Trends Chart
+    const trendsCtx = document.getElementById('trendsChart');
+    if (trendsCtx) {
+        new Chart(trendsCtx, {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Placement Rate %',
+                    data: [78, 82, 85, 87, 89],
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                    fill: true
+                }, {
+                    label: 'Average Package (LPA)',
+                    data: [12, 14, 16, 17, 18],
+                    borderColor: '#2196F3',
+                    backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    }
+}
+
+function initializeDepartmentCharts() {
+    // Department-wise Placement Chart
+    const deptCtx = document.getElementById('departmentChart');
+    if (deptCtx) {
+        new Chart(deptCtx, {
+            type: 'bar',
+            data: {
+                labels: ['CSE', 'ECE', 'ME', 'EEE', 'CE', 'BT'],
+                datasets: [{
+                    label: 'Placement Rate %',
+                    data: [95, 91, 83, 87, 79, 85],
+                    backgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56',
+                        '#4BC0C0',
+                        '#9966FF',
+                        '#FF9F40'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+}
+
+function initializeRecruitmentChart() {
+    // Top Recruiters Chart
+    const recruitersCtx = document.getElementById('recruitersChart');
+    if (recruitersCtx) {
+        new Chart(recruitersCtx, {
+            type: 'bar',
+            data: {
+                labels: ['TCS', 'Infosys', 'Google', 'Microsoft', 'Amazon'],
+                datasets: [{
+                    label: 'Offers',
+                    data: [35, 28, 25, 22, 18],
+                    backgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56',
+                        '#4BC0C0',
+                        '#9966FF'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+}
+
+function initializeSalaryTrendsChart() {
+    // Salary Trends Chart
+    const salaryCtx = document.getElementById('salaryTrendsChart');
+    if (salaryCtx) {
+        new Chart(salaryCtx, {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Highest Package (LPA)',
+                    data: [35, 42, 48, 50, 52],
+                    borderColor: '#FF6384',
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                    fill: true
+                }, {
+                    label: 'Average Package (LPA)',
+                    data: [12, 14, 16, 17, 18],
+                    borderColor: '#36A2EB',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    }
 }
 
 function createTrendLines(data) {
