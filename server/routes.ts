@@ -1,152 +1,79 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { setupAuth } from "./auth";
 import { storage } from "./storage";
-import session from "express-session";
-import connectPg from "connect-pg-simple";
-import { signupSchema, signinSchema } from "../shared/schema";
-import { z } from "zod";
-
-declare module "express-session" {
-  interface SessionData {
-    userId?: number;
-  }
-}
+import { insertInterviewSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Session middleware
-  const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
-  const pgStore = connectPg(session);
-  const sessionStore = new pgStore({
-    conString: process.env.DATABASE_URL,
-    createTableIfMissing: true,
-    ttl: sessionTtl,
-    tableName: "sessions",
+  setupAuth(app);
+
+  // Department stats endpoints
+  app.get("/api/departments", async (req, res) => {
+    const stats = await storage.getDepartmentStats(req.query.department as string);
+    res.json(stats);
   });
 
-  app.use(session({
-    secret: process.env.SESSION_SECRET || 'bmsce-placement-secret',
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: false, // Set to true in production with HTTPS
-      maxAge: sessionTtl,
-    },
-  }));
+  // Mock interviews endpoints
+  app.get("/api/interviews", async (req, res) => {
+    if (!req.user) return res.sendStatus(401);
+    const interviews = await storage.getInterviews(req.user.id);
+    res.json(interviews);
+  });
 
-  // Auth middleware
-  const requireAuth = (req: any, res: any, next: any) => {
-    if (!req.session.userId) {
-      return res.status(401).json({ message: "Not authenticated" });
-    }
-    next();
-  };
-
-  // Auth routes
-  app.post('/api/auth/signup', async (req, res) => {
+  app.post("/api/interviews", async (req, res) => {
+    if (!req.user) return res.sendStatus(401);
+    
     try {
-      const data = signupSchema.parse(req.body);
+      // Convert the date string to a Date object before validation
+      const requestData = {
+        ...req.body,
+        userId: req.user.id
+      };
       
-      // Check if user already exists
-      const existingUser = await storage.getUserByEmail(data.email);
-      if (existingUser) {
-        return res.status(400).json({ message: "User already exists" });
+      // Convert date string to Date object if it's a string
+      if (typeof requestData.date === 'string') {
+        requestData.date = new Date(requestData.date);
       }
-
-      const user = await storage.createUser(data);
-      req.session.userId = user.id;
       
-      res.json({ 
-        message: "User created successfully",
-        user: {
-          id: user.id,
-          email: user.email,
-          fullName: user.fullName,
-          department: user.department
-        }
-      });
+      // Validate the data
+      const data = insertInterviewSchema.parse(requestData);
+      
+      // Create a Google Meet link if not provided
+      if (!data.meetLink) {
+        const meetId = Math.random().toString(36).substring(2, 10);
+        data.meetLink = `https://meet.google.com/${meetId}`;
+      }
+      
+      const interview = await storage.createInterview(data);
+      res.status(201).json(interview);
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: error.errors[0].message });
-      }
-      console.error("Signup error:", error);
-      res.status(500).json({ message: "Failed to create user" });
+      console.error("Interview booking error:", error);
+      res.status(400).json({ error: "Invalid interview data" });
     }
   });
 
-  app.post('/api/auth/signin', async (req, res) => {
-    try {
-      const data = signinSchema.parse(req.body);
-      
-      const user = await storage.validateUser(data.email, data.password);
-      if (!user) {
-        return res.status(401).json({ message: "Invalid email or password" });
-      }
-
-      req.session.userId = user.id;
-      
-      res.json({ 
-        message: "Signed in successfully",
-        user: {
-          id: user.id,
-          email: user.email,
-          fullName: user.fullName,
-          department: user.department
-        }
-      });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: error.errors[0].message });
-      }
-      console.error("Signin error:", error);
-      res.status(500).json({ message: "Failed to sign in" });
-    }
+  // Companies endpoints
+  app.get("/api/companies", async (req, res) => {
+    const companies = await storage.getCompanies();
+    res.json(companies);
   });
 
-  app.post('/api/auth/logout', (req, res) => {
-    req.session.destroy((err) => {
-      if (err) {
-        return res.status(500).json({ message: "Failed to logout" });
-      }
-      res.json({ message: "Logged out successfully" });
-    });
+  // Alumni endpoints
+  app.get("/api/alumni", async (req, res) => {
+    const alumni = await storage.getAlumni();
+    res.json(alumni);
   });
 
-  app.get('/api/user', requireAuth, async (req, res) => {
-    try {
-      const user = await storage.getUserById(req.session.userId!);
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-      
-      res.json({
-        id: user.id,
-        email: user.email,
-        fullName: user.fullName,
-        department: user.department
-      });
-    } catch (error) {
-      console.error("Get user error:", error);
-      res.status(500).json({ message: "Failed to get user" });
-    }
+  // Resources endpoints
+  app.get("/api/resources", async (req, res) => {
+    const resources = await storage.getResources();
+    res.json(resources);
   });
 
-  // Dashboard data endpoint
-  app.get('/api/dashboard/stats', requireAuth, (req, res) => {
-    res.json({
-      totalStudents: 1250,
-      placementRate: 89,
-      averagePackage: 18,
-      highestPackage: 52,
-      topRecruiters: [
-        { name: "Google", offers: 25 },
-        { name: "Microsoft", offers: 22 },
-        { name: "Amazon", offers: 18 },
-        { name: "TCS", offers: 35 },
-        { name: "Infosys", offers: 28 }
-      ]
-    });
+  // FAQs endpoints
+  app.get("/api/faqs", async (req, res) => {
+    const faqs = await storage.getFAQs();
+    res.json(faqs);
   });
 
   const httpServer = createServer(app);

@@ -129,8 +129,10 @@ function initializeLogin() {
     const loginPage = document.getElementById('loginPage');
     const mainContent = document.getElementById('mainContent');
     
-    // Check if user is already authenticated
-    checkAuthStatus();
+    // Check if user is already logged in
+    if (localStorage.getItem('bmsce-user')) {
+        showMainApp();
+    }
     
     // Initialize auth tabs
     initializeAuthTabs();
@@ -142,9 +144,9 @@ function initializeLogin() {
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         
-        // Ultra-simple validation - accept any non-empty values
+        // Basic validation (in real app, this would connect to backend)
         if (email && password) {
-            // Store user data immediately
+            // Store user data
             const userData = {
                 email: email,
                 loginTime: new Date().toISOString(),
@@ -152,172 +154,54 @@ function initializeLogin() {
             };
             
             localStorage.setItem('bmsce-user', JSON.stringify(userData));
-            currentUser = userData;
-            isAuthenticated = true;
             
-            // Show success and transition immediately
-            showMessage('Login successful!', 'success');
-            showMainApp();
+            // Show success animation
+            showLoginSuccess();
+            
+            // Transition to main app
+            setTimeout(() => {
+                showMainApp();
+            }, 1500);
         } else {
-            showMessage('Please enter email and password', 'error');
+            showMessage('Please fill in all fields', 'error');
         }
     });
     
     // Handle sign up form
-    signupForm.addEventListener('submit', async (e) => {
+    signupForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
+        const name = document.getElementById('signupName').value;
         const email = document.getElementById('signupEmail').value;
         const password = document.getElementById('signupPassword').value;
-        const fullName = document.getElementById('signupName').value;
         const department = document.getElementById('signupDepartment').value;
+        const year = document.getElementById('signupYear').value;
         
-        // Ultra-simple validation - accept any non-empty values
-        if (email && password && fullName && department) {
-            // Store user data immediately
+        // Basic validation
+        if (name && email && password && department && year) {
+            // Store user data
             const userData = {
+                name: name,
                 email: email,
-                fullName: fullName,
                 department: department,
+                year: year,
                 loginTime: new Date().toISOString(),
                 type: 'signup'
             };
             
             localStorage.setItem('bmsce-user', JSON.stringify(userData));
-            currentUser = userData;
-            isAuthenticated = true;
             
-            // Show success and transition immediately
-            showMessage('Account created successfully!', 'success');
-            showMainApp();
+            // Show success animation
+            showSignupSuccess();
+            
+            // Transition to main app
+            setTimeout(() => {
+                showMainApp();
+            }, 1500);
         } else {
             showMessage('Please fill in all fields', 'error');
         }
     });
-}
-
-// Authentication functions
-function checkAuthStatus() {
-    try {
-        const storedUser = localStorage.getItem('bmsce-user');
-        if (storedUser) {
-            currentUser = JSON.parse(storedUser);
-            isAuthenticated = true;
-            showMainApp();
-        } else {
-            showLoginPage();
-        }
-    } catch (error) {
-        console.error('Auth check error:', error);
-        showLoginPage();
-    }
-}
-
-function showLoginPage() {
-    const loginPage = document.getElementById('loginPage');
-    const mainContent = document.getElementById('mainContent');
-    
-    loginPage.style.display = 'flex';
-    mainContent.style.display = 'none';
-}
-
-function showMainContent() {
-    const loginPage = document.getElementById('loginPage');
-    const mainContent = document.getElementById('mainContent');
-    
-    loginPage.style.display = 'none';
-    mainContent.style.display = 'block';
-}
-
-async function loadDashboardData() {
-    try {
-        const response = await fetch('/api/dashboard/stats', {
-            credentials: 'include'
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            updateDashboardStats(data);
-        }
-    } catch (error) {
-        console.error('Dashboard data error:', error);
-    }
-}
-
-function updateDashboardStats(data) {
-    const stats = document.querySelectorAll('.stats-card');
-    if (stats.length >= 4) {
-        stats[0].querySelector('.stats-value').textContent = data.totalStudents;
-        stats[1].querySelector('.stats-value').textContent = data.placementRate + '%';
-        stats[2].querySelector('.stats-value').textContent = data.averagePackage + ' LPA';
-        stats[3].querySelector('.stats-value').textContent = data.highestPackage + ' LPA';
-    }
-}
-
-// Logout function
-function logout() {
-    localStorage.removeItem('bmsce-user');
-    currentUser = null;
-    isAuthenticated = false;
-    showLoginPage();
-}
-
-function showLoginPage() {
-    const loginPage = document.getElementById('loginPage');
-    const mainContent = document.getElementById('mainContent');
-    
-    loginPage.style.display = 'flex';
-    mainContent.style.display = 'none';
-}
-
-function showMainContent() {
-    const loginPage = document.getElementById('loginPage');
-    const mainContent = document.getElementById('mainContent');
-    
-    loginPage.style.display = 'none';
-    mainContent.style.display = 'block';
-}
-
-async function loadDashboardData() {
-    try {
-        const response = await fetch('/api/dashboard/stats', {
-            credentials: 'include'
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            updateDashboardStats(data);
-        }
-    } catch (error) {
-        console.error('Dashboard data error:', error);
-    }
-}
-
-function updateDashboardStats(data) {
-    const stats = document.querySelectorAll('.stats-card');
-    if (stats.length >= 4) {
-        stats[0].querySelector('.stats-value').textContent = data.totalStudents;
-        stats[1].querySelector('.stats-value').textContent = data.placementRate + '%';
-        stats[2].querySelector('.stats-value').textContent = data.averagePackage + ' LPA';
-        stats[3].querySelector('.stats-value').textContent = data.highestPackage + ' LPA';
-    }
-}
-
-// Create showMainApp function
-function showMainApp() {
-    const loginPage = document.getElementById('loginPage');
-    const mainContent = document.getElementById('mainContent');
-    
-    if (loginPage) loginPage.style.display = 'none';
-    if (mainContent) mainContent.style.display = 'block';
-    
-    // Initialize charts after showing main content
-    setTimeout(() => {
-        if (typeof Chart !== 'undefined') {
-            initializeInteractiveGraphs();
-        }
-    }, 100);
-}
     
     function initializeAuthTabs() {
         const tabButtons = document.querySelectorAll('.tab-btn');
@@ -383,7 +267,6 @@ function showMainApp() {
         setTimeout(() => {
             initializeCharts();
             initializeInteractiveGraphs();
-            loadDashboardData();
         }, 500);
     }
 }
@@ -1271,250 +1154,6 @@ function createSharpSalaryTrends() {
     `;
     
     addInteractiveTooltips('salaryTooltip');
-}
-
-// Initialize the application
-document.addEventListener('DOMContentLoaded', () => {
-    initialize();
-    checkAuthStatus();
-    initializeLogin();
-    
-    // Add logout button functionality
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', logout);
-    }
-});
-
-// Initialize charts with Chart.js
-function initializeCharts() {
-    // Wait for DOM to be ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeInteractiveGraphs);
-    } else {
-        initializeInteractiveGraphs();
-    }
-}
-
-function initializeInteractiveGraphs() {
-    initializeDashboardCharts();
-    initializeDepartmentCharts();
-    initializeRecruitmentChart();
-    initializeSalaryTrendsChart();
-}
-
-function initializeDashboardCharts() {
-    // Placement Rate Chart
-    const placementCtx = document.getElementById('placementChart');
-    if (placementCtx) {
-        new Chart(placementCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Placed', 'Not Placed'],
-                datasets: [{
-                    data: [89, 11],
-                    backgroundColor: ['#4CAF50', '#F44336'],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            color: '#333',
-                            font: {
-                                size: 12
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    // Package Distribution Chart
-    const packageCtx = document.getElementById('packageChart');
-    if (packageCtx) {
-        new Chart(packageCtx, {
-            type: 'bar',
-            data: {
-                labels: ['0-5 LPA', '5-10 LPA', '10-15 LPA', '15-20 LPA', '20+ LPA'],
-                datasets: [{
-                    label: 'Students',
-                    data: [150, 420, 380, 200, 100],
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        });
-    }
-
-    // Yearly Trends Chart
-    const trendsCtx = document.getElementById('trendsChart');
-    if (trendsCtx) {
-        new Chart(trendsCtx, {
-            type: 'line',
-            data: {
-                labels: ['2020', '2021', '2022', '2023', '2024'],
-                datasets: [{
-                    label: 'Placement Rate %',
-                    data: [78, 82, 85, 87, 89],
-                    borderColor: '#4CAF50',
-                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                    fill: true
-                }, {
-                    label: 'Average Package (LPA)',
-                    data: [12, 14, 16, 17, 18],
-                    borderColor: '#2196F3',
-                    backgroundColor: 'rgba(33, 150, 243, 0.1)',
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                }
-            }
-        });
-    }
-}
-
-function initializeDepartmentCharts() {
-    // Department-wise Placement Chart
-    const deptCtx = document.getElementById('departmentChart');
-    if (deptCtx) {
-        new Chart(deptCtx, {
-            type: 'bar',
-            data: {
-                labels: ['CSE', 'ECE', 'ME', 'EEE', 'CE', 'BT'],
-                datasets: [{
-                    label: 'Placement Rate %',
-                    data: [95, 91, 83, 87, 79, 85],
-                    backgroundColor: [
-                        '#FF6384',
-                        '#36A2EB',
-                        '#FFCE56',
-                        '#4BC0C0',
-                        '#9966FF',
-                        '#FF9F40'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        });
-    }
-}
-
-function initializeRecruitmentChart() {
-    // Top Recruiters Chart
-    const recruitersCtx = document.getElementById('recruitersChart');
-    if (recruitersCtx) {
-        new Chart(recruitersCtx, {
-            type: 'bar',
-            data: {
-                labels: ['TCS', 'Infosys', 'Google', 'Microsoft', 'Amazon'],
-                datasets: [{
-                    label: 'Offers',
-                    data: [35, 28, 25, 22, 18],
-                    backgroundColor: [
-                        '#FF6384',
-                        '#36A2EB',
-                        '#FFCE56',
-                        '#4BC0C0',
-                        '#9966FF'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        });
-    }
-}
-
-function initializeSalaryTrendsChart() {
-    // Salary Trends Chart
-    const salaryCtx = document.getElementById('salaryTrendsChart');
-    if (salaryCtx) {
-        new Chart(salaryCtx, {
-            type: 'line',
-            data: {
-                labels: ['2020', '2021', '2022', '2023', '2024'],
-                datasets: [{
-                    label: 'Highest Package (LPA)',
-                    data: [35, 42, 48, 50, 52],
-                    borderColor: '#FF6384',
-                    backgroundColor: 'rgba(255, 99, 132, 0.1)',
-                    fill: true
-                }, {
-                    label: 'Average Package (LPA)',
-                    data: [12, 14, 16, 17, 18],
-                    borderColor: '#36A2EB',
-                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    }
-                }
-            }
-        });
-    }
 }
 
 function createTrendLines(data) {
