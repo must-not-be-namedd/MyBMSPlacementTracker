@@ -142,9 +142,9 @@ function initializeLogin() {
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         
-        // Basic validation (simple check)
+        // Ultra-simple validation - accept any non-empty values
         if (email && password) {
-            // Store user data
+            // Store user data immediately
             const userData = {
                 email: email,
                 loginTime: new Date().toISOString(),
@@ -155,15 +155,11 @@ function initializeLogin() {
             currentUser = userData;
             isAuthenticated = true;
             
-            // Show success animation
-            showLoginSuccess();
-            
-            // Transition to main app
-            setTimeout(() => {
-                showMainApp();
-            }, 1500);
+            // Show success and transition immediately
+            showMessage('Login successful!', 'success');
+            showMainApp();
         } else {
-            showMessage('Please fill in all fields', 'error');
+            showMessage('Please enter email and password', 'error');
         }
     });
     
@@ -176,9 +172,9 @@ function initializeLogin() {
         const fullName = document.getElementById('signupName').value;
         const department = document.getElementById('signupDepartment').value;
         
-        // Simple validation - just check if fields are filled
+        // Ultra-simple validation - accept any non-empty values
         if (email && password && fullName && department) {
-            // Store user data locally for easy access
+            // Store user data immediately
             const userData = {
                 email: email,
                 fullName: fullName,
@@ -191,19 +187,13 @@ function initializeLogin() {
             currentUser = userData;
             isAuthenticated = true;
             
-            // Show success animation
-            showSignupSuccess();
-            
-            // Transition to main app
-            setTimeout(() => {
-                showMainApp();
-            }, 1500);
+            // Show success and transition immediately
+            showMessage('Account created successfully!', 'success');
+            showMainApp();
         } else {
             showMessage('Please fill in all fields', 'error');
         }
-        
-        });
-    }
+    });
 }
 
 // Authentication functions
@@ -313,37 +303,21 @@ function updateDashboardStats(data) {
     }
 }
 
-        const name = document.getElementById('signupName').value;
-        const email = document.getElementById('signupEmail').value;
-        const password = document.getElementById('signupPassword').value;
-        const department = document.getElementById('signupDepartment').value;
-        const year = document.getElementById('signupYear').value;
-        
-        // Basic validation
-        if (name && email && password && department && year) {
-            // Store user data
-            const userData = {
-                name: name,
-                email: email,
-                department: department,
-                year: year,
-                loginTime: new Date().toISOString(),
-                type: 'signup'
-            };
-            
-            localStorage.setItem('bmsce-user', JSON.stringify(userData));
-            
-            // Show success animation
-            showSignupSuccess();
-            
-            // Transition to main app
-            setTimeout(() => {
-                showMainApp();
-            }, 1500);
-        } else {
-            showMessage('Please fill in all fields', 'error');
+// Create showMainApp function
+function showMainApp() {
+    const loginPage = document.getElementById('loginPage');
+    const mainContent = document.getElementById('mainContent');
+    
+    if (loginPage) loginPage.style.display = 'none';
+    if (mainContent) mainContent.style.display = 'block';
+    
+    // Initialize charts after showing main content
+    setTimeout(() => {
+        if (typeof Chart !== 'undefined') {
+            initializeInteractiveGraphs();
         }
-    });
+    }, 100);
+}
     
     function initializeAuthTabs() {
         const tabButtons = document.querySelectorAll('.tab-btn');
@@ -1303,16 +1277,12 @@ function createSharpSalaryTrends() {
 document.addEventListener('DOMContentLoaded', () => {
     initialize();
     checkAuthStatus();
+    initializeLogin();
     
     // Add logout button functionality
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', logout);
-    }
-    
-    // Initialize charts after DOM is ready
-    if (typeof Chart !== 'undefined') {
-        initializeCharts();
     }
 });
 
