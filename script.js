@@ -292,27 +292,48 @@ function initializeLogin() {
 
 // Navigation functionality
 function initializeNavigation() {
+    console.log('Initializing navigation...');
     const navLinks = document.querySelectorAll('.sidebar-menu a');
     const pages = document.querySelectorAll('.page');
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebar = document.getElementById('sidebar');
 
-    // Mobile sidebar toggle functionality
+    // Mobile sidebar toggle functionality - CRITICAL FIX
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebarClose = document.getElementById('sidebarClose');
     
     // Debug logging
     console.log('Mobile menu button found:', !!mobileMenuBtn);
     console.log('Sidebar found:', !!sidebar);
+    console.log('Mobile menu button element:', mobileMenuBtn);
     
-    if (mobileMenuBtn && sidebar) {
-        mobileMenuBtn.addEventListener('click', (e) => {
+    // Force hamburger menu functionality
+    if (mobileMenuBtn) {
+        // Remove any existing event listeners first
+        mobileMenuBtn.replaceWith(mobileMenuBtn.cloneNode(true));
+        const newMobileBtn = document.getElementById('mobileMenuBtn');
+        
+        newMobileBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Mobile menu clicked, toggling sidebar');
-            sidebar.classList.toggle('active');
+            console.log('HAMBURGER CLICKED - Toggling sidebar');
+            
+            if (sidebar) {
+                sidebar.classList.toggle('active');
+                console.log('Sidebar active class toggled:', sidebar.classList.contains('active'));
+            }
+        });
+        
+        // Also add touchstart for mobile
+        newMobileBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            console.log('HAMBURGER TOUCHED');
+            if (sidebar) {
+                sidebar.classList.toggle('active');
+            }
         });
     }
+}
     
     if (sidebarToggle && sidebar) {
         sidebarToggle.addEventListener('click', (e) => {
@@ -1833,11 +1854,13 @@ function formatCurrency(amount) {
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
-    // Clear any existing user session for testing
-    // localStorage.removeItem('bmsce-user');
+    console.log('DOM loaded - initializing app');
     
-    initializeLogin();
+    // Initialize navigation first (this includes hamburger menu)
     initializeNavigation();
+    
+    // Then initialize other components
+    initializeLogin();
     initializeResumeBuilder();
     initializeInterviewBooking();
     
@@ -1847,20 +1870,28 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Always start with login page visible
     if (loginPage && mainContent) {
-        // Clear any stored login for testing
-        localStorage.removeItem('bmsce-user');
+        // Check if user is already logged in
+        const savedUser = localStorage.getItem('bmsce-user');
         
-        // Force login page to display first
-        document.body.classList.remove('logged-in');
-        loginPage.style.display = 'flex';
-        loginPage.style.position = 'fixed';
-        loginPage.style.top = '0';
-        loginPage.style.left = '0';
-        loginPage.style.width = '100vw';
-        loginPage.style.height = '100vh';
-        loginPage.style.zIndex = '10000';
-        
-        mainContent.style.display = 'none';
+        if (savedUser) {
+            // User is logged in, show dashboard
+            document.body.classList.add('logged-in');
+            loginPage.style.display = 'none';
+            mainContent.style.display = 'flex';
+            showPage('dashboard');
+        } else {
+            // Force login page to display first
+            document.body.classList.remove('logged-in');
+            loginPage.style.display = 'flex';
+            loginPage.style.position = 'fixed';
+            loginPage.style.top = '0';
+            loginPage.style.left = '0';
+            loginPage.style.width = '100vw';
+            loginPage.style.height = '100vh';
+            loginPage.style.zIndex = '10000';
+            
+            mainContent.style.display = 'none';
+        }
     }
 });
 
@@ -1871,6 +1902,16 @@ window.addEventListener('resize', () => {
         sidebar.classList.remove('active');
     }
 });
+
+// Global hamburger menu toggle function
+function toggleSidebar() {
+    console.log('Global toggleSidebar called');
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) {
+        sidebar.classList.toggle('active');
+        console.log('Sidebar toggled, active:', sidebar.classList.contains('active'));
+    }
+}
 
 // Close mobile sidebar when clicking outside
 document.addEventListener('click', (e) => {

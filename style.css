@@ -763,31 +763,35 @@ body.logged-in #mainContent {
     z-index: 1001;
 }
 
-/* Mobile Menu Button - Always visible */
+/* Mobile Menu Button - CRITICAL FIX - Always clickable */
 .mobile-menu-btn {
     position: fixed !important;
     top: 1rem !important;
     left: 1rem !important;
     z-index: 10002 !important;
-    background: #1e293b;
-    border: 1px solid #374151;
-    border-radius: 0.5rem;
-    padding: 0.75rem;
-    cursor: pointer;
+    background: #1e293b !important;
+    border: 1px solid #374151 !important;
+    border-radius: 0.5rem !important;
+    padding: 0.75rem !important;
+    cursor: pointer !important;
     display: flex !important;
-    flex-direction: column;
-    gap: 4px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
+    flex-direction: column !important;
+    gap: 4px !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease !important;
+    pointer-events: all !important;
+    user-select: none !important;
+    -webkit-tap-highlight-color: transparent !important;
 }
 
 .mobile-menu-btn:hover {
-    background: #374151;
-    transform: scale(1.05);
+    background: #374151 !important;
+    transform: scale(1.05) !important;
 }
 
 .mobile-menu-btn:active {
-    background: #4b5563;
+    background: #4b5563 !important;
+    transform: scale(0.95) !important;
 }
 
 .mobile-menu-btn span {
@@ -822,6 +826,8 @@ body.logged-in #mainContent {
         top: 1rem !important;
         left: 1rem !important;
         z-index: 10002 !important;
+        pointer-events: all !important;
+        touch-action: manipulation !important;
     }
     
     .sidebar {
