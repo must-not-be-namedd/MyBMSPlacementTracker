@@ -138,6 +138,7 @@
                 <li><a href="#" data-page="home" class="active">Home</a></li>
                 <li><a href="#" data-page="departments">Departments</a></li>
                 <li><a href="#" data-page="comparison">Department Comparison</a></li>
+                <li><a href="#" data-page="visualizations">Data Visualizations</a></li>
                 <li><a href="#" data-page="resume">Resume Builder</a></li>
                 <li><a href="#" data-page="interviews">Mock Interview</a></li>
                 <li><a href="#" data-page="alumni">Alumni Network</a></li>
@@ -569,6 +570,113 @@
                         <p>"Cloud technologies and automation are essential. Learn Docker and Kubernetes."</p>
                         <div class="alumni-contact">
                             <button class="connect-btn" onclick="openLinkedIn('divya-menon-bmsce')">Connect on LinkedIn</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Visualizations Page -->
+            <section id="visualizations" class="page">
+                <div class="page-header">
+                    <h1>Data Visualizations</h1>
+                    <p>Interactive graphical analysis of placement data across all departments</p>
+                </div>
+
+                <!-- Visualization Controls -->
+                <div class="visualization-controls">
+                    <div class="control-group">
+                        <label>Academic Year:</label>
+                        <select id="yearFilter">
+                            <option value="2025">2024-25</option>
+                            <option value="2024">2023-24</option>
+                            <option value="2023">2022-23</option>
+                            <option value="2022">2021-22</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>View Type:</label>
+                        <select id="viewType">
+                            <option value="all">All Departments</option>
+                            <option value="comparison">Department Comparison</option>
+                            <option value="trends">Yearly Trends</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Interactive Charts Grid -->
+                <div class="interactive-charts-grid">
+                    <!-- Package Analysis Chart -->
+                    <div class="interactive-chart-container">
+                        <div class="chart-header">
+                            <h3>Package Analysis by Department</h3>
+                            <div class="chart-subtitle">Highest & Average packages across departments</div>
+                        </div>
+                        <div class="chart-canvas-wrapper">
+                            <canvas id="packageBarChart" width="600" height="400"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                            <span class="legend-item"><span class="legend-color" style="background: #ef4444"></span>Highest Package</span>
+                            <span class="legend-item"><span class="legend-color" style="background: #3b82f6"></span>Average Package</span>
+                        </div>
+                    </div>
+
+                    <!-- Students Placement Distribution -->
+                    <div class="interactive-chart-container">
+                        <div class="chart-header">
+                            <h3>Student Placement Distribution</h3>
+                            <div class="chart-subtitle">Percentage of students placed by department</div>
+                        </div>
+                        <div class="chart-canvas-wrapper">
+                            <canvas id="placementPieChart" width="400" height="400"></canvas>
+                        </div>
+                        <div class="chart-stats" id="pieChartStats">
+                            <div class="stat-item">
+                                <span class="stat-label">Total Students:</span>
+                                <span class="stat-value">930</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Total Placed:</span>
+                                <span class="stat-value">827</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Year-on-Year Trends -->
+                    <div class="interactive-chart-container full-width">
+                        <div class="chart-header">
+                            <h3>Placement Trends (2020-2025)</h3>
+                            <div class="chart-subtitle">Year-on-year growth in placement rates and packages</div>
+                        </div>
+                        <div class="chart-canvas-wrapper">
+                            <canvas id="trendsLineChart" width="800" height="400"></canvas>
+                        </div>
+                        <div class="trend-insights">
+                            <div class="insight-card" onmouseenter="animateInsightCard(this)" onmouseleave="resetInsightCard(this)">
+                                <h4>Growth Rate</h4>
+                                <div class="insight-value">+15.2%</div>
+                                <div class="insight-desc">Average yearly growth</div>
+                            </div>
+                            <div class="insight-card" onmouseenter="animateInsightCard(this)" onmouseleave="resetInsightCard(this)">
+                                <h4>Best Performance</h4>
+                                <div class="insight-value">2024-25</div>
+                                <div class="insight-desc">Highest placement rate</div>
+                            </div>
+                            <div class="insight-card" onmouseenter="animateInsightCard(this)" onmouseleave="resetInsightCard(this)">
+                                <h4>Package Growth</h4>
+                                <div class="insight-value">+28%</div>
+                                <div class="insight-desc">Since 2020</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Department Performance Heatmap -->
+                    <div class="interactive-chart-container full-width">
+                        <div class="chart-header">
+                            <h3>Department Performance Matrix</h3>
+                            <div class="chart-subtitle">Interactive heatmap showing multi-year performance</div>
+                        </div>
+                        <div class="heatmap-container" id="performanceHeatmap">
+                            <!-- Heatmap will be generated here -->
                         </div>
                     </div>
                 </div>
