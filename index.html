@@ -789,26 +789,6 @@ E-Commerce Platform (2023)
     
     <script src="./script.js"></script>
     
-    <script>
-        // Ensure login page always shows first - override any other initialization
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginPage = document.getElementById('loginPage');
-            const mainContent = document.getElementById('mainContent');
-            
-            if (loginPage && mainContent) {
-                // Force login page to be visible
-                loginPage.style.display = 'flex';
-                loginPage.classList.add('active');
-                
-                // Force main content to be hidden
-                mainContent.style.display = 'none';
-                mainContent.classList.remove('active');
-                
-                // Remove any active pages
-                const pages = document.querySelectorAll('.page');
-                pages.forEach(page => page.classList.remove('active'));
-            }
-        });
-    </script>
+
 </body>
 </html>

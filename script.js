@@ -144,24 +144,20 @@ function initializeLogin() {
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         
-        // Basic validation (in real app, this would connect to backend)
-        if (email && password) {
+        // Simple validation - accept any email and password for demo
+        if (email.trim() && password.trim()) {
             // Store user data
             const userData = {
-                email: email,
+                email: email.trim(),
                 loginTime: new Date().toISOString(),
                 type: 'signin'
             };
             
             localStorage.setItem('bmsce-user', JSON.stringify(userData));
+            showMessage('Login successful! Redirecting...', 'success');
             
-            // Show success animation
+            // Show success animation and transition to main app
             showLoginSuccess();
-            
-            // Transition to main app
-            setTimeout(() => {
-                showMainApp();
-            }, 1500);
         } else {
             showMessage('Please fill in all fields', 'error');
         }
@@ -177,12 +173,12 @@ function initializeLogin() {
         const department = document.getElementById('signupDepartment').value;
         const year = document.getElementById('signupYear').value;
         
-        // Basic validation
-        if (name && email && password && department && year) {
+        // Simple validation - accept any filled fields for demo
+        if (name.trim() && email.trim() && password.trim() && department && year) {
             // Store user data
             const userData = {
-                name: name,
-                email: email,
+                name: name.trim(),
+                email: email.trim(),
                 department: department,
                 year: year,
                 loginTime: new Date().toISOString(),
@@ -190,14 +186,10 @@ function initializeLogin() {
             };
             
             localStorage.setItem('bmsce-user', JSON.stringify(userData));
+            showMessage('Account created successfully! Redirecting...', 'success');
             
-            // Show success animation
+            // Show success animation and transition to main app
             showSignupSuccess();
-            
-            // Transition to main app
-            setTimeout(() => {
-                showMainApp();
-            }, 1500);
         } else {
             showMessage('Please fill in all fields', 'error');
         }
@@ -274,17 +266,23 @@ function initializeLogin() {
         
         if (loginPage && mainContent) {
             loginPage.style.display = 'none';
+            loginPage.classList.remove('active');
             mainContent.style.display = 'flex';
             mainContent.classList.add('active');
             
             // Show dashboard page specifically  
             showPage('dashboard');
             
-            // Initialize charts after login
+            // Initialize charts and data after login
             setTimeout(() => {
-                initializeCharts();
-                initializeInteractiveGraphs();
-            }, 500);
+                if (typeof initializeCharts === 'function') {
+                    initializeCharts();
+                }
+                if (typeof initializeInteractiveGraphs === 'function') {
+                    initializeInteractiveGraphs();
+                }
+                loadDepartmentData();
+            }, 300);
         }
     }
 }
@@ -696,6 +694,73 @@ function addToCalendar(bookingId, type, date, time, meetLink) {
     const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&dates=${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z&details=${encodeURIComponent(eventDescription)}`;
     
     window.open(googleCalendarUrl, '_blank');
+}
+
+// Message system for user feedback
+function showMessage(message, type = 'info') {
+    // Remove any existing messages
+    const existingMessages = document.querySelectorAll('.message-popup');
+    existingMessages.forEach(msg => msg.remove());
+    
+    // Create message element
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message-popup message-${type}`;
+    messageDiv.textContent = message;
+    messageDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        z-index: 10000;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s ease;
+        max-width: 300px;
+        word-wrap: break-word;
+    `;
+    
+    // Set background color based on type
+    switch(type) {
+        case 'success':
+            messageDiv.style.backgroundColor = '#10b981';
+            break;
+        case 'error':
+            messageDiv.style.backgroundColor = '#ef4444';
+            break;
+        case 'info':
+        default:
+            messageDiv.style.backgroundColor = '#3b82f6';
+            break;
+    }
+    
+    document.body.appendChild(messageDiv);
+    
+    // Animate in
+    setTimeout(() => {
+        messageDiv.style.opacity = '1';
+        messageDiv.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        messageDiv.style.opacity = '0';
+        messageDiv.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (messageDiv.parentNode) {
+                messageDiv.parentNode.removeChild(messageDiv);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Load department data function
+function loadDepartmentData() {
+    // This function would typically load data from an API
+    // For now, we use the static departmentData object
+    console.log('Department data loaded:', Object.keys(departmentData));
 }
 
 // Alumni connection functionality
@@ -1736,10 +1801,25 @@ function formatCurrency(amount) {
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
+    // Clear any existing user session for testing
+    // localStorage.removeItem('bmsce-user');
+    
     initializeLogin();
     initializeNavigation();
-    loadDepartmentData(); // Load default department data
-    setupScrollAnimations();
+    initializeResumeBuilder();
+    initializeInterviewBooking();
+    
+    // Ensure proper display states
+    const loginPage = document.getElementById('loginPage');
+    const mainContent = document.getElementById('mainContent');
+    
+    if (loginPage && mainContent) {
+        const savedUser = localStorage.getItem('bmsce-user');
+        if (!savedUser) {
+            loginPage.style.display = 'flex';
+            mainContent.style.display = 'none';
+        }
+    }
 });
 
 // Handle window resize for mobile responsiveness
