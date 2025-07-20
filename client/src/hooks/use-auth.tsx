@@ -44,8 +44,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     },
     onSuccess: (user: SelectUser) => {
+      console.log("Login success, user data:", user);
       queryClient.setQueryData(["/api/user"], user);
-      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+      // Force immediate re-fetch to ensure latest data
+      queryClient.refetchQueries({ queryKey: ["/api/user"] });
       toast({
         title: "Welcome!",
         description: "Successfully logged in to BMSCE Placement Portal",
@@ -74,8 +76,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     },
     onSuccess: (user: SelectUser) => {
+      console.log("Registration success, user data:", user);
       queryClient.setQueryData(["/api/user"], user);
-      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+      // Force immediate re-fetch to ensure latest data
+      queryClient.refetchQueries({ queryKey: ["/api/user"] });
       toast({
         title: "Account created!",
         description: "Welcome to BMSCE Placement Portal",

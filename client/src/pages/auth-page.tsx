@@ -15,38 +15,23 @@ import { GraduationCap, Users, TrendingUp, Award } from "lucide-react";
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
   
+  // Debug logging
+  console.log("Auth page - user:", user);
+  console.log("Auth page - isLoading:", loginMutation.isPending || registerMutation.isPending);
+  
   const loginForm = useForm({
-    resolver: zodResolver(
-      z.object({
-        username: z.string()
-          .min(1, "Email is required")
-          .email("Please enter a valid email address"),
-        password: z.string()
-          .min(1, "Password is required")
-      })
-    ),
     defaultValues: { username: "", password: "" },
-    mode: "onChange"
+    mode: "onSubmit"
   });
 
   const registerForm = useForm({
-    resolver: zodResolver(
-      insertUserSchema.extend({
-        username: z.string()
-          .min(1, "Email is required")
-          .email("Please enter a valid email address"),
-        password: z.string()
-          .min(6, "Password must be at least 6 characters")
-          .max(100, "Password is too long"),
-        department: z.string()
-          .min(1, "Please select a department")
-      })
-    ),
     defaultValues: { username: "", password: "", department: "" },
-    mode: "onChange"
+    mode: "onSubmit"
   });
 
+  // Redirect authenticated users to dashboard
   if (user) {
+    console.log("User is authenticated, redirecting to dashboard");
     return <Redirect to="/" />;
   }
 

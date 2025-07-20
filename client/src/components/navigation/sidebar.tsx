@@ -41,13 +41,8 @@ export function Sidebar() {
   const { user, logoutMutation } = useAuth();
   const isMobile = useIsMobile();
 
-  // Don't render sidebar on auth page
-  if (location === '/auth') {
-    return null;
-  }
-
-  // Don't render sidebar if user is not authenticated
-  if (!user) {
+  // Don't render sidebar on auth page or if user is not authenticated
+  if (location === '/auth' || !user) {
     return null;
   }
 
