@@ -41,11 +41,6 @@ export function Sidebar() {
   const { user, logoutMutation } = useAuth();
   const isMobile = useIsMobile();
 
-  // Don't render sidebar on auth page or if user is not authenticated
-  if (location === '/auth' || !user) {
-    return null;
-  }
-
   const SidebarContent = () => (
     <div className="flex h-full flex-col gap-4 bg-gray-800 text-gray-100">
       <div className="px-6 py-4 border-b border-gray-700">

@@ -15,30 +15,31 @@ import { GraduationCap, Users, TrendingUp, Award } from "lucide-react";
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
   
-  // Debug logging
-  console.log("Auth page - user:", user);
-  console.log("Auth page - isLoading:", loginMutation.isPending || registerMutation.isPending);
-  
   const loginForm = useForm({
     defaultValues: { username: "", password: "" },
-    mode: "onSubmit"
+    mode: "onChange"
   });
 
   const registerForm = useForm({
+    resolver: zodResolver(
+      insertUserSchema.extend({
+        password: z.string()
+          .min(6, "Password must be at least 6 characters")
+          .max(100, "Password is too long")
+      })
+    ),
     defaultValues: { username: "", password: "", department: "" },
-    mode: "onSubmit"
+    mode: "onChange"
   });
 
-  // Redirect authenticated users to dashboard
   if (user) {
-    console.log("User is authenticated, redirecting to dashboard");
     return <Redirect to="/" />;
   }
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-gray-100 dark:bg-gray-800">
+    <div className="min-h-screen flex bg-gray-100 dark:bg-gray-800">
       {/* Left Side - Auth Form */}
-      <div className="flex-1 flex items-center justify-center p-4 lg:p-8 min-h-screen lg:min-h-0">
+      <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
@@ -60,11 +61,7 @@ export default function AuthPage() {
 
                 <TabsContent value="login">
                   <Form {...loginForm}>
-                    <form onSubmit={loginForm.handleSubmit(data => {
-                      console.log("Login form submitted with:", data);
-                      // Always allow login with any credentials
-                      loginMutation.mutate(data);
-                    })} className="space-y-4">
+                    <form onSubmit={loginForm.handleSubmit(data => loginMutation.mutate(data))} className="space-y-4">
                       {loginMutation.error && (
                         <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm">
                           {loginMutation.error.message || "Login failed. Please check your credentials."}
@@ -82,6 +79,7 @@ export default function AuthPage() {
                                 autoComplete="username"
                                 placeholder="Enter your email"
                                 className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600"
+                                required
                               />
                             </FormControl>
                             <FormMessage />
@@ -101,6 +99,7 @@ export default function AuthPage() {
                                 autoComplete="current-password"
                                 placeholder="Enter your password"
                                 className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600 text-gray-800 dark:text-gray-200"
+                                required
                               />
                             </FormControl>
                             <FormMessage />
@@ -114,30 +113,13 @@ export default function AuthPage() {
                       >
                         {loginMutation.isPending ? "Signing In..." : "Sign In"}
                       </Button>
-                      <Button 
-                        type="button"
-                        onClick={() => {
-                          loginMutation.mutate({ 
-                            username: "demo@bmsce.edu.in", 
-                            password: "demo123" 
-                          });
-                        }}
-                        className="w-full h-11 bg-gray-500 hover:bg-gray-600 text-white font-medium mt-2"
-                        disabled={loginMutation.isPending}
-                      >
-                        {loginMutation.isPending ? "Signing In..." : "Quick Access - Skip Login"}
-                      </Button>
                     </form>
                   </Form>
                 </TabsContent>
 
                 <TabsContent value="register">
                   <Form {...registerForm}>
-                    <form onSubmit={registerForm.handleSubmit(data => {
-                      console.log("Register form submitted with:", data);
-                      // Always allow registration with any credentials
-                      registerMutation.mutate(data);
-                    })} className="space-y-4">
+                    <form onSubmit={registerForm.handleSubmit(data => registerMutation.mutate(data))} className="space-y-4">
                       {registerMutation.error && (
                         <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm">
                           {registerMutation.error.message || "Registration failed. Please try again."}
@@ -155,6 +137,7 @@ export default function AuthPage() {
                                 autoComplete="username"
                                 placeholder="Enter your email"
                                 className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600 text-gray-800 dark:text-gray-200"
+                                required
                               />
                             </FormControl>
                             <FormMessage />
@@ -174,6 +157,7 @@ export default function AuthPage() {
                                 autoComplete="new-password"
                                 placeholder="Create a password"
                                 className="h-11 bg-white border-gray-200 focus:border-purple-500 focus:ring-purple-500 dark:bg-gray-700 dark:border-gray-600 text-gray-800 dark:text-gray-200"
+                                required
                               />
                             </FormControl>
                             <FormMessage />
@@ -211,20 +195,6 @@ export default function AuthPage() {
                       >
                         {registerMutation.isPending ? "Creating Account..." : "Create Account"}
                       </Button>
-                      <Button 
-                        type="button"
-                        onClick={() => {
-                          registerMutation.mutate({ 
-                            username: "demo@bmsce.edu.in", 
-                            password: "demo123",
-                            department: "Computer Science & Engineering"
-                          });
-                        }}
-                        className="w-full h-11 bg-gray-500 hover:bg-gray-600 text-white font-medium mt-2"
-                        disabled={registerMutation.isPending}
-                      >
-                        {registerMutation.isPending ? "Creating Account..." : "Quick Access - Skip Registration"}
-                      </Button>
                     </form>
                   </Form>
                 </TabsContent>
@@ -235,7 +205,7 @@ export default function AuthPage() {
       </div>
 
       {/* Right Side - Info Panel */}
-      <div className="flex lg:flex flex-1 bg-gradient-to-br from-slate-600 to-purple-700 p-4 lg:p-8 items-center justify-center min-h-screen lg:min-h-0">
+      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-slate-600 to-purple-700 p-8 items-center justify-center">
         <div className="max-w-md text-white">
           <div className="space-y-6">
             <div className="text-center">

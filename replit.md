@@ -101,20 +101,6 @@ This is a placement portal for BMS College of Engineering that has been converte
 
 ## Changelog
 
-- July 20, 2025. **AUTHENTICATION BYPASS UPDATE**: Removed database authentication dependency and implemented easy access system
-- July 20, 2025. **SIMPLIFIED LOGIN FLOW**: Both sign in/sign up buttons now work with any input and provide instant access to dashboard
-- July 20, 2025. **ADDED QUICK ACCESS BUTTONS**: Users can skip login/registration with one-click "Quick Access" buttons for immediate app entry
-- July 20, 2025. **FIXED MOBILE RESPONSIVENESS**: Auth page now properly displays on mobile with both form and info panel visible on scroll
-- July 20, 2025. **REMOVED LOGIN LOOPING**: Authentication now works seamlessly without any database dependency or endless redirects
-- July 20, 2025. **MAJOR DATA VISUALIZATIONS UPDATE**: Added comprehensive interactive Data Visualizations page with professional chart implementations
-- July 20, 2025. Created sharp, pixelated charts with crisp text rendering using enhanced Canvas 2D context settings and Segoe UI font family
-- July 20, 2025. Implemented bar charts for department package analysis, pie charts for student placement distribution, and line graphs for year-over-year trends
-- July 20, 2025. Added performance heatmap with muted color palette (removed bright yellow/green) using professional purple-to-slate gradient
-- July 20, 2025. Removed all hover animations, scaling effects, and glow animations for cleaner, static presentation
-- July 20, 2025. Fixed PDF generation to capture only resume content without form template borders or buttons
-- July 20, 2025. Enforced login-first flow - application now always shows sign-in/sign-up page before accessing dashboard
-- July 20, 2025. Enhanced chart text sharpness with imageSmoothingEnabled=false and improved font rendering
-- July 20, 2025. Added Data Visualizations page to sidebar navigation with proper responsive design for all devices
 - July 17, 2025. **MAJOR ARCHITECTURAL CHANGE**: Converted entire application from Vite/React to plain HTML/CSS/JS for GitHub Pages deployment
 - July 17, 2025. Created static version with vanilla JavaScript maintaining all original functionality including department analytics, resume builder, and interview booking
 - July 17, 2025. Implemented responsive design with mobile-first approach using pure CSS without external dependencies

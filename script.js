@@ -238,11 +238,6 @@ function initializeLogin() {
                     <p>Redirecting to dashboard...</p>
                 </div>
             `;
-            
-            // Redirect to main app after brief delay
-            setTimeout(() => {
-                showMainApp();
-            }, 1500);
         }, 500);
     }
     
@@ -260,32 +255,19 @@ function initializeLogin() {
                     <p>Welcome to BMSCE Portal...</p>
                 </div>
             `;
-            
-            // Redirect to main app after brief delay
-            setTimeout(() => {
-                showMainApp();
-            }, 1500);
         }, 500);
     }
     
     function showMainApp() {
-        const loginPage = document.getElementById('loginPage');
-        const mainContent = document.getElementById('mainContent');
+        loginPage.style.display = 'none';
+        mainContent.style.display = 'block';
+        mainContent.classList.add('fade-in');
         
-        if (loginPage && mainContent) {
-            loginPage.style.display = 'none';
-            mainContent.style.display = 'flex';
-            mainContent.classList.add('active');
-            
-            // Show dashboard page specifically  
-            showPage('dashboard');
-            
-            // Initialize charts after login
-            setTimeout(() => {
-                initializeCharts();
-                initializeInteractiveGraphs();
-            }, 500);
-        }
+        // Initialize charts after login
+        setTimeout(() => {
+            initializeCharts();
+            initializeInteractiveGraphs();
+        }, 500);
     }
 }
 
@@ -483,20 +465,20 @@ function validateResumeForm(data) {
 
 function generateResumePreview(data, container) {
     container.innerHTML = `
-        <div style="padding: 20px; background: #ffffff; border: 1px solid #ddd; color: #000000;">
-            <h2 style="color: #000000; margin-bottom: 10px; font-weight: bold;">${data.fullName}</h2>
-            <p style="margin: 5px 0; color: #000000;"><strong>Email:</strong> ${data.email}</p>
-            <p style="margin: 5px 0; color: #000000;"><strong>Phone:</strong> ${data.phone}</p>
-            <p style="margin: 5px 0; color: #000000;"><strong>Department:</strong> ${data.department}</p>
+        <div style="padding: 20px; background: white; border: 1px solid #ddd;">
+            <h2 style="color: #333; margin-bottom: 10px;">${data.fullName}</h2>
+            <p style="margin: 5px 0;"><strong>Email:</strong> ${data.email}</p>
+            <p style="margin: 5px 0;"><strong>Phone:</strong> ${data.phone}</p>
+            <p style="margin: 5px 0;"><strong>Department:</strong> ${data.department}</p>
             
             ${data.skills ? `
-                <h3 style="color: #000000; margin-top: 20px; margin-bottom: 10px; font-weight: bold;">Skills</h3>
-                <p style="color: #000000;">${data.skills}</p>
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 10px;">Skills</h3>
+                <p>${data.skills}</p>
             ` : ''}
             
             ${data.experience ? `
-                <h3 style="color: #000000; margin-top: 20px; margin-bottom: 10px; font-weight: bold;">Experience</h3>
-                <p style="color: #000000;">${data.experience}</p>
+                <h3 style="color: #333; margin-top: 20px; margin-bottom: 10px;">Experience</h3>
+                <p>${data.experience}</p>
             ` : ''}
             
             <button onclick="downloadResume()" style="margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">
@@ -517,47 +499,13 @@ function downloadResume() {
         return;
     }
     
-    // Create a clean version of the resume content for PDF generation
-    const cleanResumeContent = resumeElement.querySelector('div[style*="padding: 20px"]');
-    if (!cleanResumeContent) {
-        alert('No resume content found. Please generate a resume first.');
-        return;
-    }
-    
-    // Create a temporary container with clean styling for PDF
-    const tempContainer = document.createElement('div');
-    tempContainer.innerHTML = cleanResumeContent.innerHTML;
-    tempContainer.style.cssText = `
-        position: absolute;
-        left: -9999px;
-        top: 0;
-        width: 794px;
-        min-height: 1123px;
-        background: #ffffff;
-        padding: 40px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #000000;
-        line-height: 1.6;
-    `;
-    
-    // Remove any buttons from the content
-    const buttons = tempContainer.querySelectorAll('button');
-    buttons.forEach(btn => btn.remove());
-    
-    document.body.appendChild(tempContainer);
-    
-    // Use html2canvas to capture only the clean resume content
-    html2canvas(tempContainer, {
+    // Use html2canvas to capture the resume preview
+    html2canvas(resumeElement, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
-        backgroundColor: '#ffffff',
-        width: 794,
-        height: 1123
+        backgroundColor: '#ffffff'
     }).then(canvas => {
-        // Remove temporary container
-        document.body.removeChild(tempContainer);
-        
         // Convert canvas to image
         const imgData = canvas.toDataURL('image/png', 1.0);
         
@@ -567,18 +515,31 @@ function downloadResume() {
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
         
-        // Add image to PDF (full page)
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        // Calculate image dimensions to fit A4
+        const canvasRatio = canvas.height / canvas.width;
+        const pdfRatio = pdfHeight / pdfWidth;
+        
+        let imgWidth, imgHeight;
+        if (canvasRatio > pdfRatio) {
+            imgHeight = pdfHeight;
+            imgWidth = imgHeight / canvasRatio;
+        } else {
+            imgWidth = pdfWidth;
+            imgHeight = imgWidth * canvasRatio;
+        }
+        
+        // Center the image on the page
+        const x = (pdfWidth - imgWidth) / 2;
+        const y = (pdfHeight - imgHeight) / 2;
+        
+        // Add image to PDF
+        pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
         
         // Download the PDF
         pdf.save('BMSCE_Resume.pdf');
         
         alert('Resume downloaded successfully!');
     }).catch(error => {
-        // Clean up in case of error
-        if (document.body.contains(tempContainer)) {
-            document.body.removeChild(tempContainer);
-        }
         console.error('Error generating PDF:', error);
         alert('Error generating PDF. Please try again.');
     });
@@ -944,7 +905,37 @@ function initializeDataVisualizations() {
 }
 
 function addInteractiveEffects() {
-    // Removed hover animations and effects for cleaner appearance
+    // Add mouse tracking for bar chart
+    const barChart = document.getElementById('packageBarChart');
+    if (barChart) {
+        barChart.addEventListener('mousemove', handleBarChartHover);
+        barChart.addEventListener('mouseleave', () => {
+            createPackageBarChart(); // Reset to original state
+        });
+    }
+    
+    // Add mouse tracking for pie chart
+    const pieChart = document.getElementById('placementPieChart');
+    if (pieChart) {
+        pieChart.addEventListener('mousemove', handlePieChartHover);
+        pieChart.addEventListener('mouseleave', () => {
+            createPlacementPieChart(); // Reset to original state
+        });
+    }
+    
+    // Add animated hover effects to chart containers
+    const chartContainers = document.querySelectorAll('.interactive-chart-container');
+    chartContainers.forEach(container => {
+        container.addEventListener('mouseenter', () => {
+            container.style.transform = 'translateY(-4px) scale(1.02)';
+            container.style.boxShadow = '0 20px 40px rgba(124, 58, 237, 0.2)';
+        });
+        
+        container.addEventListener('mouseleave', () => {
+            container.style.transform = 'translateY(-2px) scale(1)';
+            container.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.4)';
+        });
+    });
 }
 
 function handleBarChartHover(event) {
@@ -1032,33 +1023,27 @@ function createPackageBarChart() {
         ctx.fillStyle = gradient2;
         ctx.fillRect(x + barWidth + 5, padding + chartHeight - avgHeight, barWidth, avgHeight);
         
-        // Add sharp, clear value labels on bars
+        // Add value labels on bars
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 14px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+        ctx.font = 'bold 12px Arial';
         ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.imageSmoothingEnabled = false;
-        ctx.fillText(`₹${highestPackages[i]}L`, x + barWidth/2, padding + chartHeight - highestHeight - 15);
-        ctx.fillText(`₹${averagePackages[i]}L`, x + barWidth + 5 + barWidth/2, padding + chartHeight - avgHeight - 15);
+        ctx.fillText(`₹${highestPackages[i]}L`, x + barWidth/2, padding + chartHeight - highestHeight - 5);
+        ctx.fillText(`₹${averagePackages[i]}L`, x + barWidth + 5 + barWidth/2, padding + chartHeight - avgHeight - 5);
         
-        // Sharp department labels
+        // Department labels
         ctx.fillStyle = '#e2e8f0';
-        ctx.font = 'bold 14px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
-        ctx.textBaseline = 'top';
-        ctx.imageSmoothingEnabled = false;
-        ctx.fillText(dept, x + barWidth, padding + chartHeight + 15);
+        ctx.font = '14px Arial';
+        ctx.fillText(dept, x + barWidth, padding + chartHeight + 25);
     });
     
-    // Sharp Y-axis labels
+    // Y-axis labels
     ctx.fillStyle = '#94a3b8';
-    ctx.font = 'bold 12px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+    ctx.font = '12px Arial';
     ctx.textAlign = 'right';
-    ctx.textBaseline = 'middle';
-    ctx.imageSmoothingEnabled = false;
     for (let i = 0; i <= 5; i++) {
         const value = (maxValue / 5) * i;
         const y = padding + chartHeight - (value * yScale);
-        ctx.fillText(`₹${Math.round(value)}L`, padding - 10, y);
+        ctx.fillText(`₹${Math.round(value)}L`, padding - 10, y + 4);
     }
 }
 
@@ -1107,12 +1092,10 @@ function createPlacementPieChart() {
         const labelY = centerY + Math.sin(labelAngle) * (radius * 0.7);
         
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 14px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+        ctx.font = 'bold 14px Arial';
         ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.imageSmoothingEnabled = false;
         ctx.fillText(departments[i], labelX, labelY - 5);
-        ctx.font = 'bold 12px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+        ctx.font = '12px Arial';
         ctx.fillText(`${count}`, labelX, labelY + 10);
         ctx.fillText(`${((count/total)*100).toFixed(1)}%`, labelX, labelY + 25);
         
@@ -1125,12 +1108,10 @@ function createPlacementPieChart() {
     ctx.arc(centerX, centerY, 60, 0, 2 * Math.PI);
     ctx.fill();
     
-    // Sharp center text
+    // Center text
     ctx.fillStyle = '#e2e8f0';
-    ctx.font = 'bold 16px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+    ctx.font = 'bold 16px Arial';
     ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.imageSmoothingEnabled = false;
     ctx.fillText('Total', centerX, centerY - 5);
     ctx.fillText(total.toString(), centerX, centerY + 15);
 }
@@ -1142,9 +1123,9 @@ function createTrendsLineChart() {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    const years = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'];
-    const placementRates = [72, 75, 78, 81, 83, 85, 86, 87, 88, 89, 91];
-    const avgPackages = [8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 20];
+    const years = ['2020', '2021', '2022', '2023', '2024', '2025'];
+    const placementRates = [78, 82, 85, 87, 89, 91];
+    const avgPackages = [12, 14, 15, 16, 17, 18];
     
     const padding = 80;
     const chartWidth = canvas.width - 2 * padding;
@@ -1221,15 +1202,13 @@ function createTrendsLineChart() {
         ctx.fill();
     });
     
-    // Sharp axis labels
+    // Add labels
     ctx.fillStyle = '#e2e8f0';
-    ctx.font = 'bold 12px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+    ctx.font = '12px Arial';
     ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    ctx.imageSmoothingEnabled = false;
     years.forEach((year, i) => {
         const x = padding + i * xScale;
-        ctx.fillText(year, x, padding + chartHeight + 15);
+        ctx.fillText(year, x, padding + chartHeight + 25);
     });
 }
 
@@ -1296,21 +1275,10 @@ function createPerformanceHeatmap() {
             const cell = document.createElement('div');
             cell.className = 'heatmap-cell';
             
-            // Use muted color palette - remove bright yellow/green
-            const normalizedValue = (value - 70) / 25; // Normalize to 0-1
-            let backgroundColor;
-            if (normalizedValue >= 0.8) {
-                backgroundColor = '#6366f1'; // Indigo
-            } else if (normalizedValue >= 0.6) {
-                backgroundColor = '#8b5cf6'; // Purple
-            } else if (normalizedValue >= 0.4) {
-                backgroundColor = '#a855f7'; // Light purple
-            } else if (normalizedValue >= 0.2) {
-                backgroundColor = '#64748b'; // Slate
-            } else {
-                backgroundColor = '#475569'; // Dark slate
-            }
-            cell.style.setProperty('--cell-color', backgroundColor);
+            // Color intensity based on performance
+            const intensity = (value - 70) / 25; // Normalize to 0-1
+            const hue = intensity * 120; // Green for high, red for low
+            cell.style.setProperty('--cell-color', `hsl(${hue}, 70%, 50%)`);
             
             const label = document.createElement('div');
             label.className = 'heatmap-cell-label';
@@ -1323,7 +1291,16 @@ function createPerformanceHeatmap() {
             cell.appendChild(label);
             cell.appendChild(valueDiv);
             
-            // Removed hover scaling effects
+            // Add hover effect
+            cell.addEventListener('mouseenter', () => {
+                cell.style.transform = 'scale(1.1)';
+                cell.style.zIndex = '10';
+            });
+            
+            cell.addEventListener('mouseleave', () => {
+                cell.style.transform = 'scale(1)';
+                cell.style.zIndex = '1';
+            });
             
             container.appendChild(cell);
         });
@@ -1341,11 +1318,27 @@ function updateCharts() {
 
 // Animation functions for insight cards
 function animateInsightCard(card) {
-    // Removed animations
+    card.style.transform = 'scale(1.05) rotateY(5deg)';
+    card.style.background = 'linear-gradient(135deg, #7c3aed, #8b5cf6)';
+    card.style.color = '#ffffff';
+    
+    const value = card.querySelector('.insight-value');
+    if (value) {
+        value.style.fontSize = '1.75rem';
+        value.style.textShadow = '0 0 20px rgba(255, 255, 255, 0.8)';
+    }
 }
 
 function resetInsightCard(card) {
-    // Removed animations
+    card.style.transform = 'scale(1) rotateY(0deg)';
+    card.style.background = '#0f172a';
+    card.style.color = '';
+    
+    const value = card.querySelector('.insight-value');
+    if (value) {
+        value.style.fontSize = '1.5rem';
+        value.style.textShadow = '0 0 10px rgba(124, 58, 237, 0.3)';
+    }
 }
 
 function createSharpGraph(containerId, type) {

@@ -1,5 +1,4 @@
 import { createContext, ReactNode, useContext } from "react";
-import * as React from "react";
 import {
   useQuery,
   useMutation,
@@ -23,104 +22,82 @@ type LoginData = Pick<InsertUser, "username" | "password">;
 export const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
-  // Simplified auth state - no database lookup
-  const [user, setUser] = React.useState<SelectUser | null>(null);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const error = null;
+  const {
+    data: user,
+    error,
+    isLoading,
+  } = useQuery<SelectUser | undefined, Error>({
+    queryKey: ["/api/user"],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+  });
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginData) => {
-      // Simulate login process
-      setIsLoading(true);
-      await new Promise(resolve => setTimeout(resolve, 500)); // Brief loading
-      
-      // Create mock user from credentials
-      return {
-        id: 1,
-        username: credentials.username,
-        department: "Computer Science & Engineering",
-        role: "student"
-      };
+      try {
+        const res = await apiRequest("POST", "/api/login", credentials);
+        return await res.json();
+      } catch (error) {
+        if (error instanceof Error) {
+          throw error;
+        }
+        throw new Error("Login failed. Please check your credentials and try again.");
+      }
     },
-    onSuccess: (mockUser: SelectUser) => {
-      setUser(mockUser);
-      setIsLoading(false);
-      toast({
-        title: "Welcome!",
-        description: "Successfully logged in to BMSCE Placement Portal",
-      });
+    onSuccess: (user: SelectUser) => {
+      queryClient.setQueryData(["/api/user"], user);
     },
-    onError: () => {
-      setIsLoading(false);
+    onError: (error: Error) => {
       toast({
-        title: "Login successful!",
-        description: "Welcome to BMSCE Placement Portal",
-      });
-      // Even on "error", we still log them in for easy access
-      setUser({
-        id: 1,
-        username: "student@bmsce.edu.in",
-        department: "Computer Science & Engineering", 
-        role: "student"
+        title: "Login failed",
+        description: error.message,
+        variant: "destructive",
       });
     },
   });
 
   const registerMutation = useMutation({
     mutationFn: async (credentials: InsertUser) => {
-      // Simulate registration process
-      setIsLoading(true);
-      await new Promise(resolve => setTimeout(resolve, 500)); // Brief loading
-      
-      // Create mock user from credentials
-      return {
-        id: 1,
-        username: credentials.username,
-        department: credentials.department || "Computer Science & Engineering",
-        role: "student"
-      };
+      try {
+        const res = await apiRequest("POST", "/api/register", credentials);
+        return await res.json();
+      } catch (error) {
+        if (error instanceof Error) {
+          throw error;
+        }
+        throw new Error("Registration failed. Please try again later.");
+      }
     },
-    onSuccess: (mockUser: SelectUser) => {
-      setUser(mockUser);
-      setIsLoading(false);
-      toast({
-        title: "Account created!",
-        description: "Welcome to BMSCE Placement Portal",
-      });
+    onSuccess: (user: SelectUser) => {
+      queryClient.setQueryData(["/api/user"], user);
     },
-    onError: () => {
-      setIsLoading(false);
+    onError: (error: Error) => {
       toast({
-        title: "Account created successfully!",
-        description: "Welcome to BMSCE Placement Portal",
-      });
-      // Even on "error", we still log them in for easy access
-      setUser({
-        id: 1,
-        username: "newstudent@bmsce.edu.in",
-        department: "Computer Science & Engineering",
-        role: "student"
+        title: "Registration failed",
+        description: error.message,
+        variant: "destructive",
       });
     },
   });
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      await new Promise(resolve => setTimeout(resolve, 200)); // Brief delay
+      try {
+        await apiRequest("POST", "/api/logout");
+      } catch (error) {
+        if (error instanceof Error) {
+          throw error;
+        }
+        throw new Error("Logout failed. Please try again.");
+      }
     },
     onSuccess: () => {
-      setUser(null);
-      toast({
-        title: "Logged out",
-        description: "You have been successfully logged out",
-      });
+      queryClient.setQueryData(["/api/user"], null);
     },
-    onError: () => {
-      // Even on error, log them out
-      setUser(null);
+    onError: (error: Error) => {
       toast({
-        title: "Logged out",
-        description: "You have been successfully logged out",
+        title: "Logout failed",
+        description: error.message,
+        variant: "destructive",
       });
     },
   });

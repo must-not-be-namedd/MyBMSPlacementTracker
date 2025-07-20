@@ -104,13 +104,31 @@ body {
 }
 
 .interactive-chart-container:hover {
-    transform: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    animation: pulse 2s infinite;
 }
 
-/* Removed pulse animation */
+@keyframes pulse {
+    0% { box-shadow: 0 8px 25px rgba(124, 58, 237, 0.2); }
+    50% { box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4); }
+    100% { box-shadow: 0 8px 25px rgba(124, 58, 237, 0.2); }
+}
 
-/* Removed chart load animation */
+@keyframes chartLoad {
+    from { 
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.interactive-chart-container {
+    animation: chartLoad 0.6s ease-out;
+}
 
 .interactive-chart-container.full-width {
     grid-column: 1 / -1;
@@ -140,7 +158,23 @@ body {
     overflow: hidden;
 }
 
-/* Removed chart hover effects */
+.chart-canvas-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(124, 58, 237, 0.1) 50%, 
+        transparent 100%);
+    transition: left 0.6s ease;
+}
+
+.chart-canvas-wrapper:hover::before {
+    left: 100%;
+}
 
 .chart-legend {
     display: flex;
@@ -214,6 +248,13 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 0.25rem;
+    text-shadow: 0 0 10px rgba(124, 58, 237, 0.3);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px rgba(124, 58, 237, 0.3); }
+    to { text-shadow: 0 0 20px rgba(124, 58, 237, 0.6); }
 }
 
 .insight-desc {
@@ -244,7 +285,10 @@ body {
     border: 2px solid transparent;
 }
 
-/* Removed hover scaling */
+.heatmap-cell:hover {
+    border-color: #7c3aed;
+    transform: scale(1.05);
+}
 
 .heatmap-cell-label {
     color: #e2e8f0;
