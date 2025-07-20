@@ -124,18 +124,15 @@ const departmentData = {
 
 // Login functionality
 function initializeLogin() {
-    console.log('Initializing login...');
     const loginForm = document.getElementById('loginForm');
     const signupForm = document.getElementById('signupForm');
     const loginPage = document.getElementById('loginPage');
     const mainContent = document.getElementById('mainContent');
     
-    console.log('Login form found:', !!loginForm);
-    console.log('Signup form found:', !!signupForm);
-    
-    // Clear any existing login data for fresh start
-    localStorage.removeItem('bmsce-user');
-    console.log('Cleared any existing login data for testing');
+    // Check if user is already logged in
+    if (localStorage.getItem('bmsce-user')) {
+        showMainApp();
+    }
     
     // Initialize auth tabs
     initializeAuthTabs();
@@ -147,29 +144,26 @@ function initializeLogin() {
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         
-        console.log('Login attempt with:', email, password);
-        
-        // Simple validation - accept any email and password for demo
-        if (email.trim() && password.trim()) {
+        // Basic validation (in real app, this would connect to backend)
+        if (email && password) {
             // Store user data
             const userData = {
-                email: email.trim(),
+                email: email,
                 loginTime: new Date().toISOString(),
                 type: 'signin'
             };
             
             localStorage.setItem('bmsce-user', JSON.stringify(userData));
-            console.log('User data stored:', userData);
             
-            // Clear the form
-            loginForm.reset();
+            // Show success animation
+            showLoginSuccess();
             
-            // DIRECT TRANSITION - no animation delays
+            // Transition to main app
             setTimeout(() => {
                 showMainApp();
-            }, 100);
+            }, 1500);
         } else {
-            alert('Please enter both email and password');
+            showMessage('Please fill in all fields', 'error');
         }
     });
     
@@ -183,14 +177,12 @@ function initializeLogin() {
         const department = document.getElementById('signupDepartment').value;
         const year = document.getElementById('signupYear').value;
         
-        console.log('Signup attempt:', { name, email, department, year });
-        
-        // Simple validation - accept any filled fields for demo
-        if (name.trim() && email.trim() && password.trim() && department && year) {
+        // Basic validation
+        if (name && email && password && department && year) {
             // Store user data
             const userData = {
-                name: name.trim(),
-                email: email.trim(),
+                name: name,
+                email: email,
                 department: department,
                 year: year,
                 loginTime: new Date().toISOString(),
@@ -198,17 +190,16 @@ function initializeLogin() {
             };
             
             localStorage.setItem('bmsce-user', JSON.stringify(userData));
-            console.log('User data stored:', userData);
             
-            // Clear the form
-            signupForm.reset();
+            // Show success animation
+            showSignupSuccess();
             
-            // DIRECT TRANSITION - no animation delays
+            // Transition to main app
             setTimeout(() => {
                 showMainApp();
-            }, 100);
+            }, 1500);
         } else {
-            alert('Please fill in all fields');
+            showMessage('Please fill in all fields', 'error');
         }
     });
     
@@ -278,111 +269,45 @@ function initializeLogin() {
     }
     
     function showMainApp() {
-        console.log('Showing main app...');
         const loginPage = document.getElementById('loginPage');
         const mainContent = document.getElementById('mainContent');
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        
-        console.log('Login page element:', loginPage);
-        console.log('Main content element:', mainContent);
-        console.log('Mobile menu button:', mobileMenuBtn);
         
         if (loginPage && mainContent) {
-            // Add logged-in class to body to trigger CSS display changes
-            document.body.classList.add('logged-in');
-            console.log('Added logged-in class to body');
-            
             loginPage.style.display = 'none';
-            loginPage.classList.remove('active');
             mainContent.style.display = 'flex';
             mainContent.classList.add('active');
             
-            console.log('Switched from login page to main content');
-            
-            // Show hamburger menu after login
-            if (mobileMenuBtn) {
-                mobileMenuBtn.style.display = 'flex';
-                console.log('Showed hamburger menu');
-            }
-            
             // Show dashboard page specifically  
             showPage('dashboard');
-            console.log('Navigated to dashboard');
             
-            // Initialize charts and data after login
+            // Initialize charts after login
             setTimeout(() => {
-                if (typeof initializeCharts === 'function') {
-                    initializeCharts();
-                }
-                if (typeof initializeInteractiveGraphs === 'function') {
-                    initializeInteractiveGraphs();
-                }
-                loadDepartmentData();
-            }, 300);
-        } else {
-            console.error('Could not find login page or main content elements');
+                initializeCharts();
+                initializeInteractiveGraphs();
+            }, 500);
         }
     }
 }
 
 // Navigation functionality
 function initializeNavigation() {
-    console.log('Initializing navigation...');
     const navLinks = document.querySelectorAll('.sidebar-menu a');
     const pages = document.querySelectorAll('.page');
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebar = document.getElementById('sidebar');
 
-    // Mobile sidebar toggle functionality - CRITICAL FIX
+    // Mobile sidebar toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebarClose = document.getElementById('sidebarClose');
     
-    // Debug logging
-    console.log('Mobile menu button found:', !!mobileMenuBtn);
-    console.log('Sidebar found:', !!sidebar);
-    console.log('Mobile menu button element:', mobileMenuBtn);
-    
-    // Force hamburger menu functionality
     if (mobileMenuBtn) {
-        // Remove any existing event listeners first
-        mobileMenuBtn.replaceWith(mobileMenuBtn.cloneNode(true));
-        const newMobileBtn = document.getElementById('mobileMenuBtn');
-        
-        newMobileBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('HAMBURGER CLICKED - Toggling sidebar');
-            
-            if (sidebar) {
-                sidebar.classList.toggle('active');
-                console.log('Sidebar active class toggled:', sidebar.classList.contains('active'));
-            }
-        });
-        
-        // Also add touchstart for mobile
-        newMobileBtn.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            console.log('HAMBURGER TOUCHED');
-            if (sidebar) {
-                sidebar.classList.toggle('active');
-            }
-        });
-    }
-}
-    
-    if (sidebarToggle && sidebar) {
-        sidebarToggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Sidebar toggle clicked');
-            sidebar.classList.toggle('active');
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.add('active');
         });
     }
 
     if (sidebarClose) {
-        sidebarClose.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+        sidebarClose.addEventListener('click', () => {
             sidebar.classList.remove('active');
         });
     }
@@ -390,21 +315,10 @@ function initializeNavigation() {
     // Close sidebar when clicking outside
     document.addEventListener('click', (e) => {
         if (window.innerWidth <= 768 && 
-            sidebar && sidebar.classList.contains('active') &&
-            !sidebar.contains(e.target)) {
-            
-            // Check if click is on any menu button
-            let isMenuButton = false;
-            if (sidebarToggle && sidebarToggle.contains(e.target)) {
-                isMenuButton = true;
-            }
-            if (mobileMenuBtn && mobileMenuBtn.contains(e.target)) {
-                isMenuButton = true;
-            }
-            
-            if (!isMenuButton) {
-                sidebar.classList.remove('active');
-            }
+            !sidebar.contains(e.target) && 
+            mobileMenuBtn && !mobileMenuBtn.contains(e.target) &&
+            sidebar.classList.contains('active')) {
+            sidebar.classList.remove('active');
         }
     });
 
@@ -782,73 +696,6 @@ function addToCalendar(bookingId, type, date, time, meetLink) {
     const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&dates=${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z&details=${encodeURIComponent(eventDescription)}`;
     
     window.open(googleCalendarUrl, '_blank');
-}
-
-// Message system for user feedback
-function showMessage(message, type = 'info') {
-    // Remove any existing messages
-    const existingMessages = document.querySelectorAll('.message-popup');
-    existingMessages.forEach(msg => msg.remove());
-    
-    // Create message element
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message-popup message-${type}`;
-    messageDiv.textContent = message;
-    messageDiv.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 15px 20px;
-        border-radius: 8px;
-        color: white;
-        font-weight: 500;
-        z-index: 10000;
-        opacity: 0;
-        transform: translateX(100%);
-        transition: all 0.3s ease;
-        max-width: 300px;
-        word-wrap: break-word;
-    `;
-    
-    // Set background color based on type
-    switch(type) {
-        case 'success':
-            messageDiv.style.backgroundColor = '#10b981';
-            break;
-        case 'error':
-            messageDiv.style.backgroundColor = '#ef4444';
-            break;
-        case 'info':
-        default:
-            messageDiv.style.backgroundColor = '#3b82f6';
-            break;
-    }
-    
-    document.body.appendChild(messageDiv);
-    
-    // Animate in
-    setTimeout(() => {
-        messageDiv.style.opacity = '1';
-        messageDiv.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Auto remove after 3 seconds
-    setTimeout(() => {
-        messageDiv.style.opacity = '0';
-        messageDiv.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            if (messageDiv.parentNode) {
-                messageDiv.parentNode.removeChild(messageDiv);
-            }
-        }, 300);
-    }, 3000);
-}
-
-// Load department data function
-function loadDepartmentData() {
-    // This function would typically load data from an API
-    // For now, we use the static departmentData object
-    console.log('Department data loaded:', Object.keys(departmentData));
 }
 
 // Alumni connection functionality
@@ -1889,58 +1736,10 @@ function formatCurrency(amount) {
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded - initializing app');
-    
-    // Initialize navigation first (this includes hamburger menu)
-    initializeNavigation();
-    
-    // Then initialize other components
     initializeLogin();
-    initializeResumeBuilder();
-    initializeInterviewBooking();
-    
-    // Ensure proper display states
-    const loginPage = document.getElementById('loginPage');
-    const mainContent = document.getElementById('mainContent');
-    
-    // Always start with login page visible
-    if (loginPage && mainContent) {
-        // Check if user is already logged in
-        const savedUser = localStorage.getItem('bmsce-user');
-        
-        if (savedUser) {
-            // User is logged in, show dashboard
-            document.body.classList.add('logged-in');
-            loginPage.style.display = 'none';
-            mainContent.style.display = 'flex';
-            
-            // Show hamburger menu
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            if (mobileMenuBtn) {
-                mobileMenuBtn.style.display = 'flex';
-            }
-            
-            showPage('dashboard');
-        } else {
-            // Force login page to display first
-            document.body.classList.remove('logged-in');
-            loginPage.style.display = 'flex';
-            loginPage.style.position = 'fixed';
-            loginPage.style.top = '0';
-            loginPage.style.left = '0';
-            loginPage.style.width = '100vw';
-            loginPage.style.height = '100vh';
-            loginPage.style.zIndex = '10000';
-            
-            mainContent.style.display = 'none';
-            
-            // Hide hamburger menu on login page
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            if (mobileMenuBtn) {
-                mobileMenuBtn.style.display = 'none';
-            }
-        }
-    }
+    initializeNavigation();
+    loadDepartmentData(); // Load default department data
+    setupScrollAnimations();
 });
 
 // Handle window resize for mobile responsiveness
@@ -1950,16 +1749,6 @@ window.addEventListener('resize', () => {
         sidebar.classList.remove('active');
     }
 });
-
-// Global hamburger menu toggle function
-function toggleSidebar() {
-    console.log('Global toggleSidebar called');
-    const sidebar = document.getElementById('sidebar');
-    if (sidebar) {
-        sidebar.classList.toggle('active');
-        console.log('Sidebar toggled, active:', sidebar.classList.contains('active'));
-    }
-}
 
 // Close mobile sidebar when clicking outside
 document.addEventListener('click', (e) => {
@@ -2289,27 +2078,7 @@ document.head.appendChild(styleSheet);
 // Logout functionality
 function logout() {
     localStorage.removeItem('bmsce-user');
-    
-    // Hide hamburger menu
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    if (mobileMenuBtn) {
-        mobileMenuBtn.style.display = 'none';
-    }
-    
-    // Reset to login page
-    const loginPage = document.getElementById('loginPage');
-    const mainContent = document.getElementById('mainContent');
-    
-    if (loginPage && mainContent) {
-        document.body.classList.remove('logged-in');
-        loginPage.style.display = 'flex';
-        mainContent.style.display = 'none';
-    }
-    
-    // Reload page to ensure clean state
-    setTimeout(() => {
-        location.reload();
-    }, 100);
+    location.reload();
 }
 
 // Export functions for potential future use

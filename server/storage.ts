@@ -47,13 +47,21 @@ export class DatabaseStorage implements IStorage {
       createTableIfMissing: true
     });
     
-    // Seed data disabled for static frontend application
-    // this.initializeData();
+    // Seed data if they don't already exist with error handling
+    this.initializeData();
   }
 
   private async initializeData() {
-    // Database initialization disabled for static frontend application
-    console.log('Static application - database seeding skipped');
+    try {
+      await this.seedDepartmentStats();
+      await this.seedCompanies();
+      await this.seedAlumni();
+      await this.seedResources();
+      await this.seedFAQs();
+    } catch (error) {
+      console.error('Error initializing data:', error);
+      // Continue without seeding if there are errors
+    }
   }
 
   private async seedDepartmentStats() {
