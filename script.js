@@ -133,12 +133,9 @@ function initializeLogin() {
     console.log('Login form found:', !!loginForm);
     console.log('Signup form found:', !!signupForm);
     
-    // Check if user is already logged in
-    if (localStorage.getItem('bmsce-user')) {
-        console.log('User already logged in, showing main app');
-        showMainApp();
-        return;
-    }
+    // Clear any existing login data for fresh start
+    localStorage.removeItem('bmsce-user');
+    console.log('Cleared any existing login data for testing');
     
     // Initialize auth tabs
     initializeAuthTabs();
@@ -164,8 +161,13 @@ function initializeLogin() {
             localStorage.setItem('bmsce-user', JSON.stringify(userData));
             console.log('User data stored:', userData);
             
+            // Clear the form
+            loginForm.reset();
+            
             // DIRECT TRANSITION - no animation delays
-            showMainApp();
+            setTimeout(() => {
+                showMainApp();
+            }, 100);
         } else {
             alert('Please enter both email and password');
         }
@@ -198,8 +200,13 @@ function initializeLogin() {
             localStorage.setItem('bmsce-user', JSON.stringify(userData));
             console.log('User data stored:', userData);
             
+            // Clear the form
+            signupForm.reset();
+            
             // DIRECT TRANSITION - no animation delays
-            showMainApp();
+            setTimeout(() => {
+                showMainApp();
+            }, 100);
         } else {
             alert('Please fill in all fields');
         }
