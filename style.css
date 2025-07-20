@@ -44,9 +44,9 @@ body.logged-in #mainContent {
     display: flex !important;
 }
 
-/* Ensure hamburger menu is above login page */
-.mobile-menu-btn {
-    z-index: 10001 !important;
+/* Show hamburger menu only when logged in */
+body.logged-in .mobile-menu-btn {
+    display: flex !important;
 }
 
 /* Chart Container Styles */

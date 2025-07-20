@@ -263,6 +263,7 @@ function initializeLogin() {
     function showMainApp() {
         const loginPage = document.getElementById('loginPage');
         const mainContent = document.getElementById('mainContent');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         
         if (loginPage && mainContent) {
             // Add logged-in class to body to trigger CSS display changes
@@ -272,6 +273,11 @@ function initializeLogin() {
             loginPage.classList.remove('active');
             mainContent.style.display = 'flex';
             mainContent.classList.add('active');
+            
+            // Show hamburger menu after login
+            if (mobileMenuBtn) {
+                mobileMenuBtn.style.display = 'flex';
+            }
             
             // Show dashboard page specifically  
             showPage('dashboard');
@@ -1878,6 +1884,13 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.add('logged-in');
             loginPage.style.display = 'none';
             mainContent.style.display = 'flex';
+            
+            // Show hamburger menu
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.style.display = 'flex';
+            }
+            
             showPage('dashboard');
         } else {
             // Force login page to display first
@@ -1891,6 +1904,12 @@ document.addEventListener('DOMContentLoaded', () => {
             loginPage.style.zIndex = '10000';
             
             mainContent.style.display = 'none';
+            
+            // Hide hamburger menu on login page
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.style.display = 'none';
+            }
         }
     }
 });
@@ -2241,7 +2260,27 @@ document.head.appendChild(styleSheet);
 // Logout functionality
 function logout() {
     localStorage.removeItem('bmsce-user');
-    location.reload();
+    
+    // Hide hamburger menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    if (mobileMenuBtn) {
+        mobileMenuBtn.style.display = 'none';
+    }
+    
+    // Reset to login page
+    const loginPage = document.getElementById('loginPage');
+    const mainContent = document.getElementById('mainContent');
+    
+    if (loginPage && mainContent) {
+        document.body.classList.remove('logged-in');
+        loginPage.style.display = 'flex';
+        mainContent.style.display = 'none';
+    }
+    
+    // Reload page to ensure clean state
+    setTimeout(() => {
+        location.reload();
+    }, 100);
 }
 
 // Export functions for potential future use
