@@ -330,8 +330,14 @@ body {
     
     .chart-canvas-wrapper canvas {
         width: 100% !important;
-        max-width: 350px;
+        max-width: 100%;
         height: auto !important;
+        min-height: 250px;
+    }
+    
+    .chart-canvas-wrapper {
+        padding: 0.5rem;
+        overflow-x: auto;
     }
     
     .trend-insights {
@@ -352,9 +358,19 @@ body {
     }
     
     .heatmap-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.25rem;
         padding: 0.5rem;
+        overflow-x: auto;
+    }
+    
+    .heatmap-container table {
+        min-width: 100%;
+        font-size: 0.8rem;
+    }
+    
+    .heatmap-container th,
+    .heatmap-container td {
+        padding: 0.8rem 0.5rem !important;
+        font-size: 0.8rem;
     }
 }
 

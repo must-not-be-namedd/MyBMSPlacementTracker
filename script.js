@@ -980,11 +980,17 @@ function createPackageBarChart() {
     const canvas = document.getElementById('packageBarChart');
     if (!canvas) return;
     
-    // Set high DPI for crisp rendering
+    // Set high DPI for crisp rendering with responsive sizing
     const rect = canvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    const isMobile = window.innerWidth <= 768;
+    
+    // Responsive canvas sizing
+    const canvasWidth = isMobile ? Math.min(rect.width, 350) : rect.width;
+    const canvasHeight = isMobile ? 300 : rect.height;
+    
+    canvas.width = canvasWidth * dpr;
+    canvas.height = canvasHeight * dpr;
     
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
@@ -995,9 +1001,9 @@ function createPackageBarChart() {
     const highestPackages = [52, 48, 38, 30, 28];
     const averagePackages = [18, 16, 15, 14, 13];
     
-    const padding = 60;
-    const chartWidth = rect.width - 2 * padding;
-    const chartHeight = rect.height - 2 * padding;
+    const padding = isMobile ? 40 : 60;
+    const chartWidth = canvasWidth - 2 * padding;
+    const chartHeight = canvasHeight - 2 * padding;
     const barWidth = chartWidth / (departments.length * 2.8);
     const maxValue = 60; // Fixed max for consistency
     const yScale = chartHeight / maxValue;
@@ -1071,14 +1077,20 @@ function createPackageBarChart() {
     
     // Chart title
     ctx.fillStyle = '#e2e8f0';
-    ctx.font = 'bold 14px Inter';
+    ctx.font = isMobile ? 'bold 12px Inter' : 'bold 14px Inter';
     ctx.textAlign = 'center';
-    ctx.fillText('Package Analysis by Department', rect.width / 2, 25);
+    ctx.fillText('Package Analysis by Department', canvasWidth / 2, 25);
     
     // Add description
     ctx.fillStyle = '#94a3b8';
-    ctx.font = '11px Inter';
-    ctx.fillText('Comparison of highest and average salary packages across all engineering departments', rect.width / 2, 45);
+    ctx.font = isMobile ? '9px Inter' : '11px Inter';
+    if (isMobile) {
+        // Split description for mobile
+        ctx.fillText('Highest vs average packages across', canvasWidth / 2, 40);
+        ctx.fillText('all engineering departments', canvasWidth / 2, 55);
+    } else {
+        ctx.fillText('Comparison of highest and average salary packages across all engineering departments', canvasWidth / 2, 45);
+    }
 }
 
 function createPlacementPieChart() {
@@ -1154,11 +1166,17 @@ function createTrendsLineChart() {
     const canvas = document.getElementById('trendsLineChart');
     if (!canvas) return;
     
-    // Set high DPI for crisp rendering
+    // Set high DPI for crisp rendering with responsive sizing
     const rect = canvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    const isMobile = window.innerWidth <= 768;
+    
+    // Responsive canvas sizing
+    const canvasWidth = isMobile ? Math.min(rect.width, 350) : rect.width;
+    const canvasHeight = isMobile ? 320 : rect.height;
+    
+    canvas.width = canvasWidth * dpr;
+    canvas.height = canvasHeight * dpr;
     
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
@@ -1170,9 +1188,9 @@ function createTrendsLineChart() {
     const placementRates = [65, 68, 72, 75, 76, 78, 82, 85, 87, 89, 91];
     const avgPackages = [8, 9, 10, 11, 11.5, 12, 14, 15, 16, 17, 18];
     
-    const padding = 80;
-    const chartWidth = rect.width - 2 * padding;
-    const chartHeight = rect.height - 2 * padding;
+    const padding = isMobile ? 50 : 80;
+    const chartWidth = canvasWidth - 2 * padding;
+    const chartHeight = canvasHeight - 2 * padding;
     const xScale = chartWidth / (years.length - 1);
     
     // Draw grid lines
@@ -1251,9 +1269,11 @@ function createTrendsLineChart() {
         
         // Data labels
         ctx.fillStyle = '#8b5cf6';
-        ctx.font = '9px Inter';
+        ctx.font = isMobile ? '7px Inter' : '9px Inter';
         ctx.textAlign = 'center';
-        ctx.fillText(`${rate}%`, x, y - 10);
+        if (!isMobile || i % 2 === 0) { // Show fewer labels on mobile
+            ctx.fillText(`${rate}%`, x, y - 10);
+        }
     });
     
     // Add data points for packages
@@ -1275,9 +1295,11 @@ function createTrendsLineChart() {
         
         // Data labels
         ctx.fillStyle = '#14b8a6';
-        ctx.font = '9px Inter';
+        ctx.font = isMobile ? '7px Inter' : '9px Inter';
         ctx.textAlign = 'center';
-        ctx.fillText(`₹${pkg}L`, x, y + 15);
+        if (!isMobile || i % 2 === 0) { // Show fewer labels on mobile
+            ctx.fillText(`₹${pkg}L`, x, y + 15);
+        }
     });
     
     // X-axis labels (years)
@@ -1310,14 +1332,19 @@ function createTrendsLineChart() {
     
     // Chart title
     ctx.fillStyle = '#e2e8f0';
-    ctx.font = 'bold 14px Inter';
+    ctx.font = isMobile ? 'bold 11px Inter' : 'bold 14px Inter';
     ctx.textAlign = 'center';
-    ctx.fillText('Placement Trends (2015-2025)', rect.width / 2, 25);
+    ctx.fillText('Placement Trends (2015-2025)', canvasWidth / 2, 20);
     
     // Add description
     ctx.fillStyle = '#94a3b8';
-    ctx.font = '11px Inter';
-    ctx.fillText('Year-on-year growth in placement rates and average salary packages', rect.width / 2, 45);
+    ctx.font = isMobile ? '8px Inter' : '11px Inter';
+    if (isMobile) {
+        ctx.fillText('Year-on-year growth in placement', canvasWidth / 2, 35);
+        ctx.fillText('rates and salary packages', canvasWidth / 2, 48);
+    } else {
+        ctx.fillText('Year-on-year growth in placement rates and average salary packages', canvasWidth / 2, 45);
+    }
     
     // Legend
     ctx.fillStyle = '#8b5cf6';
@@ -1342,7 +1369,7 @@ function createPerformanceHeatmap() {
     const departments = ['CSE', 'ISE', 'ECE', 'ME', 'CE'];
     const years = ['2021', '2022', '2023', '2024', '2025'];
     
-    // Performance data (placement rates)
+    // Performance data (placement rates) - realistic and factual sounding
     const performanceData = [
         [85, 87, 89, 91, 93], // CSE
         [82, 84, 86, 88, 90], // ISE
@@ -1351,97 +1378,124 @@ function createPerformanceHeatmap() {
         [73, 75, 77, 79, 81]  // CE
     ];
     
-    // Create table structure
+    // Create table structure with diagonal header styling
     const table = document.createElement('table');
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
     table.style.background = '#1e293b';
     table.style.borderRadius = '0.5rem';
     table.style.overflow = 'hidden';
+    table.style.border = '2px solid #374151';
     
-    // Header row
+    // Create diagonal header cell
     const headerRow = document.createElement('tr');
-    headerRow.style.background = '#374151';
+    headerRow.style.background = 'linear-gradient(135deg, #374151 50%, #2d3748 50%)';
     
-    const emptyHeader = document.createElement('th');
-    emptyHeader.textContent = 'Department';
-    emptyHeader.style.padding = '1rem';
-    emptyHeader.style.color = '#e2e8f0';
-    emptyHeader.style.fontWeight = '600';
-    emptyHeader.style.textAlign = 'left';
-    emptyHeader.style.borderBottom = '1px solid #4b5563';
-    headerRow.appendChild(emptyHeader);
+    const diagonalHeader = document.createElement('th');
+    diagonalHeader.style.padding = '1.5rem 1rem';
+    diagonalHeader.style.position = 'relative';
+    diagonalHeader.style.borderBottom = '2px solid #4b5563';
+    diagonalHeader.style.borderRight = '2px solid #4b5563';
+    
+    // Create diagonal line and labels
+    diagonalHeader.innerHTML = `
+        <div style="position: relative; height: 40px;">
+            <div style="position: absolute; top: 5px; left: 5px; color: #e2e8f0; font-weight: 600; font-size: 0.8rem;">Department</div>
+            <div style="position: absolute; bottom: 5px; right: 5px; color: #e2e8f0; font-weight: 600; font-size: 0.8rem;">Year</div>
+            <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #4b5563; transform: rotate(-45deg) translateY(-50%);"></div>
+        </div>
+    `;
+    
+    headerRow.appendChild(diagonalHeader);
     
     years.forEach(year => {
         const yearHeader = document.createElement('th');
         yearHeader.textContent = year;
         yearHeader.style.padding = '1rem';
         yearHeader.style.color = '#e2e8f0';
-        yearHeader.style.fontWeight = '600';
+        yearHeader.style.fontWeight = '700';
         yearHeader.style.textAlign = 'center';
-        yearHeader.style.borderBottom = '1px solid #4b5563';
+        yearHeader.style.borderBottom = '2px solid #4b5563';
+        yearHeader.style.background = '#374151';
+        yearHeader.style.fontSize = '1rem';
+        if (year !== '2025') {
+            yearHeader.style.borderRight = '1px solid #4b5563';
+        }
         headerRow.appendChild(yearHeader);
     });
     
     table.appendChild(headerRow);
     
-    // Data rows
+    // Data rows with enhanced styling
     departments.forEach((dept, deptIndex) => {
         const row = document.createElement('tr');
-        row.style.borderBottom = '1px solid #374151';
+        if (deptIndex < departments.length - 1) {
+            row.style.borderBottom = '1px solid #374151';
+        }
         
-        // Department label
+        // Department label cell
         const deptCell = document.createElement('td');
         deptCell.textContent = dept;
-        deptCell.style.padding = '1rem';
+        deptCell.style.padding = '1.2rem 1rem';
         deptCell.style.color = '#e2e8f0';
-        deptCell.style.fontWeight = '600';
+        deptCell.style.fontWeight = '700';
         deptCell.style.background = '#2d3748';
-        deptCell.style.borderRight = '1px solid #4b5563';
+        deptCell.style.borderRight = '2px solid #4b5563';
+        deptCell.style.textAlign = 'center';
+        deptCell.style.fontSize = '1rem';
         row.appendChild(deptCell);
         
-        // Performance cells
+        // Performance cells with improved styling
         performanceData[deptIndex].forEach((value, yearIndex) => {
             const cell = document.createElement('td');
-            cell.style.padding = '1rem';
+            cell.style.padding = '1.2rem';
             cell.style.textAlign = 'center';
-            cell.style.borderRight = '1px solid #374151';
             cell.style.cursor = 'pointer';
-            cell.style.transition = 'all 0.2s ease';
+            cell.style.transition = 'all 0.3s ease';
+            cell.style.position = 'relative';
+            if (yearIndex < years.length - 1) {
+                cell.style.borderRight = '1px solid #374151';
+            }
             
-            // Professional color scheme - blue gradient based on performance
-            const intensity = (value - 70) / 25; // Normalize to 0-1
-            const lightness = 25 + (intensity * 15); // 25% to 40% lightness
-            const saturation = 60 + (intensity * 20); // 60% to 80% saturation
+            // Enhanced professional color scheme
+            const intensity = (value - 70) / 25;
+            const lightness = 20 + (intensity * 20); // 20% to 40% lightness
+            const saturation = 70 + (intensity * 20); // 70% to 90% saturation
             cell.style.background = `hsl(220, ${saturation}%, ${lightness}%)`;
+            cell.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.1)';
             
-            // Text content
-            const valueSpan = document.createElement('span');
+            // Main percentage value
+            const valueSpan = document.createElement('div');
             valueSpan.textContent = `${value}%`;
             valueSpan.style.color = '#ffffff';
-            valueSpan.style.fontWeight = '600';
-            valueSpan.style.fontSize = '0.9rem';
+            valueSpan.style.fontWeight = '700';
+            valueSpan.style.fontSize = '1.1rem';
+            valueSpan.style.textShadow = '0 1px 2px rgba(0,0,0,0.3)';
             
+            // Department abbreviation
             const deptLabel = document.createElement('div');
             deptLabel.textContent = dept;
-            deptLabel.style.color = 'rgba(255, 255, 255, 0.7)';
-            deptLabel.style.fontSize = '0.75rem';
-            deptLabel.style.marginTop = '0.25rem';
+            deptLabel.style.color = 'rgba(255, 255, 255, 0.8)';
+            deptLabel.style.fontSize = '0.7rem';
+            deptLabel.style.marginTop = '0.2rem';
+            deptLabel.style.fontWeight = '500';
             
             cell.appendChild(valueSpan);
             cell.appendChild(deptLabel);
             
-            // Subtle hover effect
+            // Enhanced hover effect
             cell.addEventListener('mouseenter', () => {
-                cell.style.transform = 'translateY(-1px)';
-                cell.style.boxShadow = '0 2px 8px rgba(124, 58, 237, 0.3)';
-                cell.style.borderColor = '#7c3aed';
+                cell.style.transform = 'scale(1.05)';
+                cell.style.zIndex = '10';
+                cell.style.boxShadow = '0 4px 15px rgba(124, 58, 237, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)';
+                cell.style.borderRadius = '0.25rem';
             });
             
             cell.addEventListener('mouseleave', () => {
-                cell.style.transform = 'translateY(0)';
-                cell.style.boxShadow = 'none';
-                cell.style.borderColor = '#374151';
+                cell.style.transform = 'scale(1)';
+                cell.style.zIndex = '1';
+                cell.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.1)';
+                cell.style.borderRadius = '0';
             });
             
             row.appendChild(cell);
@@ -1452,19 +1506,21 @@ function createPerformanceHeatmap() {
     
     container.appendChild(table);
     
-    // Add description below the table
+    // Enhanced description
     const description = document.createElement('div');
-    description.style.marginTop = '1rem';
-    description.style.padding = '1rem';
-    description.style.background = '#374151';
+    description.style.marginTop = '1.5rem';
+    description.style.padding = '1.2rem';
+    description.style.background = 'linear-gradient(135deg, #374151, #2d3748)';
     description.style.borderRadius = '0.5rem';
     description.style.color = '#94a3b8';
-    description.style.fontSize = '0.875rem';
+    description.style.fontSize = '0.9rem';
     description.style.textAlign = 'center';
+    description.style.border = '1px solid #4b5563';
     description.innerHTML = `
-        <strong style="color: #e2e8f0;">Department Performance Matrix:</strong><br>
-        Interactive visualization showing placement success rates across departments and years. 
-        Darker blue indicates higher placement rates. Hover over cells for enhanced details.
+        <strong style="color: #e2e8f0; font-size: 1rem;">Department Performance Matrix</strong><br><br>
+        Interactive visualization showing placement success rates across departments and years.<br>
+        <span style="color: #7c3aed; font-weight: 600;">Darker blue indicates higher placement rates.</span> 
+        Hover over cells for enhanced visual feedback.
     `;
     container.appendChild(description);
 }

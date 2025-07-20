@@ -101,6 +101,14 @@ This is a placement portal for BMS College of Engineering that has been converte
 
 ## Changelog
 
+- January 20, 2025. **DATA VISUALIZATION ENHANCEMENTS**: Completely overhauled Data Visualizations page with professional styling and enhanced mobile responsiveness
+- January 20, 2025. Implemented high DPI rendering for all charts with crisp, pixelated graphics using canvas 2D context
+- January 20, 2025. Extended line graph timeline from 2015-2025 with dual Y-axes showing placement rates and salary packages with numerical values
+- January 20, 2025. Redesigned performance heatmap with professional blue gradient scheme replacing bright colors, diagonal header styling, and clean table format
+- January 20, 2025. Added comprehensive chart descriptions and analysis for each visualization to enhance user understanding
+- January 20, 2025. Fixed mobile responsiveness with adaptive canvas sizing, optimized font sizes, and proper chart scaling for smaller screens
+- January 20, 2025. Enhanced dropdown filter functionality to scroll to matrix section and improved overall interactive experience
+- January 20, 2025. Replaced dramatic animations with subtle, professional hover effects and transitions
 - July 17, 2025. **MAJOR ARCHITECTURAL CHANGE**: Converted entire application from Vite/React to plain HTML/CSS/JS for GitHub Pages deployment
 - July 17, 2025. Created static version with vanilla JavaScript maintaining all original functionality including department analytics, resume builder, and interview booking
 - July 17, 2025. Implemented responsive design with mobile-first approach using pure CSS without external dependencies
