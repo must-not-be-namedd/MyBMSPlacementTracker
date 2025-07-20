@@ -900,6 +900,18 @@ function initializeDataVisualizations() {
     document.getElementById('yearFilter').addEventListener('change', updateCharts);
     document.getElementById('viewType').addEventListener('change', updateCharts);
     
+    // Add resize listener for responsive charts
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            createPackageBarChart();
+            createPlacementPieChart();
+            createTrendsLineChart();
+            createPerformanceHeatmap();
+        }, 250);
+    });
+    
     // Add interactive mouse effects
     addInteractiveEffects();
 }
@@ -1097,12 +1109,28 @@ function createPlacementPieChart() {
     const canvas = document.getElementById('placementPieChart');
     if (!canvas) return;
     
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Mobile responsive setup
+    const isMobile = window.innerWidth <= 768;
+    const container = canvas.parentElement;
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
     
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = 140;
+    // Set responsive canvas dimensions
+    const canvasWidth = isMobile ? Math.min(rect.width, 350) : rect.width;
+    const canvasHeight = isMobile ? 300 : rect.height;
+    
+    canvas.width = canvasWidth * dpr;
+    canvas.height = canvasHeight * dpr;
+    canvas.style.width = canvasWidth + 'px';
+    canvas.style.height = canvasHeight + 'px';
+    
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    
+    const centerX = canvasWidth / 2;
+    const centerY = canvasHeight / 2;
+    const radius = isMobile ? 80 : 140;
     
     const departments = ['CSE', 'ISE', 'ECE', 'ME', 'CE'];
     const placedCounts = [180, 165, 142, 158, 182];
@@ -1138,28 +1166,29 @@ function createPlacementPieChart() {
         const labelY = centerY + Math.sin(labelAngle) * (radius * 0.7);
         
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 14px Arial';
+        ctx.font = isMobile ? 'bold 10px Inter' : 'bold 14px Inter';
         ctx.textAlign = 'center';
         ctx.fillText(departments[i], labelX, labelY - 5);
-        ctx.font = '12px Arial';
-        ctx.fillText(`${count}`, labelX, labelY + 10);
-        ctx.fillText(`${((count/total)*100).toFixed(1)}%`, labelX, labelY + 25);
+        ctx.font = isMobile ? '9px Inter' : '12px Inter';
+        ctx.fillText(`${count}`, labelX, labelY + (isMobile ? 8 : 10));
+        ctx.fillText(`${((count/total)*100).toFixed(1)}%`, labelX, labelY + (isMobile ? 18 : 25));
         
         currentAngle += sliceAngle;
     });
     
     // Add center circle for donut effect
+    const centerRadius = isMobile ? 35 : 60;
     ctx.fillStyle = '#1e293b';
     ctx.beginPath();
-    ctx.arc(centerX, centerY, 60, 0, 2 * Math.PI);
+    ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
     ctx.fill();
     
     // Center text
     ctx.fillStyle = '#e2e8f0';
-    ctx.font = 'bold 16px Arial';
+    ctx.font = isMobile ? 'bold 12px Inter' : 'bold 16px Inter';
     ctx.textAlign = 'center';
     ctx.fillText('Total', centerX, centerY - 5);
-    ctx.fillText(total.toString(), centerX, centerY + 15);
+    ctx.fillText(total.toString(), centerX, centerY + (isMobile ? 10 : 15));
 }
 
 function createTrendsLineChart() {
