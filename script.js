@@ -1386,6 +1386,7 @@ function createPerformanceHeatmap() {
     table.style.borderRadius = '0.5rem';
     table.style.overflow = 'hidden';
     table.style.border = '2px solid #374151';
+    table.style.tableLayout = 'fixed';
     
     // Create diagonal header cell
     const headerRow = document.createElement('tr');
@@ -1448,11 +1449,12 @@ function createPerformanceHeatmap() {
         // Performance cells with improved styling
         performanceData[deptIndex].forEach((value, yearIndex) => {
             const cell = document.createElement('td');
-            cell.style.padding = '1.2rem';
+            cell.style.padding = '1.5rem 1rem';
             cell.style.textAlign = 'center';
             cell.style.cursor = 'pointer';
-            cell.style.transition = 'all 0.3s ease';
+            cell.style.transition = 'all 0.2s ease';
             cell.style.position = 'relative';
+            cell.style.width = `${100/years.length}%`;
             if (yearIndex < years.length - 1) {
                 cell.style.borderRight = '1px solid #374151';
             }
@@ -1464,38 +1466,31 @@ function createPerformanceHeatmap() {
             cell.style.background = `hsl(220, ${saturation}%, ${lightness}%)`;
             cell.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.1)';
             
-            // Main percentage value
+            // Main percentage value only
             const valueSpan = document.createElement('div');
             valueSpan.textContent = `${value}%`;
             valueSpan.style.color = '#ffffff';
             valueSpan.style.fontWeight = '700';
-            valueSpan.style.fontSize = '1.1rem';
+            valueSpan.style.fontSize = '1.2rem';
             valueSpan.style.textShadow = '0 1px 2px rgba(0,0,0,0.3)';
-            
-            // Department abbreviation
-            const deptLabel = document.createElement('div');
-            deptLabel.textContent = dept;
-            deptLabel.style.color = 'rgba(255, 255, 255, 0.8)';
-            deptLabel.style.fontSize = '0.7rem';
-            deptLabel.style.marginTop = '0.2rem';
-            deptLabel.style.fontWeight = '500';
+            valueSpan.style.display = 'flex';
+            valueSpan.style.alignItems = 'center';
+            valueSpan.style.justifyContent = 'center';
+            valueSpan.style.height = '100%';
             
             cell.appendChild(valueSpan);
-            cell.appendChild(deptLabel);
             
-            // Enhanced hover effect
+            // Subtle hover effect
             cell.addEventListener('mouseenter', () => {
-                cell.style.transform = 'scale(1.05)';
-                cell.style.zIndex = '10';
-                cell.style.boxShadow = '0 4px 15px rgba(124, 58, 237, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)';
-                cell.style.borderRadius = '0.25rem';
+                cell.style.transform = 'translateY(-1px)';
+                cell.style.boxShadow = '0 2px 8px rgba(124, 58, 237, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)';
+                valueSpan.style.fontSize = '1.3rem';
             });
             
             cell.addEventListener('mouseleave', () => {
-                cell.style.transform = 'scale(1)';
-                cell.style.zIndex = '1';
+                cell.style.transform = 'translateY(0)';
                 cell.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.1)';
-                cell.style.borderRadius = '0';
+                valueSpan.style.fontSize = '1.2rem';
             });
             
             row.appendChild(cell);

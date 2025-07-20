@@ -273,9 +273,7 @@ body {
     border-radius: 0.5rem;
     padding: 1.5rem;
     min-height: 300px;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 0.5rem;
+    width: 100%;
     border: 1px solid #374151;
 }
 
@@ -358,19 +356,20 @@ body {
     }
     
     .heatmap-container {
-        padding: 0.5rem;
+        padding: 1rem 0.5rem;
         overflow-x: auto;
     }
     
     .heatmap-container table {
-        min-width: 100%;
-        font-size: 0.8rem;
+        width: 100%;
+        min-width: 500px;
+        font-size: 0.9rem;
     }
     
     .heatmap-container th,
     .heatmap-container td {
-        padding: 0.8rem 0.5rem !important;
-        font-size: 0.8rem;
+        padding: 1rem 0.5rem !important;
+        font-size: 0.9rem;
     }
 }
 
