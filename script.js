@@ -238,6 +238,11 @@ function initializeLogin() {
                     <p>Redirecting to dashboard...</p>
                 </div>
             `;
+            
+            // Redirect to main app after brief delay
+            setTimeout(() => {
+                showMainApp();
+            }, 1500);
         }, 500);
     }
     
@@ -255,19 +260,32 @@ function initializeLogin() {
                     <p>Welcome to BMSCE Portal...</p>
                 </div>
             `;
+            
+            // Redirect to main app after brief delay
+            setTimeout(() => {
+                showMainApp();
+            }, 1500);
         }, 500);
     }
     
     function showMainApp() {
-        loginPage.style.display = 'none';
-        mainContent.style.display = 'block';
-        mainContent.classList.add('fade-in');
+        const loginPage = document.getElementById('loginPage');
+        const mainContent = document.getElementById('mainContent');
         
-        // Initialize charts after login
-        setTimeout(() => {
-            initializeCharts();
-            initializeInteractiveGraphs();
-        }, 500);
+        if (loginPage && mainContent) {
+            loginPage.style.display = 'none';
+            mainContent.style.display = 'flex';
+            mainContent.classList.add('active');
+            
+            // Show dashboard page specifically  
+            showPage('dashboard');
+            
+            // Initialize charts after login
+            setTimeout(() => {
+                initializeCharts();
+                initializeInteractiveGraphs();
+            }, 500);
+        }
     }
 }
 
@@ -465,20 +483,20 @@ function validateResumeForm(data) {
 
 function generateResumePreview(data, container) {
     container.innerHTML = `
-        <div style="padding: 20px; background: white; border: 1px solid #ddd;">
-            <h2 style="color: #333; margin-bottom: 10px;">${data.fullName}</h2>
-            <p style="margin: 5px 0;"><strong>Email:</strong> ${data.email}</p>
-            <p style="margin: 5px 0;"><strong>Phone:</strong> ${data.phone}</p>
-            <p style="margin: 5px 0;"><strong>Department:</strong> ${data.department}</p>
+        <div style="padding: 20px; background: #ffffff; border: 1px solid #ddd; color: #000000;">
+            <h2 style="color: #000000; margin-bottom: 10px; font-weight: bold;">${data.fullName}</h2>
+            <p style="margin: 5px 0; color: #000000;"><strong>Email:</strong> ${data.email}</p>
+            <p style="margin: 5px 0; color: #000000;"><strong>Phone:</strong> ${data.phone}</p>
+            <p style="margin: 5px 0; color: #000000;"><strong>Department:</strong> ${data.department}</p>
             
             ${data.skills ? `
-                <h3 style="color: #333; margin-top: 20px; margin-bottom: 10px;">Skills</h3>
-                <p>${data.skills}</p>
+                <h3 style="color: #000000; margin-top: 20px; margin-bottom: 10px; font-weight: bold;">Skills</h3>
+                <p style="color: #000000;">${data.skills}</p>
             ` : ''}
             
             ${data.experience ? `
-                <h3 style="color: #333; margin-top: 20px; margin-bottom: 10px;">Experience</h3>
-                <p>${data.experience}</p>
+                <h3 style="color: #000000; margin-top: 20px; margin-bottom: 10px; font-weight: bold;">Experience</h3>
+                <p style="color: #000000;">${data.experience}</p>
             ` : ''}
             
             <button onclick="downloadResume()" style="margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">
@@ -1124,9 +1142,9 @@ function createTrendsLineChart() {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    const years = ['2020', '2021', '2022', '2023', '2024', '2025'];
-    const placementRates = [78, 82, 85, 87, 89, 91];
-    const avgPackages = [12, 14, 15, 16, 17, 18];
+    const years = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'];
+    const placementRates = [72, 75, 78, 81, 83, 85, 86, 87, 88, 89, 91];
+    const avgPackages = [8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 20];
     
     const padding = 80;
     const chartWidth = canvas.width - 2 * padding;
