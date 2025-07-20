@@ -124,14 +124,20 @@ const departmentData = {
 
 // Login functionality
 function initializeLogin() {
+    console.log('Initializing login...');
     const loginForm = document.getElementById('loginForm');
     const signupForm = document.getElementById('signupForm');
     const loginPage = document.getElementById('loginPage');
     const mainContent = document.getElementById('mainContent');
     
+    console.log('Login form found:', !!loginForm);
+    console.log('Signup form found:', !!signupForm);
+    
     // Check if user is already logged in
     if (localStorage.getItem('bmsce-user')) {
+        console.log('User already logged in, showing main app');
         showMainApp();
+        return;
     }
     
     // Initialize auth tabs
@@ -144,6 +150,8 @@ function initializeLogin() {
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         
+        console.log('Login attempt with:', email, password);
+        
         // Simple validation - accept any email and password for demo
         if (email.trim() && password.trim()) {
             // Store user data
@@ -154,12 +162,12 @@ function initializeLogin() {
             };
             
             localStorage.setItem('bmsce-user', JSON.stringify(userData));
-            showMessage('Login successful! Redirecting...', 'success');
+            console.log('User data stored:', userData);
             
-            // Show success animation and transition to main app
-            showLoginSuccess();
+            // DIRECT TRANSITION - no animation delays
+            showMainApp();
         } else {
-            showMessage('Please fill in all fields', 'error');
+            alert('Please enter both email and password');
         }
     });
     
@@ -172,6 +180,8 @@ function initializeLogin() {
         const password = document.getElementById('signupPassword').value;
         const department = document.getElementById('signupDepartment').value;
         const year = document.getElementById('signupYear').value;
+        
+        console.log('Signup attempt:', { name, email, department, year });
         
         // Simple validation - accept any filled fields for demo
         if (name.trim() && email.trim() && password.trim() && department && year) {
@@ -186,12 +196,12 @@ function initializeLogin() {
             };
             
             localStorage.setItem('bmsce-user', JSON.stringify(userData));
-            showMessage('Account created successfully! Redirecting...', 'success');
+            console.log('User data stored:', userData);
             
-            // Show success animation and transition to main app
-            showSignupSuccess();
+            // DIRECT TRANSITION - no animation delays
+            showMainApp();
         } else {
-            showMessage('Please fill in all fields', 'error');
+            alert('Please fill in all fields');
         }
     });
     
@@ -261,26 +271,36 @@ function initializeLogin() {
     }
     
     function showMainApp() {
+        console.log('Showing main app...');
         const loginPage = document.getElementById('loginPage');
         const mainContent = document.getElementById('mainContent');
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         
+        console.log('Login page element:', loginPage);
+        console.log('Main content element:', mainContent);
+        console.log('Mobile menu button:', mobileMenuBtn);
+        
         if (loginPage && mainContent) {
             // Add logged-in class to body to trigger CSS display changes
             document.body.classList.add('logged-in');
+            console.log('Added logged-in class to body');
             
             loginPage.style.display = 'none';
             loginPage.classList.remove('active');
             mainContent.style.display = 'flex';
             mainContent.classList.add('active');
             
+            console.log('Switched from login page to main content');
+            
             // Show hamburger menu after login
             if (mobileMenuBtn) {
                 mobileMenuBtn.style.display = 'flex';
+                console.log('Showed hamburger menu');
             }
             
             // Show dashboard page specifically  
             showPage('dashboard');
+            console.log('Navigated to dashboard');
             
             // Initialize charts and data after login
             setTimeout(() => {
@@ -292,6 +312,8 @@ function initializeLogin() {
                 }
                 loadDepartmentData();
             }, 300);
+        } else {
+            console.error('Could not find login page or main content elements');
         }
     }
 }
