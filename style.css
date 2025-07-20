@@ -277,6 +277,12 @@ body {
     border: 1px solid #374151;
 }
 
+.heatmap-container table {
+    width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+}
+
 .heatmap-cell {
     background: var(--cell-color);
     border-radius: 0.25rem;

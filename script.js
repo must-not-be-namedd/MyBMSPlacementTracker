@@ -1390,11 +1390,13 @@ function createPerformanceHeatmap() {
     
     // Create diagonal header cell
     const headerRow = document.createElement('tr');
-    headerRow.style.background = 'linear-gradient(135deg, #374151 50%, #2d3748 50%)';
     
     const diagonalHeader = document.createElement('th');
-    diagonalHeader.style.padding = '1.5rem 1rem';
+    diagonalHeader.style.width = '15%';
+    diagonalHeader.style.minWidth = '100px';
+    diagonalHeader.style.padding = '1.5rem 0.5rem';
     diagonalHeader.style.position = 'relative';
+    diagonalHeader.style.background = '#374151';
     diagonalHeader.style.borderBottom = '2px solid #4b5563';
     diagonalHeader.style.borderRight = '2px solid #4b5563';
     
@@ -1409,17 +1411,18 @@ function createPerformanceHeatmap() {
     
     headerRow.appendChild(diagonalHeader);
     
-    years.forEach(year => {
+    years.forEach((year, index) => {
         const yearHeader = document.createElement('th');
         yearHeader.textContent = year;
-        yearHeader.style.padding = '1rem';
+        yearHeader.style.width = `${85/years.length}%`;
+        yearHeader.style.padding = '1rem 0.5rem';
         yearHeader.style.color = '#e2e8f0';
         yearHeader.style.fontWeight = '700';
         yearHeader.style.textAlign = 'center';
         yearHeader.style.borderBottom = '2px solid #4b5563';
         yearHeader.style.background = '#374151';
         yearHeader.style.fontSize = '1rem';
-        if (year !== '2025') {
+        if (index < years.length - 1) {
             yearHeader.style.borderRight = '1px solid #4b5563';
         }
         headerRow.appendChild(yearHeader);
@@ -1449,12 +1452,13 @@ function createPerformanceHeatmap() {
         // Performance cells with improved styling
         performanceData[deptIndex].forEach((value, yearIndex) => {
             const cell = document.createElement('td');
-            cell.style.padding = '1.5rem 1rem';
+            cell.style.padding = '1.5rem 0.5rem';
             cell.style.textAlign = 'center';
             cell.style.cursor = 'pointer';
             cell.style.transition = 'all 0.2s ease';
             cell.style.position = 'relative';
-            cell.style.width = `${100/years.length}%`;
+            cell.style.width = `${85/years.length}%`;
+            cell.style.minWidth = '60px';
             if (yearIndex < years.length - 1) {
                 cell.style.borderRight = '1px solid #374151';
             }
@@ -1466,31 +1470,25 @@ function createPerformanceHeatmap() {
             cell.style.background = `hsl(220, ${saturation}%, ${lightness}%)`;
             cell.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.1)';
             
-            // Main percentage value only
-            const valueSpan = document.createElement('div');
-            valueSpan.textContent = `${value}%`;
-            valueSpan.style.color = '#ffffff';
-            valueSpan.style.fontWeight = '700';
-            valueSpan.style.fontSize = '1.2rem';
-            valueSpan.style.textShadow = '0 1px 2px rgba(0,0,0,0.3)';
-            valueSpan.style.display = 'flex';
-            valueSpan.style.alignItems = 'center';
-            valueSpan.style.justifyContent = 'center';
-            valueSpan.style.height = '100%';
-            
-            cell.appendChild(valueSpan);
+            // Set percentage value directly as cell text content
+            cell.textContent = `${value}%`;
+            cell.style.color = '#ffffff';
+            cell.style.fontWeight = '700';
+            cell.style.fontSize = '1.2rem';
+            cell.style.textShadow = '0 1px 2px rgba(0,0,0,0.3)';
+            cell.style.verticalAlign = 'middle';
             
             // Subtle hover effect
             cell.addEventListener('mouseenter', () => {
                 cell.style.transform = 'translateY(-1px)';
                 cell.style.boxShadow = '0 2px 8px rgba(124, 58, 237, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)';
-                valueSpan.style.fontSize = '1.3rem';
+                cell.style.fontSize = '1.3rem';
             });
             
             cell.addEventListener('mouseleave', () => {
                 cell.style.transform = 'translateY(0)';
                 cell.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.1)';
-                valueSpan.style.fontSize = '1.2rem';
+                cell.style.fontSize = '1.2rem';
             });
             
             row.appendChild(cell);
