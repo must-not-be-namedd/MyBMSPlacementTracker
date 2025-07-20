@@ -651,17 +651,17 @@
                             <canvas id="trendsLineChart" width="800" height="400"></canvas>
                         </div>
                         <div class="trend-insights">
-                            <div class="insight-card" onmouseenter="animateInsightCard(this)" onmouseleave="resetInsightCard(this)">
+                            <div class="insight-card">
                                 <h4>Growth Rate</h4>
                                 <div class="insight-value">+15.2%</div>
                                 <div class="insight-desc">Average yearly growth</div>
                             </div>
-                            <div class="insight-card" onmouseenter="animateInsightCard(this)" onmouseleave="resetInsightCard(this)">
+                            <div class="insight-card">
                                 <h4>Best Performance</h4>
                                 <div class="insight-value">2024-25</div>
                                 <div class="insight-desc">Highest placement rate</div>
                             </div>
-                            <div class="insight-card" onmouseenter="animateInsightCard(this)" onmouseleave="resetInsightCard(this)">
+                            <div class="insight-card">
                                 <h4>Package Growth</h4>
                                 <div class="insight-value">+28%</div>
                                 <div class="insight-desc">Since 2020</div>
@@ -788,5 +788,27 @@ E-Commerce Platform (2023)
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <script src="./script.js"></script>
+    
+    <script>
+        // Ensure login page always shows first - override any other initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginPage = document.getElementById('loginPage');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (loginPage && mainContent) {
+                // Force login page to be visible
+                loginPage.style.display = 'flex';
+                loginPage.classList.add('active');
+                
+                // Force main content to be hidden
+                mainContent.style.display = 'none';
+                mainContent.classList.remove('active');
+                
+                // Remove any active pages
+                const pages = document.querySelectorAll('.page');
+                pages.forEach(page => page.classList.remove('active'));
+            }
+        });
+    </script>
 </body>
 </html>
