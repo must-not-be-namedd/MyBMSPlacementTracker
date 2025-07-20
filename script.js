@@ -980,7 +980,15 @@ function createPackageBarChart() {
     const canvas = document.getElementById('packageBarChart');
     if (!canvas) return;
     
+    // Set high DPI for crisp rendering
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    
     const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     const departments = ['CSE', 'ISE', 'ECE', 'ME', 'CE'];
@@ -988,63 +996,89 @@ function createPackageBarChart() {
     const averagePackages = [18, 16, 15, 14, 13];
     
     const padding = 60;
-    const chartWidth = canvas.width - 2 * padding;
-    const chartHeight = canvas.height - 2 * padding;
-    const barWidth = chartWidth / (departments.length * 2.5);
-    const maxValue = Math.max(...highestPackages);
+    const chartWidth = rect.width - 2 * padding;
+    const chartHeight = rect.height - 2 * padding;
+    const barWidth = chartWidth / (departments.length * 2.8);
+    const maxValue = 60; // Fixed max for consistency
     const yScale = chartHeight / maxValue;
+    
+    // Draw grid lines
+    ctx.strokeStyle = '#2d3748';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 6; i++) {
+        const y = padding + (i * chartHeight / 6);
+        ctx.beginPath();
+        ctx.moveTo(padding, y);
+        ctx.lineTo(padding + chartWidth, y);
+        ctx.stroke();
+    }
     
     // Draw axes
     ctx.strokeStyle = '#374151';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.moveTo(padding, padding);
     ctx.lineTo(padding, padding + chartHeight);
     ctx.lineTo(padding + chartWidth, padding + chartHeight);
     ctx.stroke();
     
-    // Draw bars with hover effect simulation
+    // Draw bars
     departments.forEach((dept, i) => {
-        const x = padding + i * (barWidth * 2.5) + 20;
+        const x = padding + i * (barWidth * 2.8) + 30;
         
         // Highest package bar (red)
         const highestHeight = highestPackages[i] * yScale;
-        const gradient1 = ctx.createLinearGradient(0, padding + chartHeight - highestHeight, 0, padding + chartHeight);
-        gradient1.addColorStop(0, '#ef4444');
-        gradient1.addColorStop(1, '#dc2626');
-        ctx.fillStyle = gradient1;
+        ctx.fillStyle = '#ef4444';
         ctx.fillRect(x, padding + chartHeight - highestHeight, barWidth, highestHeight);
+        
+        // Border for highest package bar
+        ctx.strokeStyle = '#dc2626';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, padding + chartHeight - highestHeight, barWidth, highestHeight);
         
         // Average package bar (blue)
         const avgHeight = averagePackages[i] * yScale;
-        const gradient2 = ctx.createLinearGradient(0, padding + chartHeight - avgHeight, 0, padding + chartHeight);
-        gradient2.addColorStop(0, '#3b82f6');
-        gradient2.addColorStop(1, '#2563eb');
-        ctx.fillStyle = gradient2;
-        ctx.fillRect(x + barWidth + 5, padding + chartHeight - avgHeight, barWidth, avgHeight);
+        ctx.fillStyle = '#3b82f6';
+        ctx.fillRect(x + barWidth + 8, padding + chartHeight - avgHeight, barWidth, avgHeight);
+        
+        // Border for average package bar
+        ctx.strokeStyle = '#2563eb';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x + barWidth + 8, padding + chartHeight - avgHeight, barWidth, avgHeight);
         
         // Add value labels on bars
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 12px Arial';
+        ctx.font = 'bold 11px Inter';
         ctx.textAlign = 'center';
-        ctx.fillText(`₹${highestPackages[i]}L`, x + barWidth/2, padding + chartHeight - highestHeight - 5);
-        ctx.fillText(`₹${averagePackages[i]}L`, x + barWidth + 5 + barWidth/2, padding + chartHeight - avgHeight - 5);
+        ctx.fillText(`₹${highestPackages[i]}L`, x + barWidth/2, padding + chartHeight - highestHeight - 8);
+        ctx.fillText(`₹${averagePackages[i]}L`, x + barWidth + 8 + barWidth/2, padding + chartHeight - avgHeight - 8);
         
         // Department labels
         ctx.fillStyle = '#e2e8f0';
-        ctx.font = '14px Arial';
-        ctx.fillText(dept, x + barWidth, padding + chartHeight + 25);
+        ctx.font = 'bold 13px Inter';
+        ctx.fillText(dept, x + barWidth + 4, padding + chartHeight + 20);
     });
     
-    // Y-axis labels
+    // Y-axis labels with proper values
     ctx.fillStyle = '#94a3b8';
-    ctx.font = '12px Arial';
+    ctx.font = '11px Inter';
     ctx.textAlign = 'right';
-    for (let i = 0; i <= 5; i++) {
-        const value = (maxValue / 5) * i;
+    for (let i = 0; i <= 6; i++) {
+        const value = (maxValue / 6) * i;
         const y = padding + chartHeight - (value * yScale);
         ctx.fillText(`₹${Math.round(value)}L`, padding - 10, y + 4);
     }
+    
+    // Chart title
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = 'bold 14px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText('Package Analysis by Department', rect.width / 2, 25);
+    
+    // Add description
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px Inter';
+    ctx.fillText('Comparison of highest and average salary packages across all engineering departments', rect.width / 2, 45);
 }
 
 function createPlacementPieChart() {
@@ -1120,21 +1154,52 @@ function createTrendsLineChart() {
     const canvas = document.getElementById('trendsLineChart');
     if (!canvas) return;
     
+    // Set high DPI for crisp rendering
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    
     const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    const years = ['2020', '2021', '2022', '2023', '2024', '2025'];
-    const placementRates = [78, 82, 85, 87, 89, 91];
-    const avgPackages = [12, 14, 15, 16, 17, 18];
+    // Extended data from 2015 to 2025
+    const years = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'];
+    const placementRates = [65, 68, 72, 75, 76, 78, 82, 85, 87, 89, 91];
+    const avgPackages = [8, 9, 10, 11, 11.5, 12, 14, 15, 16, 17, 18];
     
     const padding = 80;
-    const chartWidth = canvas.width - 2 * padding;
-    const chartHeight = canvas.height - 2 * padding;
+    const chartWidth = rect.width - 2 * padding;
+    const chartHeight = rect.height - 2 * padding;
     const xScale = chartWidth / (years.length - 1);
+    
+    // Draw grid lines
+    ctx.strokeStyle = '#2d3748';
+    ctx.lineWidth = 1;
+    
+    // Horizontal grid lines
+    for (let i = 0; i <= 10; i++) {
+        const y = padding + (i * chartHeight / 10);
+        ctx.beginPath();
+        ctx.moveTo(padding, y);
+        ctx.lineTo(padding + chartWidth, y);
+        ctx.stroke();
+    }
+    
+    // Vertical grid lines
+    for (let i = 0; i < years.length; i++) {
+        const x = padding + i * xScale;
+        ctx.beginPath();
+        ctx.moveTo(x, padding);
+        ctx.lineTo(x, padding + chartHeight);
+        ctx.stroke();
+    }
     
     // Draw axes
     ctx.strokeStyle = '#374151';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.moveTo(padding, padding);
     ctx.lineTo(padding, padding + chartHeight);
@@ -1144,7 +1209,7 @@ function createTrendsLineChart() {
     // Draw placement rate line (purple)
     const rateScale = chartHeight / 100;
     ctx.strokeStyle = '#8b5cf6';
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 3;
     ctx.beginPath();
     placementRates.forEach((rate, i) => {
         const x = padding + i * xScale;
@@ -1154,10 +1219,10 @@ function createTrendsLineChart() {
     });
     ctx.stroke();
     
-    // Draw average package line (teal)
+    // Draw average package line (teal) 
     const packageScale = chartHeight / 25; // Max 25 LPA
     ctx.strokeStyle = '#14b8a6';
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 3;
     ctx.beginPath();
     avgPackages.forEach((pkg, i) => {
         const x = padding + i * xScale;
@@ -1167,49 +1232,105 @@ function createTrendsLineChart() {
     });
     ctx.stroke();
     
-    // Add data points with hover effect
+    // Add data points for placement rates
     placementRates.forEach((rate, i) => {
         const x = padding + i * xScale;
         const y = padding + chartHeight - (rate * rateScale);
         
-        // Outer glow
-        ctx.fillStyle = 'rgba(139, 92, 246, 0.3)';
+        // Outer circle
+        ctx.fillStyle = '#8b5cf6';
         ctx.beginPath();
-        ctx.arc(x, y, 8, 0, 2 * Math.PI);
+        ctx.arc(x, y, 4, 0, 2 * Math.PI);
         ctx.fill();
         
         // Inner circle
-        ctx.fillStyle = '#8b5cf6';
+        ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.arc(x, y, 5, 0, 2 * Math.PI);
+        ctx.arc(x, y, 2, 0, 2 * Math.PI);
         ctx.fill();
+        
+        // Data labels
+        ctx.fillStyle = '#8b5cf6';
+        ctx.font = '9px Inter';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${rate}%`, x, y - 10);
     });
     
+    // Add data points for packages
     avgPackages.forEach((pkg, i) => {
         const x = padding + i * xScale;
         const y = padding + chartHeight - (pkg * packageScale);
         
-        // Outer glow
-        ctx.fillStyle = 'rgba(20, 184, 166, 0.3)';
+        // Outer circle
+        ctx.fillStyle = '#14b8a6';
         ctx.beginPath();
-        ctx.arc(x, y, 8, 0, 2 * Math.PI);
+        ctx.arc(x, y, 4, 0, 2 * Math.PI);
         ctx.fill();
         
         // Inner circle
-        ctx.fillStyle = '#14b8a6';
+        ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.arc(x, y, 5, 0, 2 * Math.PI);
+        ctx.arc(x, y, 2, 0, 2 * Math.PI);
         ctx.fill();
+        
+        // Data labels
+        ctx.fillStyle = '#14b8a6';
+        ctx.font = '9px Inter';
+        ctx.textAlign = 'center';
+        ctx.fillText(`₹${pkg}L`, x, y + 15);
     });
     
-    // Add labels
+    // X-axis labels (years)
     ctx.fillStyle = '#e2e8f0';
-    ctx.font = '12px Arial';
+    ctx.font = '11px Inter';
     ctx.textAlign = 'center';
     years.forEach((year, i) => {
         const x = padding + i * xScale;
-        ctx.fillText(year, x, padding + chartHeight + 25);
+        ctx.fillText(year, x, padding + chartHeight + 20);
     });
+    
+    // Y-axis labels (left side - placement rate)
+    ctx.fillStyle = '#8b5cf6';
+    ctx.font = '10px Inter';
+    ctx.textAlign = 'right';
+    for (let i = 0; i <= 10; i++) {
+        const value = i * 10;
+        const y = padding + chartHeight - (value * rateScale);
+        ctx.fillText(`${value}%`, padding - 15, y + 3);
+    }
+    
+    // Y-axis labels (right side - package scale)
+    ctx.fillStyle = '#14b8a6';
+    ctx.textAlign = 'left';
+    for (let i = 0; i <= 5; i++) {
+        const value = i * 5;
+        const y = padding + chartHeight - (value * packageScale);
+        ctx.fillText(`₹${value}L`, padding + chartWidth + 15, y + 3);
+    }
+    
+    // Chart title
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = 'bold 14px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText('Placement Trends (2015-2025)', rect.width / 2, 25);
+    
+    // Add description
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '11px Inter';
+    ctx.fillText('Year-on-year growth in placement rates and average salary packages', rect.width / 2, 45);
+    
+    // Legend
+    ctx.fillStyle = '#8b5cf6';
+    ctx.fillRect(padding + 50, 70, 15, 3);
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = '11px Inter';
+    ctx.textAlign = 'left';
+    ctx.fillText('Placement Rate (%)', padding + 70, 75);
+    
+    ctx.fillStyle = '#14b8a6';
+    ctx.fillRect(padding + 200, 70, 15, 3);
+    ctx.fillStyle = '#e2e8f0';
+    ctx.fillText('Average Package (LPA)', padding + 220, 75);
 }
 
 function createPerformanceHeatmap() {
@@ -1230,109 +1351,162 @@ function createPerformanceHeatmap() {
         [73, 75, 77, 79, 81]  // CE
     ];
     
-    // Add year headers
-    const headerRow = document.createElement('div');
-    headerRow.style.gridColumn = '1 / -1';
-    headerRow.style.display = 'grid';
-    headerRow.style.gridTemplateColumns = 'auto repeat(5, 1fr)';
-    headerRow.style.gap = '0.5rem';
-    headerRow.style.marginBottom = '0.5rem';
+    // Create table structure
+    const table = document.createElement('table');
+    table.style.width = '100%';
+    table.style.borderCollapse = 'collapse';
+    table.style.background = '#1e293b';
+    table.style.borderRadius = '0.5rem';
+    table.style.overflow = 'hidden';
     
-    // Empty cell for department column
-    const emptyCell = document.createElement('div');
-    emptyCell.style.padding = '0.5rem';
-    headerRow.appendChild(emptyCell);
+    // Header row
+    const headerRow = document.createElement('tr');
+    headerRow.style.background = '#374151';
+    
+    const emptyHeader = document.createElement('th');
+    emptyHeader.textContent = 'Department';
+    emptyHeader.style.padding = '1rem';
+    emptyHeader.style.color = '#e2e8f0';
+    emptyHeader.style.fontWeight = '600';
+    emptyHeader.style.textAlign = 'left';
+    emptyHeader.style.borderBottom = '1px solid #4b5563';
+    headerRow.appendChild(emptyHeader);
     
     years.forEach(year => {
-        const yearCell = document.createElement('div');
-        yearCell.textContent = year;
-        yearCell.style.padding = '0.5rem';
-        yearCell.style.color = '#e2e8f0';
-        yearCell.style.fontWeight = '600';
-        yearCell.style.textAlign = 'center';
-        headerRow.appendChild(yearCell);
+        const yearHeader = document.createElement('th');
+        yearHeader.textContent = year;
+        yearHeader.style.padding = '1rem';
+        yearHeader.style.color = '#e2e8f0';
+        yearHeader.style.fontWeight = '600';
+        yearHeader.style.textAlign = 'center';
+        yearHeader.style.borderBottom = '1px solid #4b5563';
+        headerRow.appendChild(yearHeader);
     });
     
-    container.appendChild(headerRow);
+    table.appendChild(headerRow);
     
-    // Add data rows
+    // Data rows
     departments.forEach((dept, deptIndex) => {
+        const row = document.createElement('tr');
+        row.style.borderBottom = '1px solid #374151';
+        
         // Department label
-        const deptCell = document.createElement('div');
+        const deptCell = document.createElement('td');
         deptCell.textContent = dept;
-        deptCell.style.padding = '0.75rem';
+        deptCell.style.padding = '1rem';
         deptCell.style.color = '#e2e8f0';
         deptCell.style.fontWeight = '600';
-        deptCell.style.display = 'flex';
-        deptCell.style.alignItems = 'center';
-        deptCell.style.justifyContent = 'center';
-        deptCell.style.background = '#374151';
-        deptCell.style.borderRadius = '0.25rem';
-        container.appendChild(deptCell);
+        deptCell.style.background = '#2d3748';
+        deptCell.style.borderRight = '1px solid #4b5563';
+        row.appendChild(deptCell);
         
         // Performance cells
         performanceData[deptIndex].forEach((value, yearIndex) => {
-            const cell = document.createElement('div');
-            cell.className = 'heatmap-cell';
+            const cell = document.createElement('td');
+            cell.style.padding = '1rem';
+            cell.style.textAlign = 'center';
+            cell.style.borderRight = '1px solid #374151';
+            cell.style.cursor = 'pointer';
+            cell.style.transition = 'all 0.2s ease';
             
-            // Color intensity based on performance
+            // Professional color scheme - blue gradient based on performance
             const intensity = (value - 70) / 25; // Normalize to 0-1
-            const hue = intensity * 120; // Green for high, red for low
-            cell.style.setProperty('--cell-color', `hsl(${hue}, 70%, 50%)`);
+            const lightness = 25 + (intensity * 15); // 25% to 40% lightness
+            const saturation = 60 + (intensity * 20); // 60% to 80% saturation
+            cell.style.background = `hsl(220, ${saturation}%, ${lightness}%)`;
             
-            const label = document.createElement('div');
-            label.className = 'heatmap-cell-label';
-            label.textContent = `${dept} ${years[yearIndex]}`;
+            // Text content
+            const valueSpan = document.createElement('span');
+            valueSpan.textContent = `${value}%`;
+            valueSpan.style.color = '#ffffff';
+            valueSpan.style.fontWeight = '600';
+            valueSpan.style.fontSize = '0.9rem';
             
-            const valueDiv = document.createElement('div');
-            valueDiv.className = 'heatmap-cell-value';
-            valueDiv.textContent = `${value}%`;
+            const deptLabel = document.createElement('div');
+            deptLabel.textContent = dept;
+            deptLabel.style.color = 'rgba(255, 255, 255, 0.7)';
+            deptLabel.style.fontSize = '0.75rem';
+            deptLabel.style.marginTop = '0.25rem';
             
-            cell.appendChild(label);
-            cell.appendChild(valueDiv);
+            cell.appendChild(valueSpan);
+            cell.appendChild(deptLabel);
             
-            // Add hover effect
+            // Subtle hover effect
             cell.addEventListener('mouseenter', () => {
-                cell.style.transform = 'scale(1.1)';
-                cell.style.zIndex = '10';
+                cell.style.transform = 'translateY(-1px)';
+                cell.style.boxShadow = '0 2px 8px rgba(124, 58, 237, 0.3)';
+                cell.style.borderColor = '#7c3aed';
             });
             
             cell.addEventListener('mouseleave', () => {
-                cell.style.transform = 'scale(1)';
-                cell.style.zIndex = '1';
+                cell.style.transform = 'translateY(0)';
+                cell.style.boxShadow = 'none';
+                cell.style.borderColor = '#374151';
             });
             
-            container.appendChild(cell);
+            row.appendChild(cell);
         });
+        
+        table.appendChild(row);
     });
+    
+    container.appendChild(table);
+    
+    // Add description below the table
+    const description = document.createElement('div');
+    description.style.marginTop = '1rem';
+    description.style.padding = '1rem';
+    description.style.background = '#374151';
+    description.style.borderRadius = '0.5rem';
+    description.style.color = '#94a3b8';
+    description.style.fontSize = '0.875rem';
+    description.style.textAlign = 'center';
+    description.innerHTML = `
+        <strong style="color: #e2e8f0;">Department Performance Matrix:</strong><br>
+        Interactive visualization showing placement success rates across departments and years. 
+        Darker blue indicates higher placement rates. Hover over cells for enhanced details.
+    `;
+    container.appendChild(description);
 }
 
 function updateCharts() {
-    // This function would update charts based on filter selections
-    // For now, just recreate them
+    const yearFilter = document.getElementById('yearFilter').value;
+    const viewType = document.getElementById('viewType').value;
+    
+    // Update charts based on selected filters
     createPackageBarChart();
     createPlacementPieChart();
     createTrendsLineChart();
     createPerformanceHeatmap();
+    
+    // Scroll to heatmap section when filters change
+    if (yearFilter || viewType !== 'all') {
+        document.getElementById('performanceHeatmap').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+        });
+    }
 }
 
 // Animation functions for insight cards
 function animateInsightCard(card) {
-    card.style.transform = 'scale(1.05) rotateY(5deg)';
+    card.style.transform = 'translateY(-2px) scale(1.02)';
     card.style.background = 'linear-gradient(135deg, #7c3aed, #8b5cf6)';
     card.style.color = '#ffffff';
+    card.style.boxShadow = '0 8px 25px rgba(124, 58, 237, 0.3)';
     
     const value = card.querySelector('.insight-value');
     if (value) {
-        value.style.fontSize = '1.75rem';
-        value.style.textShadow = '0 0 20px rgba(255, 255, 255, 0.8)';
+        value.style.fontSize = '1.6rem';
+        value.style.textShadow = '0 0 15px rgba(255, 255, 255, 0.5)';
     }
 }
 
 function resetInsightCard(card) {
-    card.style.transform = 'scale(1) rotateY(0deg)';
+    card.style.transform = 'translateY(0) scale(1)';
     card.style.background = '#0f172a';
     card.style.color = '';
+    card.style.boxShadow = 'none';
     
     const value = card.querySelector('.insight-value');
     if (value) {
