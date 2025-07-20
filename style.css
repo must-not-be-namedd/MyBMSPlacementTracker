@@ -19,6 +19,24 @@ body {
     max-width: 100vw;
 }
 
+/* Ensure login page shows first */
+#loginPage {
+    display: flex !important;
+}
+
+#mainContent {
+    display: none !important;
+}
+
+/* When user is logged in, show main content */
+body.logged-in #loginPage {
+    display: none !important;
+}
+
+body.logged-in #mainContent {
+    display: flex !important;
+}
+
 /* Chart Container Styles */
 .sharp-graph-container {
     background: #1e293b;
@@ -736,11 +754,11 @@ body {
 /* Mobile Menu Button */
 .mobile-menu-btn {
     position: fixed;
-    top: 0.5rem;
-    left: 0.5rem;
+    top: 1rem;
+    left: 1rem;
     z-index: 1001;
     background: #1e293b;
-    border: none;
+    border: 1px solid #374151;
     border-radius: 0.5rem;
     padding: 0.75rem;
     cursor: pointer;
@@ -748,6 +766,12 @@ body {
     flex-direction: column;
     gap: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-btn:hover {
+    background: #374151;
+    transform: scale(1.05);
 }
 
 .mobile-menu-btn span {
@@ -777,7 +801,7 @@ body {
 
 @media (max-width: 768px) {
     .mobile-menu-btn {
-        display: flex;
+        display: flex !important;
     }
     
     .sidebar {
@@ -785,6 +809,7 @@ body {
         z-index: 1000;
         width: 100%;
         max-width: 320px;
+        transition: transform 0.3s ease;
     }
     
     .sidebar.active {
@@ -797,6 +822,11 @@ body {
     
     .sidebar-toggle {
         display: none;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: 1rem;
     }
 }
 

@@ -265,6 +265,9 @@ function initializeLogin() {
         const mainContent = document.getElementById('mainContent');
         
         if (loginPage && mainContent) {
+            // Add logged-in class to body to trigger CSS display changes
+            document.body.classList.add('logged-in');
+            
             loginPage.style.display = 'none';
             loginPage.classList.remove('active');
             mainContent.style.display = 'flex';
@@ -294,18 +297,30 @@ function initializeNavigation() {
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebar = document.getElementById('sidebar');
 
-    // Mobile sidebar toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    // Mobile sidebar toggle - Check for both possible IDs
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn') || document.getElementById('sidebarToggle');
     const sidebarClose = document.getElementById('sidebarClose');
     
-    if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', () => {
-            sidebar.classList.add('active');
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            sidebar.classList.toggle('active');
+        });
+    }
+    
+    if (mobileMenuBtn && mobileMenuBtn !== sidebarToggle) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            sidebar.classList.toggle('active');
         });
     }
 
     if (sidebarClose) {
-        sidebarClose.addEventListener('click', () => {
+        sidebarClose.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             sidebar.classList.remove('active');
         });
     }
@@ -313,10 +328,21 @@ function initializeNavigation() {
     // Close sidebar when clicking outside
     document.addEventListener('click', (e) => {
         if (window.innerWidth <= 768 && 
-            !sidebar.contains(e.target) && 
-            mobileMenuBtn && !mobileMenuBtn.contains(e.target) &&
-            sidebar.classList.contains('active')) {
-            sidebar.classList.remove('active');
+            sidebar && sidebar.classList.contains('active') &&
+            !sidebar.contains(e.target)) {
+            
+            // Check if click is on any menu button
+            let isMenuButton = false;
+            if (sidebarToggle && sidebarToggle.contains(e.target)) {
+                isMenuButton = true;
+            }
+            if (mobileMenuBtn && mobileMenuBtn.contains(e.target)) {
+                isMenuButton = true;
+            }
+            
+            if (!isMenuButton) {
+                sidebar.classList.remove('active');
+            }
         }
     });
 
@@ -1816,8 +1842,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginPage && mainContent) {
         const savedUser = localStorage.getItem('bmsce-user');
         if (!savedUser) {
+            // Force login page to display first
+            document.body.classList.remove('logged-in');
             loginPage.style.display = 'flex';
             mainContent.style.display = 'none';
+        } else {
+            // User is already logged in
+            document.body.classList.add('logged-in');
+            loginPage.style.display = 'none';
+            mainContent.style.display = 'flex';
+            showPage('dashboard');
         }
     }
 });
