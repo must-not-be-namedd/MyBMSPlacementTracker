@@ -16,6 +16,15 @@ export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
   
   const loginForm = useForm({
+    resolver: zodResolver(
+      z.object({
+        username: z.string()
+          .min(1, "Email is required")
+          .email("Please enter a valid email address"),
+        password: z.string()
+          .min(1, "Password is required")
+      })
+    ),
     defaultValues: { username: "", password: "" },
     mode: "onChange"
   });
@@ -23,9 +32,14 @@ export default function AuthPage() {
   const registerForm = useForm({
     resolver: zodResolver(
       insertUserSchema.extend({
+        username: z.string()
+          .min(1, "Email is required")
+          .email("Please enter a valid email address"),
         password: z.string()
           .min(6, "Password must be at least 6 characters")
-          .max(100, "Password is too long")
+          .max(100, "Password is too long"),
+        department: z.string()
+          .min(1, "Please select a department")
       })
     ),
     defaultValues: { username: "", password: "", department: "" },
@@ -37,9 +51,9 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen flex bg-gray-100 dark:bg-gray-800">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-gray-100 dark:bg-gray-800">
       {/* Left Side - Auth Form */}
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex-1 flex items-center justify-center p-4 lg:p-8 min-h-screen lg:min-h-0">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
@@ -61,7 +75,10 @@ export default function AuthPage() {
 
                 <TabsContent value="login">
                   <Form {...loginForm}>
-                    <form onSubmit={loginForm.handleSubmit(data => loginMutation.mutate(data))} className="space-y-4">
+                    <form onSubmit={loginForm.handleSubmit(data => {
+                      console.log("Login form submitted with:", data);
+                      loginMutation.mutate(data);
+                    })} className="space-y-4">
                       {loginMutation.error && (
                         <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm">
                           {loginMutation.error.message || "Login failed. Please check your credentials."}
@@ -119,7 +136,10 @@ export default function AuthPage() {
 
                 <TabsContent value="register">
                   <Form {...registerForm}>
-                    <form onSubmit={registerForm.handleSubmit(data => registerMutation.mutate(data))} className="space-y-4">
+                    <form onSubmit={registerForm.handleSubmit(data => {
+                      console.log("Register form submitted with:", data);
+                      registerMutation.mutate(data);
+                    })} className="space-y-4">
                       {registerMutation.error && (
                         <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm">
                           {registerMutation.error.message || "Registration failed. Please try again."}
@@ -205,7 +225,7 @@ export default function AuthPage() {
       </div>
 
       {/* Right Side - Info Panel */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-slate-600 to-purple-700 p-8 items-center justify-center">
+      <div className="flex lg:flex flex-1 bg-gradient-to-br from-slate-600 to-purple-700 p-4 lg:p-8 items-center justify-center min-h-screen lg:min-h-0">
         <div className="max-w-md text-white">
           <div className="space-y-6">
             <div className="text-center">
