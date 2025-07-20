@@ -888,6 +888,26 @@ function createDepartmentComparisonChart() {
     ctx.fillText('Average Package (LPA)', padding + 230, 32);
 }
 
+// Universal canvas sizing function for mobile responsiveness
+function setResponsiveCanvasSize(canvas, isMobile) {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const viewportWidth = window.innerWidth;
+    const maxWidth = isMobile ? Math.min(viewportWidth - 40, 320) : rect.width;
+    const canvasWidth = Math.min(maxWidth, rect.width);
+    const canvasHeight = isMobile ? 280 : rect.height;
+    
+    canvas.width = canvasWidth * dpr;
+    canvas.height = canvasHeight * dpr;
+    canvas.style.width = canvasWidth + 'px';
+    canvas.style.height = canvasHeight + 'px';
+    canvas.style.maxWidth = 'calc(100vw - 40px)';
+    canvas.style.display = 'block';
+    canvas.style.margin = '0 auto';
+    
+    return { canvasWidth, canvasHeight, dpr };
+}
+
 // Data Visualizations Page Functions
 function initializeDataVisualizations() {
     // Initialize all charts
@@ -992,17 +1012,8 @@ function createPackageBarChart() {
     const canvas = document.getElementById('packageBarChart');
     if (!canvas) return;
     
-    // Set high DPI for crisp rendering with responsive sizing
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
     const isMobile = window.innerWidth <= 768;
-    
-    // Responsive canvas sizing
-    const canvasWidth = isMobile ? Math.min(rect.width, 350) : rect.width;
-    const canvasHeight = isMobile ? 300 : rect.height;
-    
-    canvas.width = canvasWidth * dpr;
-    canvas.height = canvasHeight * dpr;
+    const { canvasWidth, canvasHeight, dpr } = setResponsiveCanvasSize(canvas, isMobile);
     
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
@@ -1109,20 +1120,8 @@ function createPlacementPieChart() {
     const canvas = document.getElementById('placementPieChart');
     if (!canvas) return;
     
-    // Mobile responsive setup
     const isMobile = window.innerWidth <= 768;
-    const container = canvas.parentElement;
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    
-    // Set responsive canvas dimensions
-    const canvasWidth = isMobile ? Math.min(rect.width, 350) : rect.width;
-    const canvasHeight = isMobile ? 300 : rect.height;
-    
-    canvas.width = canvasWidth * dpr;
-    canvas.height = canvasHeight * dpr;
-    canvas.style.width = canvasWidth + 'px';
-    canvas.style.height = canvasHeight + 'px';
+    const { canvasWidth, canvasHeight, dpr } = setResponsiveCanvasSize(canvas, isMobile);
     
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
@@ -1195,17 +1194,8 @@ function createTrendsLineChart() {
     const canvas = document.getElementById('trendsLineChart');
     if (!canvas) return;
     
-    // Set high DPI for crisp rendering with responsive sizing
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
     const isMobile = window.innerWidth <= 768;
-    
-    // Responsive canvas sizing
-    const canvasWidth = isMobile ? Math.min(rect.width, 350) : rect.width;
-    const canvasHeight = isMobile ? 320 : rect.height;
-    
-    canvas.width = canvasWidth * dpr;
-    canvas.height = canvasHeight * dpr;
+    const { canvasWidth, canvasHeight, dpr } = setResponsiveCanvasSize(canvas, isMobile);
     
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
