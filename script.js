@@ -297,22 +297,28 @@ function initializeNavigation() {
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebar = document.getElementById('sidebar');
 
-    // Mobile sidebar toggle - Check for both possible IDs
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn') || document.getElementById('sidebarToggle');
+    // Mobile sidebar toggle functionality
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebarClose = document.getElementById('sidebarClose');
     
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', (e) => {
+    // Debug logging
+    console.log('Mobile menu button found:', !!mobileMenuBtn);
+    console.log('Sidebar found:', !!sidebar);
+    
+    if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
+            console.log('Mobile menu clicked, toggling sidebar');
             sidebar.classList.toggle('active');
         });
     }
     
-    if (mobileMenuBtn && mobileMenuBtn !== sidebarToggle) {
-        mobileMenuBtn.addEventListener('click', (e) => {
+    if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
+            console.log('Sidebar toggle clicked');
             sidebar.classList.toggle('active');
         });
     }
@@ -1839,20 +1845,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginPage = document.getElementById('loginPage');
     const mainContent = document.getElementById('mainContent');
     
+    // Always start with login page visible
     if (loginPage && mainContent) {
-        const savedUser = localStorage.getItem('bmsce-user');
-        if (!savedUser) {
-            // Force login page to display first
-            document.body.classList.remove('logged-in');
-            loginPage.style.display = 'flex';
-            mainContent.style.display = 'none';
-        } else {
-            // User is already logged in
-            document.body.classList.add('logged-in');
-            loginPage.style.display = 'none';
-            mainContent.style.display = 'flex';
-            showPage('dashboard');
-        }
+        // Clear any stored login for testing
+        localStorage.removeItem('bmsce-user');
+        
+        // Force login page to display first
+        document.body.classList.remove('logged-in');
+        loginPage.style.display = 'flex';
+        loginPage.style.position = 'fixed';
+        loginPage.style.top = '0';
+        loginPage.style.left = '0';
+        loginPage.style.width = '100vw';
+        loginPage.style.height = '100vh';
+        loginPage.style.zIndex = '10000';
+        
+        mainContent.style.display = 'none';
     }
 });
 
