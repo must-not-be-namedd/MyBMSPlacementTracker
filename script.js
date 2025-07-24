@@ -888,20 +888,38 @@ function createDepartmentComparisonChart() {
     ctx.fillText('Average Package (LPA)', padding + 230, 32);
 }
 
-// Universal canvas sizing function for mobile responsiveness
-function setResponsiveCanvasSize(canvas, isMobile) {
-    const rect = canvas.getBoundingClientRect();
+// Universal canvas sizing function for all devices
+function setResponsiveCanvasSize(canvas, chartType = 'default') {
+    const container = canvas.parentElement;
+    const containerWidth = container.clientWidth;
     const dpr = window.devicePixelRatio || 1;
     const viewportWidth = window.innerWidth;
-    const maxWidth = isMobile ? Math.min(viewportWidth - 40, 320) : rect.width;
-    const canvasWidth = Math.min(maxWidth, rect.width);
-    const canvasHeight = isMobile ? 280 : rect.height;
+    
+    let canvasWidth, canvasHeight;
+    
+    // Responsive sizing based on viewport
+    if (viewportWidth <= 768) {
+        // Mobile
+        canvasWidth = Math.min(containerWidth - 20, viewportWidth - 40);
+        canvasHeight = chartType === 'pie' ? 300 : 280;
+    } else if (viewportWidth <= 1024) {
+        // Tablet
+        canvasWidth = Math.min(containerWidth - 40, 500);
+        canvasHeight = chartType === 'pie' ? 400 : 350;
+    } else {
+        // Desktop
+        canvasWidth = Math.min(containerWidth - 60, 600);
+        canvasHeight = chartType === 'pie' ? 400 : 380;
+    }
+    
+    // Ensure canvas doesn't exceed container
+    canvasWidth = Math.min(canvasWidth, containerWidth);
     
     canvas.width = canvasWidth * dpr;
     canvas.height = canvasHeight * dpr;
     canvas.style.width = canvasWidth + 'px';
     canvas.style.height = canvasHeight + 'px';
-    canvas.style.maxWidth = 'calc(100vw - 40px)';
+    canvas.style.maxWidth = '100%';
     canvas.style.display = 'block';
     canvas.style.margin = '0 auto';
     
@@ -920,16 +938,17 @@ function initializeDataVisualizations() {
     document.getElementById('yearFilter').addEventListener('change', updateCharts);
     document.getElementById('viewType').addEventListener('change', updateCharts);
     
-    // Add resize listener for responsive charts
+    // Add resize listener for responsive charts with faster response
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
+            // Re-initialize all charts for proper responsive behavior
             createPackageBarChart();
             createPlacementPieChart();
             createTrendsLineChart();
             createPerformanceHeatmap();
-        }, 250);
+        }, 150);
     });
     
     // Add interactive mouse effects
@@ -1012,8 +1031,8 @@ function createPackageBarChart() {
     const canvas = document.getElementById('packageBarChart');
     if (!canvas) return;
     
+    const { canvasWidth, canvasHeight, dpr } = setResponsiveCanvasSize(canvas, 'bar');
     const isMobile = window.innerWidth <= 768;
-    const { canvasWidth, canvasHeight, dpr } = setResponsiveCanvasSize(canvas, isMobile);
     
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
@@ -1120,8 +1139,8 @@ function createPlacementPieChart() {
     const canvas = document.getElementById('placementPieChart');
     if (!canvas) return;
     
+    const { canvasWidth, canvasHeight, dpr } = setResponsiveCanvasSize(canvas, 'pie');
     const isMobile = window.innerWidth <= 768;
-    const { canvasWidth, canvasHeight, dpr } = setResponsiveCanvasSize(canvas, isMobile);
     
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
@@ -1129,7 +1148,16 @@ function createPlacementPieChart() {
     
     const centerX = canvasWidth / 2;
     const centerY = canvasHeight / 2;
-    const radius = isMobile ? 80 : 140;
+    
+    // Responsive radius based on canvas size
+    let radius;
+    if (canvasWidth <= 350) {
+        radius = Math.min(canvasWidth * 0.25, 80);
+    } else if (canvasWidth <= 500) {
+        radius = Math.min(canvasWidth * 0.3, 120);
+    } else {
+        radius = Math.min(canvasWidth * 0.35, 140);
+    }
     
     const departments = ['CSE', 'ISE', 'ECE', 'ME', 'CE'];
     const placedCounts = [180, 165, 142, 158, 182];
@@ -1175,8 +1203,8 @@ function createPlacementPieChart() {
         currentAngle += sliceAngle;
     });
     
-    // Add center circle for donut effect
-    const centerRadius = isMobile ? 35 : 60;
+    // Add center circle for donut effect - responsive to radius
+    const centerRadius = radius * 0.45;
     ctx.fillStyle = '#1e293b';
     ctx.beginPath();
     ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
@@ -1194,8 +1222,8 @@ function createTrendsLineChart() {
     const canvas = document.getElementById('trendsLineChart');
     if (!canvas) return;
     
+    const { canvasWidth, canvasHeight, dpr } = setResponsiveCanvasSize(canvas, 'line');
     const isMobile = window.innerWidth <= 768;
-    const { canvasWidth, canvasHeight, dpr } = setResponsiveCanvasSize(canvas, isMobile);
     
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
