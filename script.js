@@ -888,7 +888,7 @@ function createDepartmentComparisonChart() {
     ctx.fillText('Average Package (LPA)', padding + 230, 32);
 }
 
-// Universal canvas sizing function for all devices
+// Universal canvas sizing function for all devices with strict mobile constraints
 function setResponsiveCanvasSize(canvas, chartType = 'default') {
     const container = canvas.parentElement;
     const containerWidth = container.clientWidth;
@@ -897,29 +897,33 @@ function setResponsiveCanvasSize(canvas, chartType = 'default') {
     
     let canvasWidth, canvasHeight;
     
-    // Responsive sizing based on viewport
-    if (viewportWidth <= 768) {
+    // Strict responsive sizing with mobile-first approach
+    if (viewportWidth <= 480) {
+        // Small mobile - very conservative sizing
+        canvasWidth = Math.min(containerWidth - 10, viewportWidth - 30, 300);
+        canvasHeight = chartType === 'pie' ? 250 : 220;
+    } else if (viewportWidth <= 768) {
         // Mobile
-        canvasWidth = Math.min(containerWidth - 20, viewportWidth - 40);
-        canvasHeight = chartType === 'pie' ? 300 : 280;
+        canvasWidth = Math.min(containerWidth - 20, viewportWidth - 40, 350);
+        canvasHeight = chartType === 'pie' ? 280 : 250;
     } else if (viewportWidth <= 1024) {
         // Tablet
         canvasWidth = Math.min(containerWidth - 40, 500);
-        canvasHeight = chartType === 'pie' ? 400 : 350;
+        canvasHeight = chartType === 'pie' ? 380 : 320;
     } else {
         // Desktop
         canvasWidth = Math.min(containerWidth - 60, 600);
-        canvasHeight = chartType === 'pie' ? 400 : 380;
+        canvasHeight = chartType === 'pie' ? 400 : 350;
     }
     
-    // Ensure canvas doesn't exceed container
-    canvasWidth = Math.min(canvasWidth, containerWidth);
+    // Final safety check - never exceed container or viewport
+    canvasWidth = Math.min(canvasWidth, containerWidth - 10, viewportWidth - 20);
     
     canvas.width = canvasWidth * dpr;
     canvas.height = canvasHeight * dpr;
     canvas.style.width = canvasWidth + 'px';
     canvas.style.height = canvasHeight + 'px';
-    canvas.style.maxWidth = '100%';
+    canvas.style.maxWidth = 'calc(100vw - 20px)';
     canvas.style.display = 'block';
     canvas.style.margin = '0 auto';
     
@@ -1043,7 +1047,7 @@ function createPackageBarChart() {
     const highestPackages = [52, 48, 38, 30, 28];
     const averagePackages = [18, 16, 15, 14, 13];
     
-    const padding = isMobile ? 40 : 60;
+    const padding = canvasWidth <= 350 ? 30 : (canvasWidth <= 500 ? 40 : 60);
     const chartWidth = canvasWidth - 2 * padding;
     const chartHeight = canvasHeight - 2 * padding;
     const barWidth = chartWidth / (departments.length * 2.8);
@@ -1235,7 +1239,7 @@ function createTrendsLineChart() {
     const placementRates = [65, 68, 72, 75, 76, 78, 82, 85, 87, 89, 91];
     const avgPackages = [8, 9, 10, 11, 11.5, 12, 14, 15, 16, 17, 18];
     
-    const padding = isMobile ? 50 : 80;
+    const padding = canvasWidth <= 350 ? 35 : (canvasWidth <= 500 ? 50 : 80);
     const chartWidth = canvasWidth - 2 * padding;
     const chartHeight = canvasHeight - 2 * padding;
     const xScale = chartWidth / (years.length - 1);
@@ -1314,12 +1318,13 @@ function createTrendsLineChart() {
         ctx.arc(x, y, 2, 0, 2 * Math.PI);
         ctx.fill();
         
-        // Data labels
+        // Data labels - responsive sizing
         ctx.fillStyle = '#8b5cf6';
-        ctx.font = isMobile ? '7px Inter' : '9px Inter';
+        ctx.font = `${canvasWidth <= 350 ? 6 : (canvasWidth <= 500 ? 7 : 9)}px Inter`;
         ctx.textAlign = 'center';
-        if (!isMobile || i % 2 === 0) { // Show fewer labels on mobile
-            ctx.fillText(`${rate}%`, x, y - 10);
+        const showDataLabel = canvasWidth <= 350 ? i % 3 === 0 : (canvasWidth <= 500 ? i % 2 === 0 : true);
+        if (showDataLabel) {
+            ctx.fillText(`${rate}%`, x, y - 8);
         }
     });
     
@@ -1340,41 +1345,53 @@ function createTrendsLineChart() {
         ctx.arc(x, y, 2, 0, 2 * Math.PI);
         ctx.fill();
         
-        // Data labels
+        // Data labels - responsive sizing
         ctx.fillStyle = '#14b8a6';
-        ctx.font = isMobile ? '7px Inter' : '9px Inter';
+        ctx.font = `${canvasWidth <= 350 ? 6 : (canvasWidth <= 500 ? 7 : 9)}px Inter`;
         ctx.textAlign = 'center';
-        if (!isMobile || i % 2 === 0) { // Show fewer labels on mobile
-            ctx.fillText(`₹${pkg}L`, x, y + 15);
+        const showPkgLabel = canvasWidth <= 350 ? i % 3 === 0 : (canvasWidth <= 500 ? i % 2 === 0 : true);
+        if (showPkgLabel) {
+            ctx.fillText(`₹${pkg}L`, x, y + 12);
         }
     });
     
-    // X-axis labels (years)
+    // Responsive font sizes and label spacing
+    const labelFontSize = canvasWidth <= 350 ? 8 : (canvasWidth <= 500 ? 9 : 10);
+    const yearFontSize = canvasWidth <= 350 ? 7 : (canvasWidth <= 500 ? 8 : 11);
+    
+    // X-axis labels (years) - show fewer on small screens
     ctx.fillStyle = '#e2e8f0';
-    ctx.font = '11px Inter';
+    ctx.font = `${yearFontSize}px Inter`;
     ctx.textAlign = 'center';
+    const yearStep = canvasWidth <= 350 ? 3 : (canvasWidth <= 500 ? 2 : 1);
     years.forEach((year, i) => {
-        const x = padding + i * xScale;
-        ctx.fillText(year, x, padding + chartHeight + 20);
+        if (i % yearStep === 0 || i === years.length - 1) {
+            const x = padding + i * xScale;
+            ctx.fillText(year, x, padding + chartHeight + (canvasWidth <= 350 ? 15 : 20));
+        }
     });
     
     // Y-axis labels (left side - placement rate)
     ctx.fillStyle = '#8b5cf6';
-    ctx.font = '10px Inter';
+    ctx.font = `${labelFontSize}px Inter`;
     ctx.textAlign = 'right';
-    for (let i = 0; i <= 10; i++) {
+    const rateStep = canvasWidth <= 350 ? 2 : 1;
+    for (let i = 0; i <= 10; i += rateStep) {
         const value = i * 10;
         const y = padding + chartHeight - (value * rateScale);
-        ctx.fillText(`${value}%`, padding - 15, y + 3);
+        const offset = canvasWidth <= 350 ? 8 : 15;
+        ctx.fillText(`${value}%`, padding - offset, y + 3);
     }
     
     // Y-axis labels (right side - package scale)
     ctx.fillStyle = '#14b8a6';
     ctx.textAlign = 'left';
-    for (let i = 0; i <= 5; i++) {
+    const pkgStep = canvasWidth <= 350 ? 2 : 1;
+    for (let i = 0; i <= 5; i += pkgStep) {
         const value = i * 5;
         const y = padding + chartHeight - (value * packageScale);
-        ctx.fillText(`₹${value}L`, padding + chartWidth + 15, y + 3);
+        const offset = canvasWidth <= 350 ? 8 : 15;
+        ctx.fillText(`₹${value}L`, padding + chartWidth + offset, y + 3);
     }
     
     // Chart title
