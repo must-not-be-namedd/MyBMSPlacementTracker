@@ -26,6 +26,59 @@ body {
     max-width: 100%;
 }
 
+/* Mobile-responsive table styles */
+#performanceHeatmap {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+#performanceHeatmap > div {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #4b5563 #1e293b;
+}
+
+#performanceHeatmap > div::-webkit-scrollbar {
+    height: 6px;
+}
+
+#performanceHeatmap > div::-webkit-scrollbar-track {
+    background: #1e293b;
+    border-radius: 3px;
+}
+
+#performanceHeatmap > div::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 3px;
+}
+
+#performanceHeatmap > div::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
+
+/* Ensure table responsiveness */
+@media (max-width: 480px) {
+    #performanceHeatmap table {
+        font-size: 0.75rem;
+    }
+    
+    #performanceHeatmap th,
+    #performanceHeatmap td {
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 768px) {
+    #performanceHeatmap {
+        margin: 0 -0.5rem;
+        padding: 0 0.5rem;
+    }
+}
+
 /* Chart Container Styles */
 .sharp-graph-container {
     background: #1e293b;

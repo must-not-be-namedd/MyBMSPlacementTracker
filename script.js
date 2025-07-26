@@ -1442,33 +1442,45 @@ function createPerformanceHeatmap() {
         [73, 75, 77, 79, 81]  // CE
     ];
     
-    // Create table structure with diagonal header styling
+    // Create responsive table wrapper
+    const tableWrapper = document.createElement('div');
+    tableWrapper.style.width = '100%';
+    tableWrapper.style.overflowX = 'auto';
+    tableWrapper.style.maxWidth = '100%';
+    tableWrapper.style.borderRadius = '0.5rem';
+    tableWrapper.style.border = '2px solid #374151';
+    
+    // Create table structure with mobile-responsive design
     const table = document.createElement('table');
     table.style.width = '100%';
+    table.style.minWidth = window.innerWidth <= 480 ? '280px' : '400px';
     table.style.borderCollapse = 'collapse';
     table.style.background = '#1e293b';
-    table.style.borderRadius = '0.5rem';
-    table.style.overflow = 'hidden';
-    table.style.border = '2px solid #374151';
-    table.style.tableLayout = 'fixed';
+    table.style.tableLayout = 'auto';
     
     // Create diagonal header cell
     const headerRow = document.createElement('tr');
     
     const diagonalHeader = document.createElement('th');
-    diagonalHeader.style.width = '15%';
-    diagonalHeader.style.minWidth = '100px';
-    diagonalHeader.style.padding = '1.5rem 0.5rem';
+    const isMobile = window.innerWidth <= 480;
+    const isTablet = window.innerWidth <= 768;
+    
+    diagonalHeader.style.width = isMobile ? '25%' : (isTablet ? '20%' : '15%');
+    diagonalHeader.style.minWidth = isMobile ? '60px' : '80px';
+    diagonalHeader.style.padding = isMobile ? '0.8rem 0.3rem' : '1.2rem 0.5rem';
     diagonalHeader.style.position = 'relative';
     diagonalHeader.style.background = '#374151';
     diagonalHeader.style.borderBottom = '2px solid #4b5563';
     diagonalHeader.style.borderRight = '2px solid #4b5563';
     
-    // Create diagonal line and labels
+    // Create responsive diagonal line and labels
+    const headerHeight = isMobile ? 30 : 40;
+    const fontSize = isMobile ? 0.6 : (isTablet ? 0.7 : 0.8);
+    
     diagonalHeader.innerHTML = `
-        <div style="position: relative; height: 40px;">
-            <div style="position: absolute; top: 5px; left: 5px; color: #e2e8f0; font-weight: 600; font-size: 0.8rem;">Department</div>
-            <div style="position: absolute; bottom: 5px; right: 5px; color: #e2e8f0; font-weight: 600; font-size: 0.8rem;">Year</div>
+        <div style="position: relative; height: ${headerHeight}px;">
+            <div style="position: absolute; top: 3px; left: 3px; color: #e2e8f0; font-weight: 600; font-size: ${fontSize}rem;">Dept</div>
+            <div style="position: absolute; bottom: 3px; right: 3px; color: #e2e8f0; font-weight: 600; font-size: ${fontSize}rem;">Year</div>
             <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #4b5563; transform: rotate(-45deg) translateY(-50%);"></div>
         </div>
     `;
@@ -1478,14 +1490,15 @@ function createPerformanceHeatmap() {
     years.forEach((year, index) => {
         const yearHeader = document.createElement('th');
         yearHeader.textContent = year;
-        yearHeader.style.width = `${85/years.length}%`;
-        yearHeader.style.padding = '1rem 0.5rem';
+        yearHeader.style.width = isMobile ? `${75/years.length}%` : `${80/years.length}%`;
+        yearHeader.style.minWidth = isMobile ? '40px' : '50px';
+        yearHeader.style.padding = isMobile ? '0.6rem 0.2rem' : '0.8rem 0.4rem';
         yearHeader.style.color = '#e2e8f0';
         yearHeader.style.fontWeight = '700';
         yearHeader.style.textAlign = 'center';
         yearHeader.style.borderBottom = '2px solid #4b5563';
         yearHeader.style.background = '#374151';
-        yearHeader.style.fontSize = '1rem';
+        yearHeader.style.fontSize = isMobile ? '0.7rem' : (isTablet ? '0.8rem' : '1rem');
         if (index < years.length - 1) {
             yearHeader.style.borderRight = '1px solid #4b5563';
         }
@@ -1504,25 +1517,25 @@ function createPerformanceHeatmap() {
         // Department label cell
         const deptCell = document.createElement('td');
         deptCell.textContent = dept;
-        deptCell.style.padding = '1.2rem 1rem';
+        deptCell.style.padding = isMobile ? '0.8rem 0.4rem' : '1rem 0.8rem';
         deptCell.style.color = '#e2e8f0';
         deptCell.style.fontWeight = '700';
         deptCell.style.background = '#2d3748';
         deptCell.style.borderRight = '2px solid #4b5563';
         deptCell.style.textAlign = 'center';
-        deptCell.style.fontSize = '1rem';
+        deptCell.style.fontSize = isMobile ? '0.8rem' : (isTablet ? '0.9rem' : '1rem');
         row.appendChild(deptCell);
         
-        // Performance cells with improved styling
+        // Performance cells with responsive styling
         performanceData[deptIndex].forEach((value, yearIndex) => {
             const cell = document.createElement('td');
-            cell.style.padding = '1.5rem 0.5rem';
+            cell.style.padding = isMobile ? '0.8rem 0.2rem' : '1.2rem 0.4rem';
             cell.style.textAlign = 'center';
             cell.style.cursor = 'pointer';
             cell.style.transition = 'all 0.2s ease';
             cell.style.position = 'relative';
-            cell.style.width = `${85/years.length}%`;
-            cell.style.minWidth = '60px';
+            cell.style.width = isMobile ? `${75/years.length}%` : `${80/years.length}%`;
+            cell.style.minWidth = isMobile ? '35px' : '50px';
             if (yearIndex < years.length - 1) {
                 cell.style.borderRight = '1px solid #374151';
             }
@@ -1534,11 +1547,11 @@ function createPerformanceHeatmap() {
             cell.style.background = `hsl(220, ${saturation}%, ${lightness}%)`;
             cell.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.1)';
             
-            // Set percentage value directly as cell text content
+            // Set percentage value with responsive font sizing
             cell.textContent = `${value}%`;
             cell.style.color = '#ffffff';
             cell.style.fontWeight = '700';
-            cell.style.fontSize = '1.2rem';
+            cell.style.fontSize = isMobile ? '0.8rem' : (isTablet ? '1rem' : '1.2rem');
             cell.style.textShadow = '0 1px 2px rgba(0,0,0,0.3)';
             cell.style.verticalAlign = 'middle';
             
@@ -1546,13 +1559,13 @@ function createPerformanceHeatmap() {
             cell.addEventListener('mouseenter', () => {
                 cell.style.transform = 'translateY(-1px)';
                 cell.style.boxShadow = '0 2px 8px rgba(124, 58, 237, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)';
-                cell.style.fontSize = '1.3rem';
+                cell.style.fontSize = isMobile ? '0.9rem' : (isTablet ? '1.1rem' : '1.3rem');
             });
             
             cell.addEventListener('mouseleave', () => {
                 cell.style.transform = 'translateY(0)';
                 cell.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.1)';
-                cell.style.fontSize = '1.2rem';
+                cell.style.fontSize = isMobile ? '0.8rem' : (isTablet ? '1rem' : '1.2rem');
             });
             
             row.appendChild(cell);
@@ -1561,7 +1574,8 @@ function createPerformanceHeatmap() {
         table.appendChild(row);
     });
     
-    container.appendChild(table);
+    tableWrapper.appendChild(table);
+    container.appendChild(tableWrapper);
     
     // Enhanced description
     const description = document.createElement('div');
