@@ -916,8 +916,9 @@ function setResponsiveCanvasSize(canvas, chartType = 'default') {
         canvasHeight = chartType === 'pie' ? 400 : 350;
     }
     
-    // Final safety check - never exceed container or viewport
-    canvasWidth = Math.min(canvasWidth, containerWidth - 10, viewportWidth - 20);
+    // Final safety check - never exceed container or viewport with extra margin for line charts
+    const extraMargin = chartType === 'line' ? 40 : 20;
+    canvasWidth = Math.min(canvasWidth, containerWidth - 10, viewportWidth - extraMargin);
     
     canvas.width = canvasWidth * dpr;
     canvas.height = canvasHeight * dpr;
@@ -1394,34 +1395,44 @@ function createTrendsLineChart() {
         ctx.fillText(`₹${value}L`, padding + chartWidth + offset, y + 3);
     }
     
-    // Chart title
+    // Chart title with responsive font sizing
+    const titleFontSize = canvasWidth <= 350 ? 10 : (canvasWidth <= 500 ? 11 : 14);
+    const descFontSize = canvasWidth <= 350 ? 7 : (canvasWidth <= 500 ? 8 : 11);
+    
     ctx.fillStyle = '#e2e8f0';
-    ctx.font = isMobile ? 'bold 11px Inter' : 'bold 14px Inter';
+    ctx.font = `bold ${titleFontSize}px Inter`;
     ctx.textAlign = 'center';
     ctx.fillText('Placement Trends (2015-2025)', canvasWidth / 2, 20);
     
-    // Add description
+    // Add description with responsive text wrapping
     ctx.fillStyle = '#94a3b8';
-    ctx.font = isMobile ? '8px Inter' : '11px Inter';
-    if (isMobile) {
+    ctx.font = `${descFontSize}px Inter`;
+    if (canvasWidth <= 350) {
+        ctx.fillText('Growth in placement', canvasWidth / 2, 32);
+        ctx.fillText('rates & packages', canvasWidth / 2, 42);
+    } else if (canvasWidth <= 500) {
         ctx.fillText('Year-on-year growth in placement', canvasWidth / 2, 35);
-        ctx.fillText('rates and salary packages', canvasWidth / 2, 48);
+        ctx.fillText('rates and salary packages', canvasWidth / 2, 45);
     } else {
-        ctx.fillText('Year-on-year growth in placement rates and average salary packages', canvasWidth / 2, 45);
+        ctx.fillText('Year-on-year growth in placement rates and average salary packages', canvasWidth / 2, 40);
     }
     
-    // Legend
+    // Responsive legend
+    const legendFontSize = canvasWidth <= 350 ? 8 : (canvasWidth <= 500 ? 9 : 11);
+    const legendY = canvasWidth <= 350 ? 60 : 70;
+    const legendSpacing = canvasWidth <= 350 ? 120 : 150;
+    
     ctx.fillStyle = '#8b5cf6';
-    ctx.fillRect(padding + 50, 70, 15, 3);
+    ctx.fillRect(padding + 20, legendY, 12, 3);
     ctx.fillStyle = '#e2e8f0';
-    ctx.font = '11px Inter';
+    ctx.font = `${legendFontSize}px Inter`;
     ctx.textAlign = 'left';
-    ctx.fillText('Placement Rate (%)', padding + 70, 75);
+    ctx.fillText(canvasWidth <= 350 ? 'Rate (%)' : 'Placement Rate (%)', padding + 35, legendY + 4);
     
     ctx.fillStyle = '#14b8a6';
-    ctx.fillRect(padding + 200, 70, 15, 3);
+    ctx.fillRect(padding + legendSpacing, legendY, 12, 3);
     ctx.fillStyle = '#e2e8f0';
-    ctx.fillText('Average Package (LPA)', padding + 220, 75);
+    ctx.fillText(canvasWidth <= 350 ? 'Package (L)' : 'Average Package (LPA)', padding + legendSpacing + 15, legendY + 4);
 }
 
 function createPerformanceHeatmap() {
